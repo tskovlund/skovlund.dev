@@ -107,6 +107,66 @@ html[data-color-scheme="nord"] {
   --color-tn-light-cyan: #8fbcbb;
 }
 
+html[data-color-scheme="nightfox"] {
+  --color-tn-dark-bg: #192330;
+  --color-tn-dark-bg-alt: #131a24;
+  --color-tn-dark-surface: #283b4d;
+  --color-tn-dark-fg: #cdcecf;
+  --color-tn-dark-fg-muted: #aeafb0;
+  --color-tn-dark-accent: #719cd6;
+  --color-tn-dark-accent-hover: #63cdcf;
+  --color-tn-dark-warm: #9d79d6;
+  --color-tn-dark-green: #81b29a;
+  --color-tn-dark-red: #c94f6d;
+  --color-tn-dark-orange: #f4a261;
+  --color-tn-dark-yellow: #dbc074;
+  --color-tn-dark-cyan: #63cdcf;
+
+  --color-tn-light-bg: #f6f2ee;
+  --color-tn-light-bg-alt: #eaeaea;
+  --color-tn-light-surface: #dfdad4;
+  --color-tn-light-fg: #3d484d;
+  --color-tn-light-fg-muted: #738091;
+  --color-tn-light-accent: #4d688e;
+  --color-tn-light-accent-hover: #4d836e;
+  --color-tn-light-warm: #8e6f98;
+  --color-tn-light-green: #4d836e;
+  --color-tn-light-red: #b34d5a;
+  --color-tn-light-orange: #c6723b;
+  --color-tn-light-yellow: #a07828;
+  --color-tn-light-cyan: #5a8a82;
+}
+
+html[data-color-scheme="rose-pine"] {
+  --color-tn-dark-bg: #232136;
+  --color-tn-dark-bg-alt: #1f1d2e;
+  --color-tn-dark-surface: #393552;
+  --color-tn-dark-fg: #e0def4;
+  --color-tn-dark-fg-muted: #908caa;
+  --color-tn-dark-accent: #c4a7e7;
+  --color-tn-dark-accent-hover: #9ccfd8;
+  --color-tn-dark-warm: #c4a7e7;
+  --color-tn-dark-green: #3e8fb0;
+  --color-tn-dark-red: #eb6f92;
+  --color-tn-dark-orange: #ea9a97;
+  --color-tn-dark-yellow: #f6c177;
+  --color-tn-dark-cyan: #9ccfd8;
+
+  --color-tn-light-bg: #faf4ed;
+  --color-tn-light-bg-alt: #fffaf3;
+  --color-tn-light-surface: #f2e9e1;
+  --color-tn-light-fg: #575279;
+  --color-tn-light-fg-muted: #9893a5;
+  --color-tn-light-accent: #907aa9;
+  --color-tn-light-accent-hover: #56949f;
+  --color-tn-light-warm: #907aa9;
+  --color-tn-light-green: #286983;
+  --color-tn-light-red: #b4637a;
+  --color-tn-light-orange: #d7827e;
+  --color-tn-light-yellow: #ea9d34;
+  --color-tn-light-cyan: #56949f;
+}
+
 html {
   overflow-y: scroll;
   color-scheme: light;

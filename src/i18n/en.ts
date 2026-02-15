@@ -340,6 +340,8 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "tokyo-night", label: "Tokyo Night", selectorColor: "#7aa2f7" },
   { id: "gruvbox", label: "Gruvbox", selectorColor: "#83a598" },
   { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
+  { id: "nightfox", label: "Nightfox", selectorColor: "#719cd6" },
+  { id: "rose-pine", label: "Rosé Pine", selectorColor: "#c4a7e7" },
 ];
 
 // ---------------------------------------------------------------------------
