@@ -1,0 +1,576 @@
+---
+import {
+  Volume2,
+  Play,
+  Pause,
+  CloudRain,
+  Coffee,
+  Flame,
+  TreePine,
+} from "@lucide/astro";
+import { ambientSound } from "@i18n/en";
+---
+
+<div class="relative">
+  <!-- Trigger button -->
+  <button
+    data-ambient-trigger
+    aria-label={ambientSound.trigger}
+    aria-expanded="false"
+    class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+  >
+    <Volume2
+      size={15}
+      class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
+    />
+  </button>
+
+  <!-- Dropdown panel -->
+  <div
+    data-ambient-panel
+    class="hidden absolute right-0 top-full mt-2 w-64 p-4 bg-tn-light-bg-alt dark:bg-tn-dark-bg-alt border border-tn-light-surface dark:border-tn-dark-surface rounded-lg shadow-lg z-50 font-mono"
+  >
+    <div class="flex flex-col gap-3">
+      <!-- Sound type selector -->
+      <div class="flex gap-2">
+        <button
+          data-ambient-sound="rain"
+          aria-label={ambientSound.sounds.rain}
+          class="flex-1 flex flex-col items-center justify-center gap-1 p-2 rounded-md border border-tn-light-surface dark:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 text-xs"
+        >
+          <CloudRain size={16} aria-hidden="true" />
+          <span>{ambientSound.sounds.rain}</span>
+        </button>
+        <button
+          data-ambient-sound="coffee"
+          aria-label={ambientSound.sounds.coffee}
+          class="flex-1 flex flex-col items-center justify-center gap-1 p-2 rounded-md border border-tn-light-surface dark:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 text-xs"
+        >
+          <Coffee size={16} aria-hidden="true" />
+          <span>{ambientSound.sounds.coffee}</span>
+        </button>
+      </div>
+      <div class="flex gap-2">
+        <button
+          data-ambient-sound="fireplace"
+          aria-label={ambientSound.sounds.fireplace}
+          class="flex-1 flex flex-col items-center justify-center gap-1 p-2 rounded-md border border-tn-light-surface dark:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 text-xs"
+        >
+          <Flame size={16} aria-hidden="true" />
+          <span>{ambientSound.sounds.fireplace}</span>
+        </button>
+        <button
+          data-ambient-sound="nature"
+          aria-label={ambientSound.sounds.nature}
+          class="flex-1 flex flex-col items-center justify-center gap-1 p-2 rounded-md border border-tn-light-surface dark:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 text-xs"
+        >
+          <TreePine size={16} aria-hidden="true" />
+          <span>{ambientSound.sounds.nature}</span>
+        </button>
+      </div>
+
+      <!-- Volume control -->
+      <div class="flex flex-col gap-2">
+        <label
+          for="ambient-volume"
+          class="text-xs text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
+        >
+          {ambientSound.volume}
+        </label>
+        <input
+          type="range"
+          id="ambient-volume"
+          data-ambient-volume
+          min="0"
+          max="100"
+          value="50"
+          aria-label={ambientSound.volume}
+          class="w-full h-1.5 bg-tn-light-surface dark:bg-tn-dark-surface rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-tn-light-accent dark:[&::-webkit-slider-thumb]:bg-tn-dark-accent [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-tn-light-accent dark:[&::-moz-range-thumb]:bg-tn-dark-accent [&::-moz-range-thumb]:border-0"
+        />
+      </div>
+
+      <!-- Play/pause control -->
+      <button
+        data-ambient-play-pause
+        aria-label={ambientSound.play}
+        class="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-tn-light-accent dark:bg-tn-dark-accent text-tn-light-bg dark:text-tn-dark-bg hover:bg-tn-light-accent-hover dark:hover:bg-tn-dark-accent-hover transition-colors duration-200 font-semibold"
+      >
+        <Play size={16} data-ambient-play-icon aria-hidden="true" />
+        <Pause
+          size={16}
+          data-ambient-pause-icon
+          class="hidden"
+          aria-hidden="true"
+        />
+        <span data-ambient-play-text>{ambientSound.play}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  type SoundType = "rain" | "coffee" | "fireplace" | "nature" | null;
+
+  const STORAGE_KEY_SOUND: string = "ambientSound";
+  const STORAGE_KEY_VOLUME: string = "ambientVolume";
+  const DEFAULT_VOLUME: number = 0.5;
+
+  class AmbientSoundPlayer {
+    private audioContext: AudioContext | null = null;
+    private gainNode: GainNode | null = null;
+    private currentSound: SoundType = null;
+    private isPlaying: boolean = false;
+    private noiseNode: AudioBufferSourceNode | null = null;
+    private filterNode: BiquadFilterNode | null = null;
+    private oscillators: OscillatorNode[] = [];
+    private volume: number = DEFAULT_VOLUME;
+
+    constructor() {
+      this.loadState();
+    }
+
+    private loadState(): void {
+      const savedSound: string | null = localStorage.getItem(STORAGE_KEY_SOUND);
+      const savedVolume: string | null =
+        localStorage.getItem(STORAGE_KEY_VOLUME);
+
+      if (savedSound && this.isValidSoundType(savedSound)) {
+        this.currentSound = savedSound as SoundType;
+      }
+
+      if (savedVolume) {
+        const parsedVolume: number = parseFloat(savedVolume);
+        if (!isNaN(parsedVolume)) {
+          this.volume = Math.max(0, Math.min(1, parsedVolume));
+        }
+      }
+    }
+
+    private isValidSoundType(sound: string): boolean {
+      return ["rain", "coffee", "fireplace", "nature"].includes(sound);
+    }
+
+    private saveState(): void {
+      if (this.currentSound) {
+        localStorage.setItem(STORAGE_KEY_SOUND, this.currentSound);
+      } else {
+        localStorage.removeItem(STORAGE_KEY_SOUND);
+      }
+      localStorage.setItem(STORAGE_KEY_VOLUME, this.volume.toString());
+    }
+
+    private initAudioContext(): void {
+      if (!this.audioContext) {
+        this.audioContext = new AudioContext();
+        this.gainNode = this.audioContext.createGain();
+        this.gainNode.connect(this.audioContext.destination);
+        this.gainNode.gain.value = this.volume;
+      }
+    }
+
+    private createNoiseBuffer(
+      type: "white" | "pink" | "brown",
+    ): AudioBuffer | null {
+      if (!this.audioContext) return null;
+
+      const bufferSize: number = 2 * this.audioContext.sampleRate;
+      const buffer: AudioBuffer = this.audioContext.createBuffer(
+        1,
+        bufferSize,
+        this.audioContext.sampleRate,
+      );
+      const output: Float32Array = buffer.getChannelData(0);
+
+      if (type === "white") {
+        for (let i: number = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+      } else if (type === "pink") {
+        let b0: number = 0;
+        let b1: number = 0;
+        let b2: number = 0;
+        let b3: number = 0;
+        let b4: number = 0;
+        let b5: number = 0;
+        let b6: number = 0;
+        for (let i: number = 0; i < bufferSize; i++) {
+          const white: number = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.969 * b2 + white * 0.153852;
+          b3 = 0.8665 * b3 + white * 0.3104856;
+          b4 = 0.55 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.016898;
+          output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+          output[i] *= 0.11;
+          b6 = white * 0.115926;
+        }
+      } else if (type === "brown") {
+        let lastOut: number = 0;
+        for (let i: number = 0; i < bufferSize; i++) {
+          const white: number = Math.random() * 2 - 1;
+          output[i] = (lastOut + 0.02 * white) / 1.02;
+          lastOut = output[i];
+          output[i] *= 3.5;
+        }
+      }
+
+      return buffer;
+    }
+
+    private stopCurrentSound(): void {
+      if (this.noiseNode) {
+        this.noiseNode.stop();
+        this.noiseNode.disconnect();
+        this.noiseNode = null;
+      }
+
+      if (this.filterNode) {
+        this.filterNode.disconnect();
+        this.filterNode = null;
+      }
+
+      this.oscillators.forEach((oscillator: OscillatorNode) => {
+        oscillator.stop();
+        oscillator.disconnect();
+      });
+      this.oscillators = [];
+    }
+
+    private playRain(): void {
+      this.initAudioContext();
+      this.stopCurrentSound();
+
+      if (!this.audioContext || !this.gainNode) return;
+
+      const buffer: AudioBuffer | null = this.createNoiseBuffer("white");
+      if (!buffer) return;
+
+      this.noiseNode = this.audioContext.createBufferSource();
+      this.noiseNode.buffer = buffer;
+      this.noiseNode.loop = true;
+
+      this.filterNode = this.audioContext.createBiquadFilter();
+      this.filterNode.type = "bandpass";
+      this.filterNode.frequency.value = 800;
+      this.filterNode.Q.value = 0.5;
+
+      this.noiseNode.connect(this.filterNode);
+      this.filterNode.connect(this.gainNode);
+      this.noiseNode.start();
+    }
+
+    private playCoffee(): void {
+      this.initAudioContext();
+      this.stopCurrentSound();
+
+      if (!this.audioContext || !this.gainNode) return;
+
+      const buffer: AudioBuffer | null = this.createNoiseBuffer("brown");
+      if (!buffer) return;
+
+      this.noiseNode = this.audioContext.createBufferSource();
+      this.noiseNode.buffer = buffer;
+      this.noiseNode.loop = true;
+
+      this.filterNode = this.audioContext.createBiquadFilter();
+      this.filterNode.type = "lowpass";
+      this.filterNode.frequency.value = 400;
+
+      this.noiseNode.connect(this.filterNode);
+      this.filterNode.connect(this.gainNode);
+      this.noiseNode.start();
+    }
+
+    private playFireplace(): void {
+      this.initAudioContext();
+      this.stopCurrentSound();
+
+      if (!this.audioContext || !this.gainNode) return;
+
+      const buffer: AudioBuffer | null = this.createNoiseBuffer("brown");
+      if (!buffer) return;
+
+      this.noiseNode = this.audioContext.createBufferSource();
+      this.noiseNode.buffer = buffer;
+      this.noiseNode.loop = true;
+
+      this.filterNode = this.audioContext.createBiquadFilter();
+      this.filterNode.type = "lowpass";
+      this.filterNode.frequency.value = 200;
+
+      this.noiseNode.connect(this.filterNode);
+      this.filterNode.connect(this.gainNode);
+      this.noiseNode.start();
+
+      // Add occasional "pops" with higher frequency bursts
+      const scheduleRandomPop = (): void => {
+        if (
+          !this.isPlaying ||
+          this.currentSound !== "fireplace" ||
+          !this.audioContext ||
+          !this.gainNode
+        )
+          return;
+
+        const popGain: GainNode = this.audioContext.createGain();
+        popGain.gain.value = 0;
+        popGain.connect(this.gainNode);
+
+        const popOscillator: OscillatorNode =
+          this.audioContext.createOscillator();
+        popOscillator.frequency.value = 100 + Math.random() * 200;
+        popOscillator.connect(popGain);
+
+        const now: number = this.audioContext.currentTime;
+        popGain.gain.setValueAtTime(0, now);
+        popGain.gain.linearRampToValueAtTime(0.1, now + 0.01);
+        popGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+        popOscillator.start(now);
+        popOscillator.stop(now + 0.15);
+
+        setTimeout(scheduleRandomPop, 500 + Math.random() * 2000);
+      };
+
+      scheduleRandomPop();
+    }
+
+    private playNature(): void {
+      this.initAudioContext();
+      this.stopCurrentSound();
+
+      if (!this.audioContext || !this.gainNode) return;
+
+      const buffer: AudioBuffer | null = this.createNoiseBuffer("pink");
+      if (!buffer) return;
+
+      this.noiseNode = this.audioContext.createBufferSource();
+      this.noiseNode.buffer = buffer;
+      this.noiseNode.loop = true;
+
+      this.filterNode = this.audioContext.createBiquadFilter();
+      this.filterNode.type = "lowpass";
+      this.filterNode.frequency.value = 600;
+
+      this.noiseNode.connect(this.filterNode);
+      this.filterNode.connect(this.gainNode);
+      this.noiseNode.start();
+
+      // Add gentle wind-like oscillation
+      const windOscillator: OscillatorNode =
+        this.audioContext.createOscillator();
+      windOscillator.type = "sine";
+      windOscillator.frequency.value = 0.3;
+
+      const windGain: GainNode = this.audioContext.createGain();
+      windGain.gain.value = 0.05;
+
+      windOscillator.connect(windGain);
+      windGain.connect(this.gainNode);
+      windOscillator.start();
+
+      this.oscillators.push(windOscillator);
+    }
+
+    public selectSound(sound: SoundType): void {
+      this.currentSound = sound;
+      this.saveState();
+
+      if (this.isPlaying) {
+        this.play();
+      }
+    }
+
+    public play(): void {
+      if (!this.currentSound) return;
+
+      this.isPlaying = true;
+
+      switch (this.currentSound) {
+        case "rain":
+          this.playRain();
+          break;
+        case "coffee":
+          this.playCoffee();
+          break;
+        case "fireplace":
+          this.playFireplace();
+          break;
+        case "nature":
+          this.playNature();
+          break;
+      }
+    }
+
+    public pause(): void {
+      this.isPlaying = false;
+      this.stopCurrentSound();
+
+      if (this.audioContext?.state === "running") {
+        this.audioContext.suspend();
+      }
+    }
+
+    public setVolume(volume: number): void {
+      this.volume = Math.max(0, Math.min(1, volume));
+      if (this.gainNode) {
+        this.gainNode.gain.value = this.volume;
+      }
+      this.saveState();
+    }
+
+    public getCurrentSound(): SoundType {
+      return this.currentSound;
+    }
+
+    public getVolume(): number {
+      return this.volume;
+    }
+
+    public getIsPlaying(): boolean {
+      return this.isPlaying;
+    }
+  }
+
+  // Initialize player
+  const player: AmbientSoundPlayer = new AmbientSoundPlayer();
+
+  // UI elements
+  const trigger: HTMLButtonElement | null = document.querySelector(
+    "[data-ambient-trigger]",
+  );
+  const panel: HTMLDivElement | null = document.querySelector(
+    "[data-ambient-panel]",
+  );
+  const soundButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
+    "[data-ambient-sound]",
+  );
+  const volumeSlider: HTMLInputElement | null = document.querySelector(
+    "[data-ambient-volume]",
+  );
+  const playPauseButton: HTMLButtonElement | null = document.querySelector(
+    "[data-ambient-play-pause]",
+  );
+  const playIcon: SVGElement | null = document.querySelector(
+    "[data-ambient-play-icon]",
+  );
+  const pauseIcon: SVGElement | null = document.querySelector(
+    "[data-ambient-pause-icon]",
+  );
+  const playText: HTMLSpanElement | null = document.querySelector(
+    "[data-ambient-play-text]",
+  );
+
+  function updateUI(): void {
+    const currentSound: SoundType = player.getCurrentSound();
+    const isPlaying: boolean = player.getIsPlaying();
+
+    // Update sound button states
+    soundButtons.forEach((button: HTMLButtonElement) => {
+      const soundType: string | undefined = button.dataset.ambientSound;
+      if (soundType === currentSound) {
+        button.classList.add(
+          "bg-tn-light-accent/20",
+          "dark:bg-tn-dark-accent/20",
+        );
+        button.setAttribute("aria-pressed", "true");
+      } else {
+        button.classList.remove(
+          "bg-tn-light-accent/20",
+          "dark:bg-tn-dark-accent/20",
+        );
+        button.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    // Update play/pause button
+    if (playIcon && pauseIcon && playText) {
+      if (isPlaying) {
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+        playText.textContent = "Pause";
+        playPauseButton?.setAttribute("aria-label", "Pause");
+      } else {
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+        playText.textContent = "Play";
+        playPauseButton?.setAttribute("aria-label", "Play");
+      }
+    }
+
+    // Update volume slider
+    if (volumeSlider) {
+      volumeSlider.value = (player.getVolume() * 100).toString();
+    }
+  }
+
+  function togglePanel(): void {
+    if (!panel || !trigger) return;
+
+    const isHidden: boolean = panel.classList.contains("hidden");
+    if (isHidden) {
+      panel.classList.remove("hidden");
+      trigger.setAttribute("aria-expanded", "true");
+    } else {
+      panel.classList.add("hidden");
+      trigger.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function closePanel(): void {
+    if (!panel || !trigger) return;
+    panel.classList.add("hidden");
+    trigger.setAttribute("aria-expanded", "false");
+  }
+
+  // Event listeners
+  trigger?.addEventListener("click", (clickEvent: MouseEvent) => {
+    clickEvent.stopPropagation();
+    togglePanel();
+  });
+
+  soundButtons.forEach((button: HTMLButtonElement) => {
+    button.addEventListener("click", () => {
+      const soundType: string | undefined = button.dataset.ambientSound;
+      if (soundType && player.getCurrentSound() !== soundType) {
+        player.selectSound(soundType as SoundType);
+        updateUI();
+      }
+    });
+  });
+
+  volumeSlider?.addEventListener("input", (inputEvent: Event) => {
+    const target: HTMLInputElement = inputEvent.target as HTMLInputElement;
+    const volume: number = parseInt(target.value) / 100;
+    player.setVolume(volume);
+  });
+
+  playPauseButton?.addEventListener("click", () => {
+    if (player.getIsPlaying()) {
+      player.pause();
+    } else {
+      player.play();
+    }
+    updateUI();
+  });
+
+  // Close panel when clicking outside
+  document.addEventListener("click", (clickEvent: MouseEvent) => {
+    if (!panel || !trigger) return;
+    const targetElement: HTMLElement = clickEvent.target as HTMLElement;
+    if (!panel.contains(targetElement) && !trigger.contains(targetElement)) {
+      closePanel();
+    }
+  });
+
+  // Close panel on Escape key
+  document.addEventListener("keydown", (keyboardEvent: KeyboardEvent) => {
+    if (keyboardEvent.key === "Escape") {
+      closePanel();
+    }
+  });
+
+  // Initialize UI with saved state
+  updateUI();
+</script>
