@@ -58,9 +58,23 @@
     rotationVelocity: number;
   }
 
+  // Fallback colors used if theme CSS variables are missing or empty,
+  // to ensure confetti particles are always visible.
+  const FALLBACK_CONFETTI_COLORS = [
+    "#EF4444",
+    "#F97316",
+    "#EAB308",
+    "#22C55E",
+    "#06B6D4",
+    "#3B82F6",
+  ];
+
   let clickCount = 0;
   let resetTimer: number | null = null;
   let audioContext: AudioContext | null = null;
+  let activeConfettiParticles: ConfettiParticle[] = [];
+  let activeRiffTimeouts: number[] = [];
+  let isClickListenerRegistered = false;
 
   function initializeAudioContext(): void {
     if (audioContext === null) {
@@ -121,13 +135,18 @@
   }
 
   function playRiff(): void {
+    // Clear any existing riff timeouts
+    activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    activeRiffTimeouts = [];
+
     RIFF_NOTES_HZ.forEach((frequencyHz, index) => {
-      setTimeout(
+      const timeoutId = window.setTimeout(
         () => {
           playTromboneNote(frequencyHz);
         },
         index * (RIFF_NOTE_DURATION_MS + RIFF_NOTE_GAP_MS),
       );
+      activeRiffTimeouts.push(timeoutId);
     });
   }
 
@@ -145,10 +164,18 @@
       "yellow",
     ];
 
-    return colorKeys.map((key) => {
-      const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-${key}`;
-      return style.getPropertyValue(cssVarName).trim();
-    });
+    const colors = colorKeys
+      .map((key) => {
+        const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-${key}`;
+        return style.getPropertyValue(cssVarName).trim();
+      })
+      .filter((color) => color !== "");
+
+    if (colors.length > 0) {
+      return colors;
+    }
+
+    return FALLBACK_CONFETTI_COLORS;
   }
 
   function createConfetti(portraitElement: HTMLElement): void {
@@ -162,7 +189,11 @@
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
+    // Clear any existing confetti particles
+    cleanupConfetti();
+
     const particles: ConfettiParticle[] = [];
+    activeConfettiParticles = particles;
 
     for (let i = 0; i < CONFETTI_PARTICLE_COUNT; i++) {
       const particle = document.createElement("div");
@@ -200,6 +231,7 @@
 
       if (elapsed > CONFETTI_ANIMATION_DURATION_MS) {
         particles.forEach((particle) => particle.element.remove());
+        activeConfettiParticles = [];
         return;
       }
 
@@ -222,18 +254,27 @@
     animate();
   }
 
+  function cleanupConfetti(): void {
+    activeConfettiParticles.forEach((particle) => particle.element.remove());
+    activeConfettiParticles = [];
+  }
+
   function addPortraitBounce(portraitElement: HTMLElement): void {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (prefersReducedMotion) return;
 
-    portraitElement.style.transition = "transform 0.2s ease-out";
-    portraitElement.style.transform = "scale(1.05)";
+    const keyframes = [
+      { transform: "scale(1)" },
+      { transform: "scale(1.05)" },
+      { transform: "scale(1)" },
+    ];
 
-    setTimeout(() => {
-      portraitElement.style.transform = "scale(1)";
-    }, 200);
+    portraitElement.animate(keyframes, {
+      duration: 200,
+      easing: "ease-out",
+    });
   }
 
   function addPortraitShake(portraitElement: HTMLElement): void {
@@ -277,7 +318,7 @@
     if (clickCount < 5) {
       playTromboneNote(CLICK_NOTES_HZ[clickCount - 1]);
       addPortraitBounce(target as HTMLElement);
-    } else {
+    } else if (clickCount === 5) {
       playRiff();
       createConfetti(target as HTMLElement);
       addPortraitShake(target as HTMLElement);
@@ -289,26 +330,38 @@
     }
   }
 
+  function resetState(): void {
+    clickCount = 0;
+    if (resetTimer !== null) {
+      clearTimeout(resetTimer);
+      resetTimer = null;
+    }
+  }
+
+  function cleanup(): void {
+    resetState();
+    cleanupConfetti();
+    activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    activeRiffTimeouts = [];
+  }
+
   function initialize(): void {
     const portraitElement = document.querySelector("[data-easter-egg-target]");
     if (!portraitElement) return;
 
-    if (
-      (portraitElement as HTMLElement & { _easterEggInitialized?: boolean })
-        ._easterEggInitialized
-    ) {
-      return;
+    // Reset state on each navigation
+    resetState();
+
+    // Register click listener only once
+    if (!isClickListenerRegistered) {
+      document.addEventListener("click", handlePortraitClick);
+      isClickListenerRegistered = true;
     }
-
-    (
-      portraitElement as HTMLElement & {
-        _easterEggInitialized?: boolean;
-      }
-    )._easterEggInitialized = true;
-
-    document.addEventListener("click", handlePortraitClick);
   }
 
   // Initialize on page load and on View Transitions navigation
   document.addEventListener("astro:page-load", initialize);
+
+  // Clean up before navigating to a new page
+  document.addEventListener("astro:before-swap", cleanup);
 </script>
