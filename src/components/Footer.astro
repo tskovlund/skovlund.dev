@@ -1,0 +1,87 @@
+---
+import Container from "@components/Container.astro";
+import Typewriter from "@components/Typewriter.astro";
+import { SITE, SOCIALS } from "@consts";
+import { site, footer, footerMessages, paletteColorCount } from "@i18n/en";
+import BackToTop from "@components/BackToTop.astro";
+import { Icon } from "astro-icon/components";
+import { Code, Mail } from "@lucide/astro";
+---
+
+<footer class="animate">
+  <Container>
+    <div class="relative">
+      <div class="absolute right-0 -top-20">
+        <BackToTop />
+      </div>
+    </div>
+    <div class="flex flex-col gap-3">
+      <div class="flex justify-between items-center">
+        <div
+          class="flex gap-1.5 items-center text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
+        >
+          &copy; <span id="footer-year">{new Date().getFullYear()}</span>
+          {SITE.NAME}
+        </div>
+        <a
+          href={site.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 text-sm opacity-60 hover:opacity-100 hover:text-tn-light-accent dark:hover:text-tn-dark-accent transition-all duration-300"
+        >
+          <Code size={14} />
+          {footer.sourceLabel}
+        </a>
+      </div>
+      <hr class="border-tn-light-surface/40 dark:border-tn-dark-surface/40" />
+      <ul class="flex flex-wrap justify-center gap-2 font-mono">
+        {
+          SOCIALS.map((social) => (
+            <li>
+              <a
+                href={social.HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${SITE.NAME} on ${social.NAME}`}
+                class="group flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-tn-light-surface/40 dark:border-tn-dark-surface/40 hover:border-tn-light-surface dark:hover:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 text-xs transition-all duration-300"
+              >
+                <Icon
+                  name={social.ICON}
+                  size={14}
+                  class="fill-current opacity-50 group-hover:opacity-100 transition-all duration-300"
+                />
+                {social.NAME}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href={`mailto:${SITE.EMAIL}`}
+            aria-label={`Email ${SITE.NAME}`}
+            class="group flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-tn-light-surface/40 dark:border-tn-dark-surface/40 hover:border-tn-light-surface dark:hover:border-tn-dark-surface hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 text-xs font-mono transition-all duration-300"
+          >
+            <Mail
+              size={14}
+              class="opacity-50 group-hover:opacity-100 transition-all duration-300"
+            />
+            Email
+          </a>
+        </li>
+      </ul>
+      <hr class="border-tn-light-surface/40 dark:border-tn-dark-surface/40" />
+      <div class="text-xs italic text-center">
+        <Typewriter
+          id="footer-message"
+          texts={footerMessages}
+          mode="shuffle"
+          paletteColorCount={paletteColorCount}
+          typeSpeedMs={40}
+          deleteSpeedMs={25}
+          pauseBeforeDeleteMs={10000}
+          pauseAfterDeleteMs={200}
+        />
+      </div>
+    </div>
+  </Container>
+</footer>

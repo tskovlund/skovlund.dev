@@ -1,0 +1,341 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Monaspace Neon", ui-monospace, SFMono-Regular, monospace;
+
+  /* Tokyo Night (dark) */
+  --color-tn-dark-bg: #1a1b26;
+  --color-tn-dark-bg-alt: #16161e;
+  --color-tn-dark-surface: #292e42;
+  --color-tn-dark-fg: #c0caf5;
+  --color-tn-dark-fg-muted: #a9b1d6;
+  --color-tn-dark-accent: #7aa2f7;
+  --color-tn-dark-accent-hover: #7dcfff;
+  --color-tn-dark-warm: #bb9af7;
+  --color-tn-dark-green: #9ece6a;
+  --color-tn-dark-red: #f7768e;
+  --color-tn-dark-orange: #ff9e64;
+  --color-tn-dark-yellow: #e0af68;
+  --color-tn-dark-cyan: #7dcfff;
+
+  /* Tokyo Night Day (light) */
+  --color-tn-light-bg: #e1e2e7;
+  --color-tn-light-bg-alt: #d5d6db;
+  --color-tn-light-surface: #c4c8da;
+  --color-tn-light-fg: #3760bf;
+  --color-tn-light-fg-muted: #6172b0;
+  --color-tn-light-accent: #2e7de9;
+  --color-tn-light-accent-hover: #007197;
+  --color-tn-light-warm: #9854f1;
+  --color-tn-light-green: #587539;
+  --color-tn-light-red: #f52a65;
+  --color-tn-light-orange: #b15c00;
+  --color-tn-light-yellow: #8c6c3e;
+  --color-tn-light-cyan: #007197;
+}
+
+html {
+  overflow-y: scroll;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Theme-adaptive palette — used by typewriter gradients */
+:root {
+  --palette-0: var(--color-tn-light-accent);
+  --palette-1: var(--color-tn-light-warm);
+  --palette-2: var(--color-tn-light-green);
+  --palette-3: var(--color-tn-light-orange);
+  --palette-4: var(--color-tn-light-red);
+  --palette-5: var(--color-tn-light-cyan);
+  --palette-6: var(--color-tn-light-yellow);
+}
+
+.dark {
+  --palette-0: var(--color-tn-dark-accent);
+  --palette-1: var(--color-tn-dark-warm);
+  --palette-2: var(--color-tn-dark-green);
+  --palette-3: var(--color-tn-dark-orange);
+  --palette-4: var(--color-tn-dark-red);
+  --palette-5: var(--color-tn-dark-cyan);
+  --palette-6: var(--color-tn-dark-yellow);
+}
+
+/* Gradient text effect — used by typewriter components */
+.typewriter-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Greeting colors and gradients — theme-adaptive for typewriter */
+:root {
+  --greeting-color-0: var(--color-tn-light-warm);
+  --greeting-color-1: var(--color-tn-light-accent);
+  --greeting-color-2: var(--color-tn-light-green);
+  --greeting-color-3: var(--color-tn-light-orange);
+  --greeting-color-4: var(--color-tn-light-red);
+  --greeting-color-5: var(--color-tn-light-cyan);
+  --greeting-grad-0: linear-gradient(
+    135deg,
+    var(--color-tn-light-warm),
+    var(--color-tn-light-green)
+  );
+  --greeting-grad-1: linear-gradient(
+    135deg,
+    var(--color-tn-light-accent),
+    var(--color-tn-light-orange)
+  );
+  --greeting-grad-2: linear-gradient(
+    135deg,
+    var(--color-tn-light-green),
+    var(--color-tn-light-warm)
+  );
+  --greeting-grad-3: linear-gradient(
+    135deg,
+    var(--color-tn-light-orange),
+    var(--color-tn-light-cyan)
+  );
+  --greeting-grad-4: linear-gradient(
+    135deg,
+    var(--color-tn-light-red),
+    var(--color-tn-light-accent)
+  );
+  --greeting-grad-5: linear-gradient(
+    135deg,
+    var(--color-tn-light-cyan),
+    var(--color-tn-light-red)
+  );
+}
+
+.dark {
+  --greeting-color-0: var(--color-tn-dark-warm);
+  --greeting-color-1: var(--color-tn-dark-accent);
+  --greeting-color-2: var(--color-tn-dark-green);
+  --greeting-color-3: var(--color-tn-dark-orange);
+  --greeting-color-4: var(--color-tn-dark-red);
+  --greeting-color-5: var(--color-tn-dark-cyan);
+  --greeting-grad-0: linear-gradient(
+    135deg,
+    var(--color-tn-dark-warm),
+    var(--color-tn-dark-green)
+  );
+  --greeting-grad-1: linear-gradient(
+    135deg,
+    var(--color-tn-dark-accent),
+    var(--color-tn-dark-orange)
+  );
+  --greeting-grad-2: linear-gradient(
+    135deg,
+    var(--color-tn-dark-green),
+    var(--color-tn-dark-warm)
+  );
+  --greeting-grad-3: linear-gradient(
+    135deg,
+    var(--color-tn-dark-orange),
+    var(--color-tn-dark-cyan)
+  );
+  --greeting-grad-4: linear-gradient(
+    135deg,
+    var(--color-tn-dark-red),
+    var(--color-tn-dark-accent)
+  );
+  --greeting-grad-5: linear-gradient(
+    135deg,
+    var(--color-tn-dark-cyan),
+    var(--color-tn-dark-red)
+  );
+}
+
+.greeting-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html,
+body {
+  @apply size-full;
+}
+
+body {
+  @apply font-sans antialiased;
+  @apply flex flex-col;
+  @apply bg-tn-light-bg dark:bg-tn-dark-bg;
+  @apply text-tn-light-fg-muted dark:text-tn-dark-fg-muted;
+}
+
+/* Subtle film grain texture */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+header {
+  @apply fixed top-0 left-0 right-0 z-50 py-5;
+  @apply bg-tn-light-bg dark:bg-tn-dark-bg;
+  @apply border-b border-tn-light-surface/60 dark:border-tn-dark-surface/60;
+}
+
+main {
+  @apply flex-1 pt-28 pb-12 sm:pt-32 sm:pb-16;
+}
+
+footer {
+  @apply py-8 text-sm;
+}
+
+article {
+  @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
+  @apply prose-headings:font-mono prose-headings:font-semibold;
+  @apply prose-headings:text-tn-light-fg prose-headings:dark:text-tn-dark-fg;
+}
+
+article a {
+  @apply font-sans text-tn-light-accent dark:text-tn-dark-accent underline underline-offset-2;
+  @apply decoration-tn-light-accent/30 dark:decoration-tn-dark-accent/30;
+  @apply transition-colors duration-300 ease-in-out;
+}
+
+article a:hover {
+  @apply text-tn-light-accent-hover dark:text-tn-dark-accent-hover;
+  @apply decoration-tn-light-accent/50 dark:decoration-tn-dark-accent/50;
+}
+
+#footer-message a {
+  @apply underline underline-offset-2 decoration-current/30;
+  @apply hover:text-tn-light-accent dark:hover:text-tn-dark-accent;
+  @apply transition-colors duration-300;
+}
+
+.animate {
+  @apply opacity-0 translate-y-3;
+  @apply transition-all duration-700 ease-out;
+}
+
+.animate.show {
+  @apply opacity-100 translate-y-0;
+}
+
+html #back-to-top {
+  @apply opacity-0 pointer-events-none;
+}
+
+html.scrolled #back-to-top {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Active nav state — overrides Link component accent color */
+.nav-active {
+  @apply text-tn-light-fg dark:text-tn-dark-fg;
+}
+
+/* Abbreviation unfold — reveals full name on hover */
+.unfold-text {
+  display: none;
+}
+
+.group\/dc:hover .unfold-text,
+.group\/au:hover .unfold-text {
+  display: inline;
+}
+
+/* Theme picker active state */
+.theme-active {
+  @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+}
+
+/* Typewriter cursor — block cursor matching monospace character width */
+.cursor-blink::after {
+  content: "";
+  display: inline-block;
+  width: 1ch;
+  height: 1.15em;
+  vertical-align: text-bottom;
+  background-color: var(--color-tn-light-fg-muted);
+  animation: blink 1s step-end infinite;
+}
+
+.dark .cursor-blink::after {
+  background-color: var(--color-tn-dark-fg-muted);
+}
+
+.cursor-typing::after {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Skip link — visible only on keyboard focus */
+.skip-link {
+  @apply absolute -top-full left-4 z-[100] px-4 py-2 rounded-b-lg font-mono text-sm;
+  @apply bg-tn-light-accent dark:bg-tn-dark-accent;
+  @apply text-tn-light-bg dark:text-tn-dark-bg;
+}
+
+.skip-link:focus {
+  @apply top-0;
+}
+
+/* Keyboard focus indicators */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  @apply outline-2 outline-offset-2 outline-tn-light-accent dark:outline-tn-dark-accent;
+}
+
+/* Reduced motion — respect user preferences for vestibular disorders */
+@media (prefers-reduced-motion: reduce) {
+  .animate {
+    @apply transition-none opacity-100 translate-y-0;
+  }
+
+  .cursor-blink::after {
+    animation: none;
+    opacity: 1;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

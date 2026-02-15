@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
+  index?: number;
+};
+
+const { entry, index = 0 } = Astro.props;
+
+const colorClasses = [
+  "border-l-tn-light-accent dark:border-l-tn-dark-accent hover:bg-tn-light-accent/5 dark:hover:bg-tn-dark-accent/5",
+  "border-l-tn-light-warm dark:border-l-tn-dark-warm hover:bg-tn-light-warm/5 dark:hover:bg-tn-dark-warm/5",
+  "border-l-tn-light-green dark:border-l-tn-dark-green hover:bg-tn-light-green/5 dark:hover:bg-tn-dark-green/5",
+  "border-l-tn-light-orange dark:border-l-tn-dark-orange hover:bg-tn-light-orange/5 dark:hover:bg-tn-dark-orange/5",
+  "border-l-tn-light-cyan dark:border-l-tn-dark-cyan hover:bg-tn-light-cyan/5 dark:hover:bg-tn-dark-cyan/5",
+];
+
+const color = colorClasses[index % colorClasses.length];
+---
+
+<a
+  href={`/${entry.collection}/${entry.slug}`}
+  class:list={[
+    "relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-tn-light-surface/60 dark:border-tn-dark-surface/60 border-l-[3px] transition-all duration-300 ease-in-out hover:text-tn-light-fg dark:hover:text-tn-dark-fg",
+    color,
+  ]}
+>
+  <div class="flex flex-col flex-1 min-w-0">
+    <div class="font-semibold">
+      {entry.data.title}
+    </div>
+    <div class="text-sm">
+      {entry.data.description}
+    </div>
+  </div>
+  <svg
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class="absolute top-1/2 right-2 -translate-y-1/2 size-5 stroke-2 fill-none stroke-current"
+  >
+    <line
+      x1="5"
+      y1="12"
+      x2="19"
+      y2="12"
+      class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"
+    ></line>
+    <polyline
+      points="12 5 19 12 12 19"
+      class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
+    ></polyline>
+  </svg>
+</a>

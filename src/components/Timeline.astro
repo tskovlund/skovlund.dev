@@ -1,0 +1,109 @@
+---
+import RichText from "@components/RichText.astro";
+import type { TimelineEntry } from "@i18n/en";
+
+interface Props {
+  entries: TimelineEntry[];
+}
+
+const { entries } = Astro.props;
+
+// Group consecutive entries by year so we only show the year label once
+type GroupedYear = {
+  year: string;
+  entries: TimelineEntry[];
+};
+
+const grouped: GroupedYear[] = [];
+for (const entry of entries) {
+  const lastGroup = grouped[grouped.length - 1];
+  if (lastGroup && lastGroup.year === entry.year) {
+    lastGroup.entries.push(entry);
+  } else {
+    grouped.push({ year: entry.year, entries: [entry] });
+  }
+}
+
+// Detect year gaps between groups (e.g. 2025 → 2023 skips 2024)
+function hasYearGap(currentYear: string, nextYear: string): boolean {
+  return parseInt(currentYear) - parseInt(nextYear) > 1;
+}
+---
+
+<div class="space-y-0">
+  <!-- Arrowhead pointing upward above the timeline -->
+  <div class="grid grid-cols-[3rem_1rem_1fr]">
+    <span></span>
+    <div class="flex flex-col items-center">
+      <div
+        class="border-l-[4px] border-r-[4px] border-b-[6px] border-l-transparent border-r-transparent border-b-tn-light-fg-muted/30 dark:border-b-tn-dark-fg-muted/30 mb-0"
+      >
+      </div>
+      <div class="w-px h-2 bg-tn-light-surface dark:bg-tn-dark-surface"></div>
+    </div>
+    <span></span>
+  </div>
+  {
+    grouped.map((group, groupIndex) => {
+      const isFirstGroup = groupIndex === 0;
+      const isLastGroup = groupIndex === grouped.length - 1;
+      const hasGapBefore =
+        !isFirstGroup && hasYearGap(grouped[groupIndex - 1].year, group.year);
+      const hasGapAfter =
+        !isLastGroup && hasYearGap(group.year, grouped[groupIndex + 1].year);
+
+      return (
+        <div class="grid grid-cols-[3rem_1rem_1fr]">
+          {group.entries.map((entry, index) => {
+            const isFirstInGroup = index === 0;
+            const isLastInGroup = index === group.entries.length - 1;
+            const isFirstOverall = isFirstGroup && isFirstInGroup;
+            const isLastOverall = isLastGroup && isLastInGroup;
+
+            // Top connector: visible unless first overall or first after a year gap
+            const showTopLine =
+              !isFirstOverall && !(isFirstInGroup && hasGapBefore);
+
+            // Bottom connector: visible unless last overall or last before a year gap
+            const showBottomLine =
+              !isLastOverall && !(isLastInGroup && hasGapAfter);
+
+            return (
+              <>
+                <span
+                  class:list={[
+                    "font-mono text-sm text-right pr-2 self-start",
+                    isFirstInGroup
+                      ? "text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
+                      : "invisible",
+                  ]}
+                >
+                  {group.year}
+                </span>
+                <div class="flex flex-col items-center">
+                  <div
+                    class:list={[
+                      "w-px h-1.5 shrink-0",
+                      showTopLine
+                        ? "bg-tn-light-surface dark:bg-tn-dark-surface"
+                        : "",
+                    ]}
+                  />
+                  <div class="size-2.5 rounded-full bg-tn-light-fg-muted/30 dark:bg-tn-dark-fg-muted/30 shrink-0" />
+                  {showBottomLine ? (
+                    <div class="w-px flex-1 bg-tn-light-surface dark:bg-tn-dark-surface min-h-4" />
+                  ) : !isLastOverall ? (
+                    <div class="w-px flex-1 min-h-4" />
+                  ) : null}
+                </div>
+                <span class="text-sm pl-2 pb-4 self-start">
+                  <RichText segments={entry.segments} />
+                </span>
+              </>
+            );
+          })}
+        </div>
+      );
+    })
+  }
+</div>

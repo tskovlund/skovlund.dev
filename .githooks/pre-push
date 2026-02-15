@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "pre-push: building project..."
+pnpm build
+echo "pre-push: passed"

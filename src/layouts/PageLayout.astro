@@ -1,0 +1,30 @@
+---
+import { fade } from "astro:transitions";
+import Head from "@components/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { SITE } from "@consts";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const subtle = fade({ duration: "0.2s" });
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={`${title} | ${SITE.NAME}`} description={description} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link"> Skip to main content </a>
+    <Header transition:persist />
+    <main id="main-content" transition:animate={subtle}>
+      <slot />
+    </main>
+    <Footer transition:persist />
+  </body>
+</html>

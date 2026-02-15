@@ -1,0 +1,22 @@
+---
+import Link from "@components/Link.astro";
+import type { RichText as RichTextType } from "@i18n/en";
+
+type Props = {
+  segments: RichTextType;
+};
+
+const { segments } = Astro.props;
+---
+
+{
+  segments.map((segment) =>
+    typeof segment === "string" ? (
+      segment
+    ) : (
+      <Link href={segment.href} external={segment.external}>
+        {segment.label}
+      </Link>
+    ),
+  )
+}

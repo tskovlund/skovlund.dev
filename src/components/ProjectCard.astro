@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Link from "@components/Link.astro";
+
+interface Props {
+  entry: CollectionEntry<"projects">;
+  index?: number;
+}
+
+const { entry, index = 0 } = Astro.props;
+
+const colorClasses = [
+  "border-l-tn-light-accent dark:border-l-tn-dark-accent hover:bg-tn-light-accent/5 dark:hover:bg-tn-dark-accent/5",
+  "border-l-tn-light-warm dark:border-l-tn-dark-warm hover:bg-tn-light-warm/5 dark:hover:bg-tn-dark-warm/5",
+  "border-l-tn-light-green dark:border-l-tn-dark-green hover:bg-tn-light-green/5 dark:hover:bg-tn-dark-green/5",
+  "border-l-tn-light-orange dark:border-l-tn-dark-orange hover:bg-tn-light-orange/5 dark:hover:bg-tn-dark-orange/5",
+  "border-l-tn-light-cyan dark:border-l-tn-dark-cyan hover:bg-tn-light-cyan/5 dark:hover:bg-tn-dark-cyan/5",
+];
+
+const color = colorClasses[index % colorClasses.length];
+const hasLinks =
+  entry.data.repoURL || entry.data.demoURL || entry.data.featured;
+---
+
+<div
+  class:list={[
+    "py-3 px-4 rounded-lg border border-tn-light-surface/60 dark:border-tn-dark-surface/60 border-l-[3px] transition-all duration-300 ease-in-out",
+    color,
+  ]}
+>
+  <div class="font-semibold">
+    {entry.data.title}
+  </div>
+  <div class="text-sm">
+    {entry.data.description}
+  </div>
+  {
+    hasLinks && (
+      <nav class="flex gap-1 mt-1.5 text-sm">
+        {entry.data.repoURL && (
+          <Link href={entry.data.repoURL} external>
+            source
+          </Link>
+        )}
+        {entry.data.repoURL && entry.data.demoURL && <span>/</span>}
+        {entry.data.demoURL && (
+          <Link href={entry.data.demoURL} external>
+            demo
+          </Link>
+        )}
+        {(entry.data.repoURL || entry.data.demoURL) && entry.data.featured && (
+          <span>/</span>
+        )}
+        {entry.data.featured && (
+          <Link href={`/projects/${entry.slug}`}>read more &rarr;</Link>
+        )}
+      </nav>
+    )
+  }
+</div>

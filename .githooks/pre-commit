@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Lint and format-check only staged files for fast feedback.
+# Falls back to full check if no matching staged files exist.
+
+STAGED_TS_ASTRO=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(ts|astro)$' || true)
+STAGED_ALL=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(ts|astro|css|json|md|mdx|mjs)$' || true)
+
+if [ -n "$STAGED_TS_ASTRO" ]; then
+  echo "pre-commit: linting staged files..."
+  echo "$STAGED_TS_ASTRO" | xargs pnpm eslint
+fi
+
+if [ -n "$STAGED_ALL" ]; then
+  echo "pre-commit: checking formatting of staged files..."
+  echo "$STAGED_ALL" | xargs pnpm prettier --check
+fi
+
+echo "pre-commit: passed"

@@ -1,0 +1,15 @@
+---
+interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+
+// ISO 8601 date format (YYYY-MM-DD) in UTC — the only correct date format.
+// The datetime attribute uses the full ISO string for machine-readability.
+const isoDate: string = date.toISOString().split("T")[0];
+---
+
+<time datetime={date.toISOString()} class="font-mono tabular-nums">
+  {isoDate}
+</time>

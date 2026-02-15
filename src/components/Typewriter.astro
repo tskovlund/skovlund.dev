@@ -1,0 +1,180 @@
+---
+/**
+ * Typewriter — types, deletes, and retypes strings with a blinking cursor.
+ *
+ * Supports two modes:
+ *   - "cycle": ordered rotation through the texts array
+ *   - "shuffle": random order, never the same text twice in a row
+ *
+ * Rainbow gradients are generated at runtime by randomly picking 3 palette
+ * colors from the theme-adaptive --palette-* CSS variables.
+ *
+ * Config is passed via a data attribute and initialized by a bundled script
+ * that listens for astro:page-load — this avoids the re-execution issues
+ * that is:inline scripts have with View Transitions.
+ */
+
+interface Props {
+  id: string;
+  texts: string[];
+  mode: "cycle" | "shuffle";
+  paletteColorCount: number;
+  typeSpeedMs?: number;
+  deleteSpeedMs?: number;
+  pauseBeforeDeleteMs?: number;
+  pauseAfterDeleteMs?: number;
+}
+
+const {
+  id,
+  texts,
+  mode,
+  paletteColorCount,
+  typeSpeedMs = 100,
+  deleteSpeedMs = 60,
+  pauseBeforeDeleteMs = 2500,
+  pauseAfterDeleteMs = 150,
+} = Astro.props;
+
+const config = JSON.stringify({
+  texts,
+  mode,
+  paletteColorCount,
+  typeSpeedMs,
+  deleteSpeedMs,
+  pauseBeforeDeleteMs,
+  pauseAfterDeleteMs,
+});
+---
+
+<span id={`${id}-wrapper`} class="font-mono">
+  <span id={id} class="typewriter-gradient" data-typewriter={config}
+  ></span><span id={`${id}-cursor`} class="cursor-blink"></span>
+</span>
+
+<script>
+  interface TypewriterConfig {
+    texts: string[];
+    mode: "cycle" | "shuffle";
+    paletteColorCount: number;
+    typeSpeedMs: number;
+    deleteSpeedMs: number;
+    pauseBeforeDeleteMs: number;
+    pauseAfterDeleteMs: number;
+  }
+
+  interface TypewriterElement extends HTMLElement {
+    _typewriterActive?: boolean;
+  }
+
+  function randomGradient(colorCount: number): string {
+    const indices: number[] = [];
+    while (indices.length < 3) {
+      const candidate = Math.floor(Math.random() * colorCount);
+      if (!indices.includes(candidate)) indices.push(candidate);
+    }
+    return (
+      "linear-gradient(135deg, " +
+      indices
+        .map((colorIndex: number) => `var(--palette-${colorIndex})`)
+        .join(", ") +
+      ")"
+    );
+  }
+
+  function initializeTypewriter(textElement: TypewriterElement): void {
+    if (textElement._typewriterActive) return;
+    textElement._typewriterActive = true;
+
+    const configAttribute = textElement.dataset.typewriter;
+    if (!configAttribute) return;
+    const config: TypewriterConfig = JSON.parse(configAttribute);
+    const maybeCursorElement =
+      textElement.nextElementSibling as HTMLElement | null;
+    if (!maybeCursorElement) return;
+    const cursorElement: HTMLElement = maybeCursorElement;
+
+    // Skip animation for users who prefer reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      textElement.textContent = config.texts[0];
+      textElement.style.backgroundImage = randomGradient(
+        config.paletteColorCount,
+      );
+      cursorElement.classList.remove("cursor-blink");
+      return;
+    }
+
+    let currentIndex = 0;
+    let characterIndex = 0;
+    let isDeleting = false;
+
+    function pickNextIndex(): number {
+      if (config.mode === "cycle") {
+        return (currentIndex + 1) % config.texts.length;
+      }
+      // Shuffle: random but never same twice in a row
+      if (config.texts.length <= 1) return 0;
+      let nextIndex: number;
+      do {
+        nextIndex = Math.floor(Math.random() * config.texts.length);
+      } while (nextIndex === currentIndex);
+      return nextIndex;
+    }
+
+    function tick(): void {
+      const currentText = config.texts[currentIndex];
+      cursorElement.classList.add("cursor-typing");
+
+      if (isDeleting) {
+        characterIndex--;
+        textElement.textContent = currentText.substring(0, characterIndex);
+
+        if (characterIndex === 0) {
+          isDeleting = false;
+          currentIndex = pickNextIndex();
+          textElement.style.backgroundImage = randomGradient(
+            config.paletteColorCount,
+          );
+          setTimeout(tick, config.pauseAfterDeleteMs);
+        } else {
+          setTimeout(tick, config.deleteSpeedMs);
+        }
+      } else {
+        characterIndex++;
+        textElement.textContent = config.texts[currentIndex].substring(
+          0,
+          characterIndex,
+        );
+
+        if (characterIndex === config.texts[currentIndex].length) {
+          cursorElement.classList.remove("cursor-typing");
+          setTimeout((): void => {
+            isDeleting = true;
+            tick();
+          }, config.pauseBeforeDeleteMs);
+        } else {
+          setTimeout(tick, config.typeSpeedMs);
+        }
+      }
+    }
+
+    // Start: pick a random first message and color, then begin typing
+    if (config.mode === "shuffle") {
+      currentIndex = Math.floor(Math.random() * config.texts.length);
+    }
+    textElement.style.backgroundImage = randomGradient(
+      config.paletteColorCount,
+    );
+    tick();
+  }
+
+  function initializeAllTypewriters(): void {
+    document
+      .querySelectorAll<TypewriterElement>("[data-typewriter]")
+      .forEach((element: TypewriterElement) => initializeTypewriter(element));
+  }
+
+  // astro:page-load fires on both initial load and after each View Transition.
+  // Persisted elements retain their _typewriterActive flag, preventing re-init.
+  document.addEventListener("astro:page-load", initializeAllTypewriters);
+</script>

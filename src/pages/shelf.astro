@@ -1,0 +1,117 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import Link from "@components/Link.astro";
+import RichText from "@components/RichText.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import { SHELF } from "@consts";
+import { shelf } from "@i18n/en";
+---
+
+<PageLayout title={SHELF.TITLE} description={SHELF.DESCRIPTION}>
+  <Container>
+    <div class="space-y-10">
+      <section class="animate space-y-4">
+        <SectionHeading color="accent">{shelf.sections.articles}</SectionHeading
+        >
+        <ul class="space-y-3">
+          {
+            shelf.articles.map((item) => (
+              <li>
+                <Link href={item.href} external>
+                  {item.title}
+                </Link>
+                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
+                  <RichText segments={item.description} />
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-4">
+        <SectionHeading color="warm">{shelf.sections.tools}</SectionHeading>
+        <ul class="space-y-3">
+          {
+            shelf.tools.map((item) => (
+              <li>
+                <Link href={item.href} external>
+                  {item.title}
+                </Link>
+                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
+                  <RichText segments={item.description} />
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-4">
+        <SectionHeading color="green"
+          >{shelf.sections.communities}</SectionHeading
+        >
+        <ul class="space-y-3">
+          {
+            shelf.communities.map((item) => (
+              <li>
+                <Link href={item.href} external>
+                  {item.title}
+                </Link>
+                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
+                  <RichText segments={item.description} />
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-4">
+        <SectionHeading color="red">{shelf.sections.media}</SectionHeading>
+        <ul class="space-y-3">
+          {
+            shelf.media.map((item) => (
+              <li>
+                {item.href ? (
+                  <Link href={item.href} external>
+                    {item.title}
+                  </Link>
+                ) : (
+                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
+                    {item.title}
+                  </span>
+                )}
+                <span class="text-sm"> — {item.author}</span>
+                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
+                  {item.description}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-4">
+        <SectionHeading color="orange"
+          >{shelf.sections.everything}</SectionHeading
+        >
+        <ul class="space-y-3">
+          {
+            shelf.everythingElse.map((item) => (
+              <li>
+                <span class="text-tn-light-fg dark:text-tn-dark-fg">
+                  {item.title}
+                </span>
+                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
+                  {item.description}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Container>
+</PageLayout>
