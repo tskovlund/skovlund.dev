@@ -46,7 +46,7 @@ export const nav: Record<string, NavItem> = {
   blog: { label: "Blog" },
   projects: { label: "Projects" },
   shelf: { label: "Shelf", subtitle: "Recommendations" },
-} as const;
+};
 
 // ---------------------------------------------------------------------------
 // Page metadata (used in <title>, <meta description>, and nav hover taglines)

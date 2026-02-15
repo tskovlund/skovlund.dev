@@ -99,18 +99,28 @@ import { site, nav } from "@i18n/en";
     <div id="mobile-menu" class="hidden sm:hidden pt-4 pb-2 font-mono">
       <nav class="flex flex-col gap-3 text-base">
         {
-          Object.entries(nav).map(([key, navItem]) => (
-            <div>
-              <Link href={`/${key}`} underline={false}>
-                {navItem.label}
-              </Link>
-              {navItem.subtitle && (
-                <p class="text-xs text-tn-light-fg-muted dark:text-tn-dark-fg-muted mt-0.5">
-                  {navItem.subtitle}
-                </p>
-              )}
-            </div>
-          ))
+          Object.entries(nav).map(([key, navItem]) => {
+            const subtitleId: string = `nav-${key}-subtitle`;
+            return (
+              <div>
+                <Link
+                  href={`/${key}`}
+                  underline={false}
+                  aria-describedby={navItem.subtitle ? subtitleId : undefined}
+                >
+                  {navItem.label}
+                </Link>
+                {navItem.subtitle && (
+                  <p
+                    id={subtitleId}
+                    class="text-xs text-tn-light-fg-muted dark:text-tn-dark-fg-muted mt-0.5"
+                  >
+                    {navItem.subtitle}
+                  </p>
+                )}
+              </div>
+            );
+          })
         }
       </nav>
       <div
