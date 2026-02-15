@@ -327,6 +327,22 @@ export const about = {
 };
 
 // ---------------------------------------------------------------------------
+// Color schemes
+// ---------------------------------------------------------------------------
+
+export type ColorScheme = {
+  readonly id: string;
+  readonly label: string;
+  readonly selectorColor: string;
+};
+
+export const colorSchemes: readonly ColorScheme[] = [
+  { id: "tokyo-night", label: "Tokyo Night", selectorColor: "#7aa2f7" },
+  { id: "gruvbox", label: "Gruvbox", selectorColor: "#83a598" },
+  { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
+];
+
+// ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 

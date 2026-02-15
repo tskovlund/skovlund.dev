@@ -39,6 +39,74 @@
   --color-tn-light-cyan: #007197;
 }
 
+/* ---------------------------------------------------------------------------
+ * Color scheme overrides
+ *
+ * Tokyo Night is the default (defined in @theme above).
+ * Override --color-tn-* variables per scheme so all existing
+ * Tailwind utilities work without template changes.
+ * --------------------------------------------------------------------------- */
+
+[data-color-scheme="gruvbox"] {
+  --color-tn-dark-bg: #282828;
+  --color-tn-dark-bg-alt: #1d2021;
+  --color-tn-dark-surface: #3c3836;
+  --color-tn-dark-fg: #ebdbb2;
+  --color-tn-dark-fg-muted: #a89984;
+  --color-tn-dark-accent: #83a598;
+  --color-tn-dark-accent-hover: #8ec07c;
+  --color-tn-dark-warm: #d3869b;
+  --color-tn-dark-green: #b8bb26;
+  --color-tn-dark-red: #fb4934;
+  --color-tn-dark-orange: #fe8019;
+  --color-tn-dark-yellow: #fabd2f;
+  --color-tn-dark-cyan: #83a598;
+
+  --color-tn-light-bg: #fbf1c7;
+  --color-tn-light-bg-alt: #f2e5bc;
+  --color-tn-light-surface: #d5c4a1;
+  --color-tn-light-fg: #3c3836;
+  --color-tn-light-fg-muted: #665c54;
+  --color-tn-light-accent: #076678;
+  --color-tn-light-accent-hover: #427b58;
+  --color-tn-light-warm: #8f3f71;
+  --color-tn-light-green: #79740e;
+  --color-tn-light-red: #9d0006;
+  --color-tn-light-orange: #af3a03;
+  --color-tn-light-yellow: #b57614;
+  --color-tn-light-cyan: #076678;
+}
+
+[data-color-scheme="nord"] {
+  --color-tn-dark-bg: #2e3440;
+  --color-tn-dark-bg-alt: #242933;
+  --color-tn-dark-surface: #3b4252;
+  --color-tn-dark-fg: #eceff4;
+  --color-tn-dark-fg-muted: #d8dee9;
+  --color-tn-dark-accent: #88c0d0;
+  --color-tn-dark-accent-hover: #81a1c1;
+  --color-tn-dark-warm: #b48ead;
+  --color-tn-dark-green: #a3be8c;
+  --color-tn-dark-red: #bf616a;
+  --color-tn-dark-orange: #d08770;
+  --color-tn-dark-yellow: #ebcb8b;
+  --color-tn-dark-cyan: #8fbcbb;
+
+  --color-tn-light-bg: #eceff4;
+  --color-tn-light-bg-alt: #e5e9f0;
+  --color-tn-light-surface: #d8dee9;
+  --color-tn-light-fg: #2e3440;
+  --color-tn-light-fg-muted: #4c566a;
+  --color-tn-light-accent: #5e81ac;
+  --color-tn-light-accent-hover: #81a1c1;
+  --color-tn-light-warm: #b48ead;
+  --color-tn-light-green: #a3be8c;
+  --color-tn-light-red: #bf616a;
+  --color-tn-light-orange: #d08770;
+  --color-tn-light-yellow: #ebcb8b;
+  --color-tn-light-cyan: #8fbcbb;
+}
+
 html {
   overflow-y: scroll;
   color-scheme: light;
@@ -272,6 +340,23 @@ html.scrolled #back-to-top {
 /* Theme picker active state */
 .theme-active {
   @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+}
+
+/* Color scheme picker active state */
+.scheme-active {
+  @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+}
+
+.scheme-active span {
+  box-shadow:
+    0 0 0 2px var(--color-tn-light-bg),
+    0 0 0 3.5px var(--color-tn-light-fg-muted);
+}
+
+.dark .scheme-active span {
+  box-shadow:
+    0 0 0 2px var(--color-tn-dark-bg),
+    0 0 0 3.5px var(--color-tn-dark-fg-muted);
 }
 
 /* Typewriter cursor — block cursor matching monospace character width */

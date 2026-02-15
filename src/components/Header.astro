@@ -2,7 +2,7 @@
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
 import { Sun, Moon, Monitor, Menu, X } from "@lucide/astro";
-import { site, nav } from "@i18n/en";
+import { site, nav, colorSchemes } from "@i18n/en";
 ---
 
 <header>
@@ -70,6 +70,26 @@ import { site, nav } from "@i18n/en";
             />
           </button>
         </div>
+        <div
+          class="flex items-center gap-0.5 ml-1 border-l border-tn-light-surface dark:border-tn-dark-surface pl-3"
+        >
+          {
+            colorSchemes.map((scheme) => (
+              <button
+                data-scheme-button={scheme.id}
+                aria-label={`${scheme.label} color scheme`}
+                aria-pressed="false"
+                class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+              >
+                <span
+                  class="size-2.5 rounded-full transition-transform duration-200 group-hover:scale-125"
+                  style={`background-color: ${scheme.selectorColor}`}
+                  aria-hidden="true"
+                />
+              </button>
+            ))
+          }
+        </div>
       </div>
 
       <!-- Mobile hamburger -->
@@ -136,6 +156,25 @@ import { site, nav } from "@i18n/en";
             class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
           />
         </button>
+        <span
+          class="mx-1.5 h-4 w-px bg-tn-light-surface/30 dark:bg-tn-dark-surface/30"
+          aria-hidden="true"></span>
+        {
+          colorSchemes.map((scheme) => (
+            <button
+              data-scheme-button={scheme.id}
+              aria-label={`${scheme.label} color scheme`}
+              aria-pressed="false"
+              class="group size-8 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+            >
+              <span
+                class="size-3 rounded-full transition-transform duration-200 group-hover:scale-125"
+                style={`background-color: ${scheme.selectorColor}`}
+                aria-hidden="true"
+              />
+            </button>
+          ))
+        }
       </div>
     </div>
   </Container>

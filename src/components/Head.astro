@@ -112,6 +112,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
     } else {
       transitionEvent.newDocument.documentElement.classList.remove("dark");
     }
+
+    // Apply color scheme to new document before swap to prevent flash
+    const savedColorScheme: string | null = localStorage.getItem("colorScheme");
+    transitionEvent.newDocument.documentElement.setAttribute(
+      "data-color-scheme",
+      savedColorScheme || "tokyo-night",
+    );
   });
 </script>
 
@@ -128,6 +135,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   const TYPEWRITER_DELETE_SPEED_MS = 60;
   const TYPEWRITER_PAUSE_BEFORE_DELETE_MS = 2500;
   const TYPEWRITER_PAUSE_AFTER_DELETE_MS = 150;
+  const DEFAULT_COLOR_SCHEME = "tokyo-night";
   // greetingColorCount injected via define:vars from i18n/en.ts
 
   // ---------------------------------------------------------------------------
@@ -143,7 +151,9 @@ const { title, description, image = "/nano.png" } = Astro.props;
 
   function init() {
     preloadTheme();
+    preloadColorScheme();
     updateThemeButtons();
+    updateColorSchemeButtons();
     handleScroll();
     revealAnimatedElements(initialized ? 0 : STAGGER_DELAY_MS);
 
@@ -177,6 +187,18 @@ const { title, description, image = "/nano.png" } = Astro.props;
           applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
         }
         updateThemeButtons();
+        return;
+      }
+
+      const schemeButton = clickEvent.target.closest("[data-scheme-button]");
+      if (schemeButton) {
+        const selectedScheme = schemeButton.dataset.schemeButton;
+        localStorage.setItem("colorScheme", selectedScheme);
+        document.documentElement.setAttribute(
+          "data-color-scheme",
+          selectedScheme,
+        );
+        updateColorSchemeButtons();
         return;
       }
 
@@ -504,6 +526,31 @@ const { title, description, image = "/nano.png" } = Astro.props;
   }
 
   // ---------------------------------------------------------------------------
+  // Color Scheme
+  // ---------------------------------------------------------------------------
+
+  function preloadColorScheme() {
+    const savedScheme =
+      localStorage.getItem("colorScheme") || DEFAULT_COLOR_SCHEME;
+    document.documentElement.setAttribute("data-color-scheme", savedScheme);
+  }
+
+  function updateColorSchemeButtons() {
+    const activeScheme =
+      localStorage.getItem("colorScheme") || DEFAULT_COLOR_SCHEME;
+    const schemeButtons = document.querySelectorAll("[data-scheme-button]");
+    schemeButtons.forEach(function (button) {
+      const isActive = button.dataset.schemeButton === activeScheme;
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      if (isActive) {
+        button.classList.add("scheme-active");
+      } else {
+        button.classList.remove("scheme-active");
+      }
+    });
+  }
+
+  // ---------------------------------------------------------------------------
   // Bootstrap
   // ---------------------------------------------------------------------------
 
@@ -514,4 +561,5 @@ const { title, description, image = "/nano.png" } = Astro.props;
     init();
   });
   preloadTheme();
+  preloadColorScheme();
 </script>
