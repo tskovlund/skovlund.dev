@@ -9,6 +9,7 @@ import Link from "@components/Link.astro";
 import Preamble from "@components/Preamble.astro";
 import RichText from "@components/RichText.astro";
 import SectionHeading from "@components/SectionHeading.astro";
+import TromboneEasterEgg from "@components/TromboneEasterEgg.astro";
 import { SITE, HOME } from "@consts";
 import { home } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
@@ -41,6 +42,7 @@ const recentProjects = (await getCollection("projects"))
             width={176}
             height={176}
             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover shrink-0"
+            data-easter-egg-target
           />
           <div class="text-center sm:text-left min-w-0 font-mono">
             <p class="font-semibold text-lg">
@@ -154,4 +156,5 @@ const recentProjects = (await getCollection("projects"))
       </section>
     </div>
   </Container>
+  <TromboneEasterEgg />
 </PageLayout>

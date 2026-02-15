@@ -1,0 +1,314 @@
+---
+// TromboneEasterEgg.astro
+// Easter egg: click portrait 5 times to play trombone notes + trigger confetti
+---
+
+<script>
+  // Constants
+  const CLICK_RESET_TIMEOUT_MS = 5000;
+  const TROMBONE_ATTACK_TIME_S = 0.05;
+  const TROMBONE_DECAY_TIME_S = 0.1;
+  const TROMBONE_SUSTAIN_LEVEL = 0.7;
+  const TROMBONE_RELEASE_TIME_S = 0.2;
+  const TROMBONE_NOTE_DURATION_MS = 300;
+  const TROMBONE_FILTER_FREQUENCY_HZ = 1200;
+  const RIFF_NOTE_DURATION_MS = 150;
+  const RIFF_NOTE_GAP_MS = 50;
+  const CONFETTI_PARTICLE_COUNT = 70;
+  const CONFETTI_ANIMATION_DURATION_MS = 3000;
+  const CONFETTI_BURST_VELOCITY_MIN = 8;
+  const CONFETTI_BURST_VELOCITY_MAX = 15;
+  const CONFETTI_GRAVITY = 0.4;
+  const CONFETTI_HORIZONTAL_DRIFT_MAX = 3;
+
+  // Note frequencies (Bb pentatonic scale)
+  const NOTE_FREQUENCIES_HZ = {
+    Bb3: 233.08,
+    C4: 261.63,
+    D4: 293.66,
+    F4: 349.23,
+    G4: 392.0,
+    Bb4: 466.16,
+  };
+
+  const CLICK_NOTES_HZ = [
+    NOTE_FREQUENCIES_HZ.Bb3,
+    NOTE_FREQUENCIES_HZ.C4,
+    NOTE_FREQUENCIES_HZ.D4,
+    NOTE_FREQUENCIES_HZ.F4,
+    NOTE_FREQUENCIES_HZ.G4,
+  ];
+
+  const RIFF_NOTES_HZ = [
+    NOTE_FREQUENCIES_HZ.Bb3,
+    NOTE_FREQUENCIES_HZ.C4,
+    NOTE_FREQUENCIES_HZ.D4,
+    NOTE_FREQUENCIES_HZ.F4,
+    NOTE_FREQUENCIES_HZ.G4,
+    NOTE_FREQUENCIES_HZ.Bb4,
+  ];
+
+  interface ConfettiParticle {
+    element: HTMLDivElement;
+    x: number;
+    y: number;
+    velocityX: number;
+    velocityY: number;
+    rotation: number;
+    rotationVelocity: number;
+  }
+
+  let clickCount = 0;
+  let resetTimer: number | null = null;
+  let audioContext: AudioContext | null = null;
+
+  function initializeAudioContext(): void {
+    if (audioContext === null) {
+      audioContext = new (
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext
+      )();
+    }
+  }
+
+  function playTromboneNote(frequencyHz: number): void {
+    initializeAudioContext();
+    if (audioContext === null) return;
+
+    const currentTime = audioContext.currentTime;
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const filterNode = audioContext.createBiquadFilter();
+
+    // Sawtooth wave for brass-like timbre
+    oscillator.type = "sawtooth";
+    oscillator.frequency.setValueAtTime(frequencyHz, currentTime);
+
+    // Low-pass filter for warmth
+    filterNode.type = "lowpass";
+    filterNode.frequency.setValueAtTime(
+      TROMBONE_FILTER_FREQUENCY_HZ,
+      currentTime,
+    );
+    filterNode.Q.setValueAtTime(1, currentTime);
+
+    // ADSR envelope
+    gainNode.gain.setValueAtTime(0, currentTime);
+    gainNode.gain.linearRampToValueAtTime(
+      1,
+      currentTime + TROMBONE_ATTACK_TIME_S,
+    );
+    gainNode.gain.linearRampToValueAtTime(
+      TROMBONE_SUSTAIN_LEVEL,
+      currentTime + TROMBONE_ATTACK_TIME_S + TROMBONE_DECAY_TIME_S,
+    );
+    gainNode.gain.setValueAtTime(
+      TROMBONE_SUSTAIN_LEVEL,
+      currentTime + TROMBONE_NOTE_DURATION_MS / 1000 - TROMBONE_RELEASE_TIME_S,
+    );
+    gainNode.gain.linearRampToValueAtTime(
+      0,
+      currentTime + TROMBONE_NOTE_DURATION_MS / 1000,
+    );
+
+    oscillator.connect(filterNode);
+    filterNode.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start(currentTime);
+    oscillator.stop(currentTime + TROMBONE_NOTE_DURATION_MS / 1000);
+  }
+
+  function playRiff(): void {
+    RIFF_NOTES_HZ.forEach((frequencyHz, index) => {
+      setTimeout(
+        () => {
+          playTromboneNote(frequencyHz);
+        },
+        index * (RIFF_NOTE_DURATION_MS + RIFF_NOTE_GAP_MS),
+      );
+    });
+  }
+
+  function getThemeColors(): string[] {
+    const style = getComputedStyle(document.documentElement);
+    const isDark = document.documentElement.classList.contains("dark");
+
+    const colorKeys = [
+      "accent",
+      "warm",
+      "green",
+      "orange",
+      "red",
+      "cyan",
+      "yellow",
+    ];
+
+    return colorKeys.map((key) => {
+      const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-${key}`;
+      return style.getPropertyValue(cssVarName).trim();
+    });
+  }
+
+  function createConfetti(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const colors = getThemeColors();
+    const rect = portraitElement.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const particles: ConfettiParticle[] = [];
+
+    for (let i = 0; i < CONFETTI_PARTICLE_COUNT; i++) {
+      const particle = document.createElement("div");
+      particle.style.position = "fixed";
+      particle.style.width = "8px";
+      particle.style.height = "8px";
+      particle.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      particle.style.pointerEvents = "none";
+      particle.style.zIndex = "9999";
+      particle.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+      document.body.appendChild(particle);
+
+      const angle = (Math.PI * 2 * i) / CONFETTI_PARTICLE_COUNT;
+      const velocity =
+        CONFETTI_BURST_VELOCITY_MIN +
+        Math.random() *
+          (CONFETTI_BURST_VELOCITY_MAX - CONFETTI_BURST_VELOCITY_MIN);
+
+      particles.push({
+        element: particle,
+        x: centerX,
+        y: centerY,
+        velocityX: Math.cos(angle) * velocity,
+        velocityY: Math.sin(angle) * velocity - velocity * 0.3,
+        rotation: Math.random() * 360,
+        rotationVelocity: (Math.random() - 0.5) * 10,
+      });
+    }
+
+    const startTime = Date.now();
+
+    function animate(): void {
+      const elapsed = Date.now() - startTime;
+
+      if (elapsed > CONFETTI_ANIMATION_DURATION_MS) {
+        particles.forEach((particle) => particle.element.remove());
+        return;
+      }
+
+      particles.forEach((particle) => {
+        particle.velocityY += CONFETTI_GRAVITY;
+        particle.velocityX +=
+          (Math.random() - 0.5) * CONFETTI_HORIZONTAL_DRIFT_MAX * 0.1;
+        particle.x += particle.velocityX;
+        particle.y += particle.velocityY;
+        particle.rotation += particle.rotationVelocity;
+
+        particle.element.style.left = `${particle.x}px`;
+        particle.element.style.top = `${particle.y}px`;
+        particle.element.style.transform = `rotate(${particle.rotation}deg)`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  function addPortraitBounce(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    portraitElement.style.transition = "transform 0.2s ease-out";
+    portraitElement.style.transform = "scale(1.05)";
+
+    setTimeout(() => {
+      portraitElement.style.transform = "scale(1)";
+    }, 200);
+  }
+
+  function addPortraitShake(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const keyframes = [
+      { transform: "rotate(0deg) scale(1)" },
+      { transform: "rotate(-5deg) scale(1.08)" },
+      { transform: "rotate(5deg) scale(1.08)" },
+      { transform: "rotate(-5deg) scale(1.08)" },
+      { transform: "rotate(5deg) scale(1.08)" },
+      { transform: "rotate(0deg) scale(1)" },
+    ];
+
+    portraitElement.animate(keyframes, {
+      duration: 500,
+      easing: "ease-in-out",
+    });
+  }
+
+  function handlePortraitClick(event: Event): void {
+    const target = (event.target as HTMLElement).closest(
+      "[data-easter-egg-target]",
+    );
+    if (!target) return;
+
+    clickCount++;
+
+    if (resetTimer !== null) {
+      clearTimeout(resetTimer);
+    }
+
+    resetTimer = window.setTimeout(() => {
+      clickCount = 0;
+      resetTimer = null;
+    }, CLICK_RESET_TIMEOUT_MS);
+
+    if (clickCount < 5) {
+      playTromboneNote(CLICK_NOTES_HZ[clickCount - 1]);
+      addPortraitBounce(target as HTMLElement);
+    } else {
+      playRiff();
+      createConfetti(target as HTMLElement);
+      addPortraitShake(target as HTMLElement);
+      clickCount = 0;
+      if (resetTimer !== null) {
+        clearTimeout(resetTimer);
+        resetTimer = null;
+      }
+    }
+  }
+
+  function initialize(): void {
+    const portraitElement = document.querySelector("[data-easter-egg-target]");
+    if (!portraitElement) return;
+
+    if (
+      (portraitElement as HTMLElement & { _easterEggInitialized?: boolean })
+        ._easterEggInitialized
+    ) {
+      return;
+    }
+
+    (
+      portraitElement as HTMLElement & {
+        _easterEggInitialized?: boolean;
+      }
+    )._easterEggInitialized = true;
+
+    document.addEventListener("click", handlePortraitClick);
+  }
+
+  // Initialize on page load and on View Transitions navigation
+  document.addEventListener("astro:page-load", initialize);
+</script>
