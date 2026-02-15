@@ -6,6 +6,12 @@ import { site, footer, footerMessages, paletteColorCount } from "@i18n/en";
 import BackToTop from "@components/BackToTop.astro";
 import { Icon } from "astro-icon/components";
 import { Code, Mail } from "@lucide/astro";
+
+// Typewriter timing constants for footer messages
+const FOOTER_TYPEWRITER_TYPE_SPEED_MS: number = 40;
+const FOOTER_TYPEWRITER_DELETE_SPEED_MS: number = 25;
+const FOOTER_TYPEWRITER_PAUSE_BEFORE_DELETE_MS: number = 4300;
+const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
 ---
 
 <footer class="animate">
@@ -76,10 +82,10 @@ import { Code, Mail } from "@lucide/astro";
           texts={footerMessages}
           mode="shuffle"
           paletteColorCount={paletteColorCount}
-          typeSpeedMs={40}
-          deleteSpeedMs={25}
-          pauseBeforeDeleteMs={10000}
-          pauseAfterDeleteMs={200}
+          typeSpeedMs={FOOTER_TYPEWRITER_TYPE_SPEED_MS}
+          deleteSpeedMs={FOOTER_TYPEWRITER_DELETE_SPEED_MS}
+          pauseBeforeDeleteMs={FOOTER_TYPEWRITER_PAUSE_BEFORE_DELETE_MS}
+          pauseAfterDeleteMs={FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS}
         />
       </div>
     </div>
