@@ -19,19 +19,19 @@ import { site, nav } from "@i18n/en";
       <!-- Desktop nav + theme -->
       <div class="hidden sm:flex items-center gap-3">
         <nav class="flex gap-1.5 text-base">
-          <Link href="/about" underline={false}>{nav.about}</Link>
+          <Link href="/about" underline={false}>{nav.about.label}</Link>
           <span class="text-tn-light-fg-muted/30 dark:text-tn-dark-fg-muted/30"
             >/</span
           >
-          <Link href="/blog" underline={false}>{nav.blog}</Link>
+          <Link href="/blog" underline={false}>{nav.blog.label}</Link>
           <span class="text-tn-light-fg-muted/30 dark:text-tn-dark-fg-muted/30"
             >/</span
           >
-          <Link href="/projects" underline={false}>{nav.projects}</Link>
+          <Link href="/projects" underline={false}>{nav.projects.label}</Link>
           <span class="text-tn-light-fg-muted/30 dark:text-tn-dark-fg-muted/30"
             >/</span
           >
-          <Link href="/shelf" underline={false}>{nav.shelf}</Link>
+          <Link href="/shelf" underline={false}>{nav.shelf.label}</Link>
         </nav>
         <div
           class="flex items-center gap-0.5 ml-1 border-l border-tn-light-surface dark:border-tn-dark-surface pl-3"
@@ -98,10 +98,20 @@ import { site, nav } from "@i18n/en";
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden sm:hidden pt-4 pb-2 font-mono">
       <nav class="flex flex-col gap-3 text-base">
-        <Link href="/about" underline={false}>{nav.about}</Link>
-        <Link href="/blog" underline={false}>{nav.blog}</Link>
-        <Link href="/projects" underline={false}>{nav.projects}</Link>
-        <Link href="/shelf" underline={false}>{nav.shelf}</Link>
+        {
+          Object.entries(nav).map(([key, navItem]) => (
+            <div>
+              <Link href={`/${key}`} underline={false}>
+                {navItem.label}
+              </Link>
+              {navItem.subtitle && (
+                <p class="text-xs text-tn-light-fg-muted dark:text-tn-dark-fg-muted mt-0.5">
+                  {navItem.subtitle}
+                </p>
+              )}
+            </div>
+          ))
+        }
       </nav>
       <div
         class="flex items-center gap-1 mt-4 pt-3 border-t border-tn-light-surface/30 dark:border-tn-dark-surface/30"

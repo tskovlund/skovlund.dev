@@ -36,11 +36,16 @@ export const site = {
 // Navigation
 // ---------------------------------------------------------------------------
 
-export const nav = {
-  about: "About",
-  blog: "Blog",
-  projects: "Projects",
-  shelf: "Shelf",
+export type NavItem = {
+  readonly label: string;
+  readonly subtitle?: string;
+};
+
+export const nav: Record<string, NavItem> = {
+  about: { label: "About" },
+  blog: { label: "Blog" },
+  projects: { label: "Projects" },
+  shelf: { label: "Shelf", subtitle: "Recommendations" },
 } as const;
 
 // ---------------------------------------------------------------------------
