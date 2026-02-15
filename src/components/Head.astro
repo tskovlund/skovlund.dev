@@ -105,7 +105,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     ).matches;
     const shouldBeDark: boolean =
       savedTheme === "dark" ||
-      !savedTheme ||
+      (!savedTheme && prefersDarkMode) ||
       (savedTheme === "system" && prefersDarkMode);
     if (shouldBeDark) {
       transitionEvent.newDocument.documentElement.classList.add("dark");
@@ -482,15 +482,14 @@ const { title, description, image = "/nano.png" } = Astro.props;
       applyTheme(false);
     } else if (savedTheme === "dark") {
       applyTheme(true);
-    } else if (savedTheme === "system") {
-      applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
     } else {
-      applyTheme(true);
+      // No saved preference or explicit "system" → check system preference
+      applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
     }
   }
 
   function updateThemeButtons() {
-    const activeTheme = localStorage.theme || "dark";
+    const activeTheme = localStorage.theme || "system";
     const themeButtons = document.querySelectorAll("[data-theme-button]");
     themeButtons.forEach(function (button) {
       const isActive = button.dataset.themeButton === activeTheme;
