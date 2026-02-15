@@ -90,6 +90,9 @@ const { title, description, image = "/nano.png" } = Astro.props;
 
 <script>
   import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+
+  const DEFAULT_COLOR_SCHEME: string = "tokyo-night";
+
   document.addEventListener("astro:before-swap", (swapEvent) => {
     const transitionEvent = swapEvent as TransitionBeforeSwapEvent;
 
@@ -117,7 +120,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     const savedColorScheme: string | null = localStorage.getItem("colorScheme");
     transitionEvent.newDocument.documentElement.setAttribute(
       "data-color-scheme",
-      savedColorScheme || "tokyo-night",
+      savedColorScheme || DEFAULT_COLOR_SCHEME,
     );
   });
 </script>
@@ -530,9 +533,27 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // ---------------------------------------------------------------------------
 
   function preloadColorScheme() {
-    const savedScheme =
-      localStorage.getItem("colorScheme") || DEFAULT_COLOR_SCHEME;
-    document.documentElement.setAttribute("data-color-scheme", savedScheme);
+    const savedScheme = localStorage.getItem("colorScheme");
+    let effectiveScheme = savedScheme || DEFAULT_COLOR_SCHEME;
+
+    // Validate saved scheme against available schemes
+    const schemeButtons = document.querySelectorAll("[data-scheme-button]");
+    if (schemeButtons.length > 0) {
+      let isValidScheme = false;
+      schemeButtons.forEach(function (button) {
+        if (button.dataset.schemeButton === savedScheme) {
+          isValidScheme = true;
+        }
+      });
+
+      // Fall back to default and update localStorage if invalid
+      if (!isValidScheme) {
+        effectiveScheme = DEFAULT_COLOR_SCHEME;
+        localStorage.setItem("colorScheme", effectiveScheme);
+      }
+    }
+
+    document.documentElement.setAttribute("data-color-scheme", effectiveScheme);
   }
 
   function updateColorSchemeButtons() {

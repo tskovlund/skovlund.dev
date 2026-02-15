@@ -47,7 +47,7 @@
  * Tailwind utilities work without template changes.
  * --------------------------------------------------------------------------- */
 
-[data-color-scheme="gruvbox"] {
+html[data-color-scheme="gruvbox"] {
   --color-tn-dark-bg: #282828;
   --color-tn-dark-bg-alt: #1d2021;
   --color-tn-dark-surface: #3c3836;
@@ -77,7 +77,7 @@
   --color-tn-light-cyan: #076678;
 }
 
-[data-color-scheme="nord"] {
+html[data-color-scheme="nord"] {
   --color-tn-dark-bg: #2e3440;
   --color-tn-dark-bg-alt: #242933;
   --color-tn-dark-surface: #3b4252;
