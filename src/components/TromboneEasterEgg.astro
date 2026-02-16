@@ -1,18 +1,17 @@
 ---
 // TromboneEasterEgg.astro
-// Easter egg: click portrait 5 times to play trombone notes + trigger confetti
+// Easter egg: click portrait 5 times to play "The Lick" on trombone + trigger confetti
+// The Lick: D E F G E C D (https://en.wikipedia.org/wiki/The_Lick)
 ---
 
 <script>
+  import Soundfont from "soundfont-player";
+  import type { Player } from "soundfont-player";
+
   // Constants
   const CLICK_RESET_TIMEOUT_MS = 5000;
-  const TROMBONE_ATTACK_TIME_S = 0.05;
-  const TROMBONE_DECAY_TIME_S = 0.1;
-  const TROMBONE_SUSTAIN_LEVEL = 0.7;
-  const TROMBONE_RELEASE_TIME_S = 0.2;
-  const TROMBONE_NOTE_DURATION_MS = 300;
-  const TROMBONE_FILTER_FREQUENCY_HZ = 1200;
-  const RIFF_NOTE_DURATION_MS = 150;
+  const SINGLE_NOTE_DURATION_S = 0.3;
+  const RIFF_NOTE_DURATION_S = 0.15;
   const RIFF_NOTE_GAP_MS = 50;
   const CONFETTI_PARTICLE_COUNT = 70;
   const CONFETTI_ANIMATION_DURATION_MS = 3000;
@@ -20,33 +19,12 @@
   const CONFETTI_BURST_VELOCITY_MAX = 15;
   const CONFETTI_GRAVITY = 0.4;
   const CONFETTI_HORIZONTAL_DRIFT_MAX = 3;
+  const CLICKS_TO_TRIGGER_RIFF = 5;
 
-  // Note frequencies (Bb pentatonic scale)
-  const NOTE_FREQUENCIES_HZ = {
-    Bb3: 233.08,
-    C4: 261.63,
-    D4: 293.66,
-    F4: 349.23,
-    G4: 392.0,
-    Bb4: 466.16,
-  };
-
-  const CLICK_NOTES_HZ = [
-    NOTE_FREQUENCIES_HZ.Bb3,
-    NOTE_FREQUENCIES_HZ.C4,
-    NOTE_FREQUENCIES_HZ.D4,
-    NOTE_FREQUENCIES_HZ.F4,
-    NOTE_FREQUENCIES_HZ.G4,
-  ];
-
-  const RIFF_NOTES_HZ = [
-    NOTE_FREQUENCIES_HZ.Bb3,
-    NOTE_FREQUENCIES_HZ.C4,
-    NOTE_FREQUENCIES_HZ.D4,
-    NOTE_FREQUENCIES_HZ.F4,
-    NOTE_FREQUENCIES_HZ.G4,
-    NOTE_FREQUENCIES_HZ.Bb4,
-  ];
+  // "The Lick" in D minor: D4 E4 F4 G4 E4 C4 D4
+  // Clicks 1-4 play the first four notes individually; click 5 plays the full lick
+  const LICK_CLICK_NOTES = ["D4", "E4", "F4", "G4"];
+  const LICK_FULL_NOTES = ["D4", "E4", "F4", "G4", "E4", "C4", "D4"];
 
   interface ConfettiParticle {
     element: HTMLDivElement;
@@ -72,11 +50,14 @@
   let clickCount = 0;
   let resetTimer: number | null = null;
   let audioContext: AudioContext | null = null;
+  let trombonePlayer: Player | null = null;
+  let isLoadingInstrument = false;
+  let isRiffPlaying = false;
   let activeConfettiParticles: ConfettiParticle[] = [];
   let activeRiffTimeouts: number[] = [];
   let isClickListenerRegistered = false;
 
-  function initializeAudioContext(): void {
+  function getAudioContext(): AudioContext {
     if (audioContext === null) {
       audioContext = new (
         window.AudioContext ||
@@ -84,67 +65,55 @@
           .webkitAudioContext
       )();
     }
+    return audioContext;
   }
 
-  function playTromboneNote(frequencyHz: number): void {
-    initializeAudioContext();
-    if (audioContext === null) return;
+  async function loadTromboneIfNeeded(): Promise<Player | null> {
+    if (trombonePlayer !== null) return trombonePlayer;
+    if (isLoadingInstrument) return null;
 
-    const currentTime = audioContext.currentTime;
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    const filterNode = audioContext.createBiquadFilter();
-
-    // Sawtooth wave for brass-like timbre
-    oscillator.type = "sawtooth";
-    oscillator.frequency.setValueAtTime(frequencyHz, currentTime);
-
-    // Low-pass filter for warmth
-    filterNode.type = "lowpass";
-    filterNode.frequency.setValueAtTime(
-      TROMBONE_FILTER_FREQUENCY_HZ,
-      currentTime,
-    );
-    filterNode.Q.setValueAtTime(1, currentTime);
-
-    // ADSR envelope
-    gainNode.gain.setValueAtTime(0, currentTime);
-    gainNode.gain.linearRampToValueAtTime(
-      1,
-      currentTime + TROMBONE_ATTACK_TIME_S,
-    );
-    gainNode.gain.linearRampToValueAtTime(
-      TROMBONE_SUSTAIN_LEVEL,
-      currentTime + TROMBONE_ATTACK_TIME_S + TROMBONE_DECAY_TIME_S,
-    );
-    gainNode.gain.setValueAtTime(
-      TROMBONE_SUSTAIN_LEVEL,
-      currentTime + TROMBONE_NOTE_DURATION_MS / 1000 - TROMBONE_RELEASE_TIME_S,
-    );
-    gainNode.gain.linearRampToValueAtTime(
-      0,
-      currentTime + TROMBONE_NOTE_DURATION_MS / 1000,
-    );
-
-    oscillator.connect(filterNode);
-    filterNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start(currentTime);
-    oscillator.stop(currentTime + TROMBONE_NOTE_DURATION_MS / 1000);
+    isLoadingInstrument = true;
+    try {
+      trombonePlayer = await Soundfont.instrument(
+        getAudioContext(),
+        "trombone",
+      );
+      return trombonePlayer;
+    } catch {
+      // Silently fail — the easter egg just won't play sound
+      return null;
+    } finally {
+      isLoadingInstrument = false;
+    }
   }
 
-  function playRiff(): void {
+  async function playTromboneNote(noteName: string): Promise<void> {
+    const player = await loadTromboneIfNeeded();
+    if (player === null) return;
+
+    player.play(noteName, getAudioContext().currentTime, {
+      duration: SINGLE_NOTE_DURATION_S,
+    });
+  }
+
+  async function playRiff(): Promise<void> {
+    const player = await loadTromboneIfNeeded();
+    if (player === null) return;
+
     // Clear any existing riff timeouts
     activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     activeRiffTimeouts = [];
 
-    RIFF_NOTES_HZ.forEach((frequencyHz, index) => {
+    const context = getAudioContext();
+
+    LICK_FULL_NOTES.forEach((noteName, index) => {
       const timeoutId = window.setTimeout(
         () => {
-          playTromboneNote(frequencyHz);
+          player.play(noteName, context.currentTime, {
+            duration: RIFF_NOTE_DURATION_S,
+          });
         },
-        index * (RIFF_NOTE_DURATION_MS + RIFF_NOTE_GAP_MS),
+        index * (RIFF_NOTE_DURATION_S * 1000 + RIFF_NOTE_GAP_MS),
       );
       activeRiffTimeouts.push(timeoutId);
     });
@@ -195,7 +164,11 @@
     const particles: ConfettiParticle[] = [];
     activeConfettiParticles = particles;
 
-    for (let i = 0; i < CONFETTI_PARTICLE_COUNT; i++) {
+    for (
+      let particleIndex = 0;
+      particleIndex < CONFETTI_PARTICLE_COUNT;
+      particleIndex++
+    ) {
       const particle = document.createElement("div");
       particle.style.position = "fixed";
       particle.style.width = "8px";
@@ -207,7 +180,7 @@
       particle.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
       document.body.appendChild(particle);
 
-      const angle = (Math.PI * 2 * i) / CONFETTI_PARTICLE_COUNT;
+      const angle = (Math.PI * 2 * particleIndex) / CONFETTI_PARTICLE_COUNT;
       const velocity =
         CONFETTI_BURST_VELOCITY_MIN +
         Math.random() *
@@ -232,6 +205,9 @@
       if (elapsed > CONFETTI_ANIMATION_DURATION_MS) {
         particles.forEach((particle) => particle.element.remove());
         activeConfettiParticles = [];
+        // Reset riff-playing lock and click count when confetti finishes
+        isRiffPlaying = false;
+        clickCount = 0;
         return;
       }
 
@@ -299,6 +275,9 @@
   }
 
   function handlePortraitClick(event: Event): void {
+    // Block all clicks while the riff + confetti sequence is playing
+    if (isRiffPlaying) return;
+
     const target = (event.target as HTMLElement).closest(
       "[data-easter-egg-target]",
     );
@@ -315,23 +294,26 @@
       resetTimer = null;
     }, CLICK_RESET_TIMEOUT_MS);
 
-    if (clickCount < 5) {
-      playTromboneNote(CLICK_NOTES_HZ[clickCount - 1]);
+    if (clickCount < CLICKS_TO_TRIGGER_RIFF) {
+      void playTromboneNote(LICK_CLICK_NOTES[clickCount - 1]);
       addPortraitBounce(target as HTMLElement);
-    } else if (clickCount === 5) {
-      playRiff();
-      createConfetti(target as HTMLElement);
-      addPortraitShake(target as HTMLElement);
-      clickCount = 0;
+    } else if (clickCount === CLICKS_TO_TRIGGER_RIFF) {
+      // Lock out further clicks until confetti finishes
+      isRiffPlaying = true;
       if (resetTimer !== null) {
         clearTimeout(resetTimer);
         resetTimer = null;
       }
+
+      void playRiff();
+      createConfetti(target as HTMLElement);
+      addPortraitShake(target as HTMLElement);
     }
   }
 
   function resetState(): void {
     clickCount = 0;
+    isRiffPlaying = false;
     if (resetTimer !== null) {
       clearTimeout(resetTimer);
       resetTimer = null;
