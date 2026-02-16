@@ -80,7 +80,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   href={new URL("rss.xml", Astro.site)}
 />
 
-<!-- Theme preload — must run synchronously before body renders to prevent flash -->
+<!-- Theme + color scheme preload — must run synchronously before body renders to prevent flash -->
 <script is:inline>
   (function () {
     const savedTheme = localStorage.getItem("theme");
@@ -90,6 +90,12 @@ const { title, description, image = "/nano.png" } = Astro.props;
     const shouldBeDark =
       savedTheme === "dark" || (savedTheme !== "light" && prefersDark);
     document.documentElement.classList.toggle("dark", shouldBeDark);
+
+    const savedScheme = localStorage.getItem("colorScheme");
+    document.documentElement.setAttribute(
+      "data-color-scheme",
+      savedScheme || "tokyo-night",
+    );
   })();
 </script>
 
@@ -112,6 +118,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   const TYPEWRITER_DELETE_SPEED_MS = 60;
   const TYPEWRITER_PAUSE_BEFORE_DELETE_MS = 2500;
   const TYPEWRITER_PAUSE_AFTER_DELETE_MS = 150;
+  const DEFAULT_COLOR_SCHEME = "tokyo-night";
 
   const PAGE_DESCRIPTIONS: Record<string, string> = {
     "/about": pages.about.description,
@@ -127,9 +134,38 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Chrome listeners — registered once at module load, use event delegation
   // ---------------------------------------------------------------------------
 
-  // Click delegation: theme buttons, mobile menu toggle, back-to-top
+  // Click delegation: settings panel, theme buttons, color scheme buttons,
+  // mobile menu toggle, back-to-top
   document.addEventListener("click", (clickEvent) => {
     const clickTarget = clickEvent.target as HTMLElement;
+
+    // Settings panel trigger — toggle the panel that contains this trigger
+    const settingsTrigger = clickTarget.closest("[data-settings-trigger]");
+    if (settingsTrigger instanceof HTMLElement) {
+      const settingsRoot = settingsTrigger.closest("[data-settings-root]");
+      const settingsPanel = settingsRoot?.querySelector(
+        "[data-settings-panel]",
+      );
+      if (settingsPanel) {
+        const isOpen = !settingsPanel.classList.contains("hidden");
+        // Close all open panels first (handles the case where both mobile and
+        // desktop panels exist, e.g. during resize)
+        closeAllSettingsPanels();
+        if (!isOpen) {
+          settingsPanel.classList.remove("hidden");
+          settingsTrigger.setAttribute("aria-expanded", "true");
+        }
+      }
+      return;
+    }
+
+    // Clicks inside a settings panel should not close it
+    if (clickTarget.closest("[data-settings-panel]")) {
+      // Fall through to theme/scheme button handlers below
+    } else {
+      // Click outside any settings panel — close all
+      closeAllSettingsPanels();
+    }
 
     const themeButton = clickTarget.closest("[data-theme-button]");
     if (themeButton instanceof HTMLElement) {
@@ -144,6 +180,20 @@ const { title, description, image = "/nano.png" } = Astro.props;
           applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
         }
         updateThemeButtons();
+      }
+      return;
+    }
+
+    const schemeButton = clickTarget.closest("[data-scheme-button]");
+    if (schemeButton instanceof HTMLElement) {
+      const selectedScheme = schemeButton.dataset.schemeButton;
+      if (selectedScheme) {
+        localStorage.setItem("colorScheme", selectedScheme);
+        document.documentElement.setAttribute(
+          "data-color-scheme",
+          selectedScheme,
+        );
+        updateColorSchemeButtons();
       }
       return;
     }
@@ -169,6 +219,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
     if (clickTarget.closest("#back-to-top")) {
       clickEvent.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  // Close settings panel on Escape
+  document.addEventListener("keydown", (keyboardEvent) => {
+    if (keyboardEvent.key === "Escape") {
+      closeAllSettingsPanels();
     }
   });
 
@@ -243,6 +300,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
     } else {
       transitionEvent.newDocument.documentElement.classList.remove("dark");
     }
+
+    // Apply color scheme to new document before swap to prevent flash
+    const savedColorScheme = localStorage.getItem("colorScheme");
+    transitionEvent.newDocument.documentElement.setAttribute(
+      "data-color-scheme",
+      savedColorScheme || DEFAULT_COLOR_SCHEME,
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -252,10 +316,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
   function onPageLoad(): void {
     applyTheme(shouldBeDark());
     updateThemeButtons();
+    applyColorScheme();
+    updateColorSchemeButtons();
     handleScroll();
     revealAnimatedElements(isFirstLoad ? STAGGER_DELAY_MS : 0);
     isFirstLoad = false;
 
+    closeAllSettingsPanels();
     resetMobileMenu();
     updateActiveNavLink();
     setupTypewriter();
@@ -510,6 +577,62 @@ const { title, description, image = "/nano.png" } = Astro.props;
         button.classList.add("theme-active");
       } else {
         button.classList.remove("theme-active");
+      }
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Settings panel
+  // ---------------------------------------------------------------------------
+
+  function closeAllSettingsPanels(): void {
+    document.querySelectorAll("[data-settings-panel]").forEach((panel) => {
+      panel.classList.add("hidden");
+    });
+    document.querySelectorAll("[data-settings-trigger]").forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Color Scheme
+  // ---------------------------------------------------------------------------
+
+  function applyColorScheme(): void {
+    const savedScheme = localStorage.getItem("colorScheme");
+    let effectiveScheme = savedScheme || DEFAULT_COLOR_SCHEME;
+
+    // Validate saved scheme against available scheme buttons in the DOM
+    const schemeButtons = document.querySelectorAll("[data-scheme-button]");
+    if (schemeButtons.length > 0) {
+      let isValidScheme = false;
+      schemeButtons.forEach((button) => {
+        if ((button as HTMLElement).dataset.schemeButton === savedScheme) {
+          isValidScheme = true;
+        }
+      });
+
+      if (!isValidScheme) {
+        effectiveScheme = DEFAULT_COLOR_SCHEME;
+        localStorage.setItem("colorScheme", effectiveScheme);
+      }
+    }
+
+    document.documentElement.setAttribute("data-color-scheme", effectiveScheme);
+  }
+
+  function updateColorSchemeButtons(): void {
+    const activeScheme =
+      localStorage.getItem("colorScheme") || DEFAULT_COLOR_SCHEME;
+    const schemeButtons = document.querySelectorAll("[data-scheme-button]");
+    schemeButtons.forEach((button) => {
+      const isActive =
+        (button as HTMLElement).dataset.schemeButton === activeScheme;
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      if (isActive) {
+        button.classList.add("scheme-active");
+      } else {
+        button.classList.remove("scheme-active");
       }
     });
   }
