@@ -12,12 +12,15 @@
   const CLICK_RESET_TIMEOUT_MS = 5000;
   const SINGLE_NOTE_DURATION_S = 0.3;
   const SINGLE_NOTE_VELOCITY = 80;
-  const CONFETTI_PARTICLE_COUNT = 150;
-  const CONFETTI_SPREAD_DEGREES = 360;
+  const CONFETTI_PARTICLE_COUNT = 300;
+  const CONFETTI_ANGLE_DEGREES = 90; // upward
+  const CONFETTI_SPREAD_DEGREES = 160;
   const CONFETTI_TICKS = 200;
-  const CONFETTI_GRAVITY = 1.2;
+  const CONFETTI_GRAVITY = 0.8;
   const CONFETTI_SCALAR = 1.1;
+  const CONFETTI_START_VELOCITY = 45;
   const CLICKS_TO_TRIGGER_RIFF = 5;
+  const GLOW_PULSE_DURATION_MS = 250;
 
   // The Lick rhythm: 1/8 1/8 1/8 1/8 1/4 1/8 3/8
   const LICK_TEMPO_BPM = 130;
@@ -127,7 +130,7 @@
     });
   }
 
-  async function playRiff(): Promise<void> {
+  async function playRiff(portraitElement: HTMLElement | null): Promise<void> {
     const instrument = await loadTromboneIfNeeded();
     if (instrument === null) return;
 
@@ -142,6 +145,9 @@
           velocity: LICK_RIFF_VELOCITY,
           duration: scheduledNote.durationMs / 1000,
         });
+        if (portraitElement !== null) {
+          pulsePortraitGlow(portraitElement);
+        }
       }, scheduledNote.offsetMs);
       activeRiffTimeouts.push(timeoutId);
     });
@@ -185,7 +191,9 @@
 
     const confettiPromise = confetti({
       particleCount: CONFETTI_PARTICLE_COUNT,
+      angle: CONFETTI_ANGLE_DEGREES,
       spread: CONFETTI_SPREAD_DEGREES,
+      startVelocity: CONFETTI_START_VELOCITY,
       origin: { x: originX, y: originY },
       colors,
       gravity: CONFETTI_GRAVITY,
@@ -204,6 +212,31 @@
       isRiffPlaying = false;
       clickCount = 0;
     }
+  }
+
+  function getAccentColor(): string {
+    const style = getComputedStyle(document.documentElement);
+    const isDark = document.documentElement.classList.contains("dark");
+    const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-accent`;
+    return style.getPropertyValue(cssVarName).trim() || "#7aa2f7";
+  }
+
+  function pulsePortraitGlow(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const accentColor = getAccentColor();
+
+    portraitElement.animate(
+      [
+        { boxShadow: `0 0 0 0 ${accentColor}` },
+        { boxShadow: `0 0 20px 8px ${accentColor}` },
+        { boxShadow: `0 0 0 0 ${accentColor}` },
+      ],
+      { duration: GLOW_PULSE_DURATION_MS, easing: "ease-out" },
+    );
   }
 
   function addPortraitBounce(portraitElement: HTMLElement): void {
@@ -274,6 +307,7 @@
     if (clickCount < CLICKS_TO_TRIGGER_RIFF) {
       void playTromboneNote(LICK_CLICK_NOTES[clickCount - 1]);
       addPortraitBounce(target as HTMLElement);
+      pulsePortraitGlow(target as HTMLElement);
     } else if (clickCount === CLICKS_TO_TRIGGER_RIFF) {
       // Lock out further clicks until confetti finishes
       isRiffPlaying = true;
@@ -282,7 +316,7 @@
         resetTimer = null;
       }
 
-      void playRiff();
+      void playRiff(target as HTMLElement);
       fireConfetti(target as HTMLElement);
       addPortraitShake(target as HTMLElement);
     }
