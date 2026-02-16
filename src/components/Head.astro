@@ -108,6 +108,7 @@ const { title, description, image = "/og.png" } = Astro.props;
   const TYPEWRITER_PAUSE_AFTER_DELETE_MS = 150;
   const DEFAULT_COLOR_SCHEME = "tokyo-night";
   const TAGLINE_INSET_PX = 48;
+  const BACK_TO_TOP_VIEWPORT_RATIO = 0.5;
 
   const PAGE_DESCRIPTIONS: Record<string, string> = {
     "/about": pages.about.description,
@@ -548,7 +549,8 @@ const { title, description, image = "/og.png" } = Astro.props;
 
     const backToTopButton = document.getElementById("back-to-top");
     if (backToTopButton) {
-      const shouldShow = window.scrollY > window.innerHeight / 2;
+      const shouldShow =
+        window.scrollY > window.innerHeight * BACK_TO_TOP_VIEWPORT_RATIO;
       backToTopButton.classList.toggle("opacity-0", !shouldShow);
       backToTopButton.classList.toggle("pointer-events-none", !shouldShow);
       backToTopButton.classList.toggle("opacity-60", shouldShow);

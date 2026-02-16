@@ -46,3 +46,11 @@ export const SOCIALS: Socials = socials.map((social) => ({
   ICON: social.icon,
   HREF: social.href,
 }));
+
+export const CARD_COLOR_CLASSES: string[] = [
+  "border-l-tn-light-accent dark:border-l-tn-dark-accent hover:bg-tn-light-accent/5 dark:hover:bg-tn-dark-accent/5",
+  "border-l-tn-light-warm dark:border-l-tn-dark-warm hover:bg-tn-light-warm/5 dark:hover:bg-tn-dark-warm/5",
+  "border-l-tn-light-green dark:border-l-tn-dark-green hover:bg-tn-light-green/5 dark:hover:bg-tn-dark-green/5",
+  "border-l-tn-light-orange dark:border-l-tn-dark-orange hover:bg-tn-light-orange/5 dark:hover:bg-tn-dark-orange/5",
+  "border-l-tn-light-cyan dark:border-l-tn-dark-cyan hover:bg-tn-light-cyan/5 dark:hover:bg-tn-dark-cyan/5",
+];
