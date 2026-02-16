@@ -35,7 +35,7 @@ function getStreamingUrl(
     <div class="space-y-8 sm:space-y-10">
       <section class="animate">
         <div
-          class="flex flex-col sm:flex-row gap-8 sm:gap-10 items-center sm:items-center"
+          class="flex flex-col sm:flex-row gap-8 sm:gap-10 items-center sm:items-start"
         >
           <Image
             src={portrait}
@@ -43,6 +43,7 @@ function getStreamingUrl(
             width={176}
             height={176}
             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover shrink-0"
+            transition:name="portrait"
           />
           <div class="space-y-4 text-center sm:text-left">
             <p>
