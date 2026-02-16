@@ -379,14 +379,16 @@ article a:hover {
   @apply text-tn-light-fg dark:text-tn-dark-fg;
 }
 
-/* Abbreviation unfold — reveals full name on hover */
+/* Abbreviation unfold — reveals full name on hover (desktop only) */
 .unfold-text {
   display: none;
 }
 
-.group\/dc:hover .unfold-text,
-.group\/au:hover .unfold-text {
-  display: inline;
+@media (hover: hover) {
+  .group\/dc:hover .unfold-text,
+  .group\/au:hover .unfold-text {
+    display: inline;
+  }
 }
 
 /* Theme picker active state */
