@@ -19,12 +19,11 @@
   const CONFETTI_HORIZONTAL_DRIFT_MAX = 3;
   const CLICKS_TO_TRIGGER_RIFF = 5;
 
-  // The Lick rhythm in 4/4 time at moderate swing tempo
-  // First 6 notes are eighth notes, final D4 is held longer
+  // The Lick rhythm: 1/8 1/8 1/8 1/8 1/4 1/8 3/8
   const LICK_TEMPO_BPM = 130;
   const LICK_EIGHTH_NOTE_MS = ((60 / LICK_TEMPO_BPM) * 1000) / 2; // ~230ms
-  const LICK_EIGHTH_NOTE_DURATION_S = LICK_EIGHTH_NOTE_MS / 1000;
-  const LICK_FINAL_NOTE_DURATION_S = 0.8;
+  const LICK_QUARTER_NOTE_MS = LICK_EIGHTH_NOTE_MS * 2; // ~460ms
+  const LICK_DOTTED_QUARTER_NOTE_MS = LICK_EIGHTH_NOTE_MS * 3; // ~690ms
   const LICK_RIFF_VELOCITY = 90;
 
   // "The Lick" in D minor: D4 E4 F4 G4 E4 C4 D4
@@ -32,46 +31,43 @@
   const LICK_CLICK_NOTES = ["D4", "E4", "F4", "G4"];
 
   // Each note in the riff with its rhythmic offset and duration
-  // Rhythm: 6 eighth notes + 1 held final note
+  // Rhythm: 1/8  1/8  1/8  1/8  1/4  1/8  3/8
+  //         D4   E4   F4   G4   E4   C4   D4
   const LICK_RIFF_SCHEDULE: {
     note: string;
     offsetMs: number;
-    durationSeconds: number;
+    durationMs: number;
   }[] = [
-    {
-      note: "D4",
-      offsetMs: LICK_EIGHTH_NOTE_MS * 0,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
-    },
+    { note: "D4", offsetMs: 0, durationMs: LICK_EIGHTH_NOTE_MS },
     {
       note: "E4",
-      offsetMs: LICK_EIGHTH_NOTE_MS * 1,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+      offsetMs: LICK_EIGHTH_NOTE_MS,
+      durationMs: LICK_EIGHTH_NOTE_MS,
     },
     {
       note: "F4",
       offsetMs: LICK_EIGHTH_NOTE_MS * 2,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+      durationMs: LICK_EIGHTH_NOTE_MS,
     },
     {
       note: "G4",
       offsetMs: LICK_EIGHTH_NOTE_MS * 3,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+      durationMs: LICK_EIGHTH_NOTE_MS,
     },
     {
       note: "E4",
       offsetMs: LICK_EIGHTH_NOTE_MS * 4,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+      durationMs: LICK_QUARTER_NOTE_MS,
     },
     {
       note: "C4",
-      offsetMs: LICK_EIGHTH_NOTE_MS * 5,
-      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+      offsetMs: LICK_EIGHTH_NOTE_MS * 6,
+      durationMs: LICK_EIGHTH_NOTE_MS,
     },
     {
       note: "D4",
-      offsetMs: LICK_EIGHTH_NOTE_MS * 6,
-      durationSeconds: LICK_FINAL_NOTE_DURATION_S,
+      offsetMs: LICK_EIGHTH_NOTE_MS * 7,
+      durationMs: LICK_DOTTED_QUARTER_NOTE_MS,
     },
   ];
 
@@ -157,7 +153,7 @@
         instrument.start({
           note: scheduledNote.note,
           velocity: LICK_RIFF_VELOCITY,
-          duration: scheduledNote.durationSeconds,
+          duration: scheduledNote.durationMs / 1000,
         });
       }, scheduledNote.offsetMs);
       activeRiffTimeouts.push(timeoutId);
