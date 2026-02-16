@@ -374,14 +374,6 @@ article a:hover {
   @apply opacity-100 translate-y-0;
 }
 
-html #back-to-top {
-  @apply opacity-0 pointer-events-none;
-}
-
-html.scrolled #back-to-top {
-  @apply opacity-100 pointer-events-auto;
-}
-
 /* Active nav state — overrides Link component accent color */
 .nav-active {
   @apply text-tn-light-fg dark:text-tn-dark-fg;

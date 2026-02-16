@@ -230,8 +230,19 @@ const { title, description, image = "/nano.png" } = Astro.props;
     }
   });
 
-  // Nav link hover taglines (desktop only)
+  // Nav link hover taglines (desktop only, skip on touch devices)
+  let hasTouchInput = false;
+  document.addEventListener(
+    "touchstart",
+    () => {
+      hasTouchInput = true;
+    },
+    { once: true },
+  );
+
   document.addEventListener("mouseover", (mouseOverEvent) => {
+    if (hasTouchInput) return;
+
     const hoveredNavLink = (mouseOverEvent.target as HTMLElement).closest(
       "header nav a",
     );
@@ -545,6 +556,15 @@ const { title, description, image = "/nano.png" } = Astro.props;
       document.documentElement.classList.add("scrolled");
     } else {
       document.documentElement.classList.remove("scrolled");
+    }
+
+    const backToTopButton = document.getElementById("back-to-top");
+    if (backToTopButton) {
+      const shouldShow = window.scrollY > window.innerHeight / 2;
+      backToTopButton.classList.toggle("opacity-0", !shouldShow);
+      backToTopButton.classList.toggle("pointer-events-none", !shouldShow);
+      backToTopButton.classList.toggle("opacity-60", shouldShow);
+      backToTopButton.classList.toggle("pointer-events-auto", shouldShow);
     }
   }
 

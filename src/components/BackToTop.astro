@@ -1,24 +1,11 @@
+---
+import { ChevronUp } from "@lucide/astro";
+---
+
 <button
   id="back-to-top"
-  class="relative group w-fit flex pl-8 pr-3 py-1.5 flex-nowrap rounded border border-tn-light-surface dark:border-tn-dark-surface hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 hover:text-tn-light-fg dark:hover:text-tn-dark-fg transition-colors duration-300 ease-in-out"
+  aria-label="Back to top"
+  class="fixed bottom-6 right-6 z-40 size-10 flex items-center justify-center rounded-full border border-tn-light-surface/60 dark:border-tn-dark-surface/60 bg-tn-light-bg/80 dark:bg-tn-dark-bg/80 backdrop-blur-sm text-tn-light-fg-muted dark:text-tn-dark-fg-muted hover:text-tn-light-fg dark:hover:text-tn-dark-fg hover:border-tn-light-surface dark:hover:border-tn-dark-surface opacity-0 pointer-events-none transition-all duration-300"
 >
-  <svg
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    class="absolute top-1/2 left-2 -translate-y-1/2 size-4 stroke-2 fill-none stroke-current rotate-90"
-  >
-    <line
-      x1="5"
-      y1="12"
-      x2="19"
-      y2="12"
-      class="translate-x-2 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"
-    ></line>
-    <polyline
-      points="12 5 5 12 12 19"
-      class="translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
-    ></polyline>
-  </svg>
-  <div class="text-sm">Back to top</div>
+  <ChevronUp size={18} aria-hidden="true" />
 </button>

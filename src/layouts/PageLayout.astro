@@ -3,6 +3,7 @@ import { fade } from "astro:transitions";
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import BackToTop from "@components/BackToTop.astro";
 import { SITE } from "@consts";
 
 type Props = {
@@ -26,5 +27,6 @@ const subtle = fade({ duration: "0.3s" });
       <slot />
     </main>
     <Footer transition:persist />
+    <BackToTop transition:persist />
   </body>
 </html>
