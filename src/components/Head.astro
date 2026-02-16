@@ -12,14 +12,6 @@ import sans600 from "@fontsource/inter/files/inter-latin-600-normal.woff2";
 
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "@consts";
-import { greetings, greetingColorCount, pages } from "@i18n/en";
-
-const pageDescriptions: Record<string, string> = {
-  "/about": pages.about.description,
-  "/blog": pages.blog.description,
-  "/projects": pages.projects.description,
-  "/shelf": pages.shelf.description,
-};
 
 interface Props {
   title: string;
@@ -88,37 +80,29 @@ const { title, description, image = "/nano.png" } = Astro.props;
   href={new URL("rss.xml", Astro.site)}
 />
 
-<script>
-  import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
-  document.addEventListener("astro:before-swap", (swapEvent) => {
-    const transitionEvent = swapEvent as TransitionBeforeSwapEvent;
-
-    // Remove duplicate font links from new document
-    [
-      ...transitionEvent.newDocument.head.querySelectorAll('link[as="font"]'),
-    ].forEach((fontLink) => fontLink.remove());
-
-    // Apply theme to new document before swap to prevent flash
-    const savedTheme: string | null = localStorage.getItem("theme");
-    const prefersDarkMode: boolean = window.matchMedia(
+<!-- Theme preload — must run synchronously before body renders to prevent flash -->
+<script is:inline>
+  (function () {
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
-    const shouldBeDark: boolean =
-      savedTheme === "dark" ||
-      (!savedTheme && prefersDarkMode) ||
-      (savedTheme === "system" && prefersDarkMode);
-    if (shouldBeDark) {
-      transitionEvent.newDocument.documentElement.classList.add("dark");
-    } else {
-      transitionEvent.newDocument.documentElement.classList.remove("dark");
-    }
-  });
+    const shouldBeDark =
+      savedTheme === "dark" || (savedTheme !== "light" && prefersDark);
+    document.documentElement.classList.toggle("dark", shouldBeDark);
+  })();
 </script>
 
-<script
-  is:inline
-  define:vars={{ greetings, greetingColorCount, pageDescriptions }}
->
+<!--
+  Main site script — bundled module that runs once and never re-executes on
+  navigation. Uses astro:page-load for per-navigation setup and event
+  delegation on document for persistent listeners. Imports i18n data directly
+  instead of define:vars.
+-->
+<script>
+  import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+  import { greetings, greetingColorCount, pages } from "@i18n/en";
+
   // ---------------------------------------------------------------------------
   // Constants
   // ---------------------------------------------------------------------------
@@ -128,46 +112,29 @@ const { title, description, image = "/nano.png" } = Astro.props;
   const TYPEWRITER_DELETE_SPEED_MS = 60;
   const TYPEWRITER_PAUSE_BEFORE_DELETE_MS = 2500;
   const TYPEWRITER_PAUSE_AFTER_DELETE_MS = 150;
-  // greetingColorCount injected via define:vars from i18n/en.ts
+
+  const PAGE_DESCRIPTIONS: Record<string, string> = {
+    "/about": pages.about.description,
+    "/blog": pages.blog.description,
+    "/projects": pages.projects.description,
+    "/shelf": pages.shelf.description,
+  };
+
+  let isFirstLoad = true;
+  let typewriterTimeoutId: number | null = null;
 
   // ---------------------------------------------------------------------------
-  // Initialization
-  //
-  // Full init runs once on first load. On navigation (astro:after-swap),
-  // only content-specific setup re-runs — header/footer persist via
-  // transition:persist and keep their event listeners.
+  // Chrome listeners — registered once at module load, use event delegation
   // ---------------------------------------------------------------------------
 
-  let initialized = false;
-  let typewriterTimeoutId = null;
+  // Click delegation: theme buttons, mobile menu toggle, back-to-top
+  document.addEventListener("click", (clickEvent) => {
+    const clickTarget = clickEvent.target as HTMLElement;
 
-  function init() {
-    preloadTheme();
-    updateThemeButtons();
-    handleScroll();
-    revealAnimatedElements(initialized ? 0 : STAGGER_DELAY_MS);
-
-    if (!initialized) {
-      setupChromeListeners();
-      document.addEventListener("scroll", handleScroll);
-      initialized = true;
-    }
-
-    setupContentListeners();
-  }
-
-  // ---------------------------------------------------------------------------
-  // Chrome (header/footer) — persisted across navigations
-  //
-  // All chrome listeners use event delegation on document so they survive
-  // DOM replacement during View Transitions.
-  // ---------------------------------------------------------------------------
-
-  function setupChromeListeners() {
-    document.addEventListener("click", function (clickEvent) {
-      const themeButton = clickEvent.target.closest("[data-theme-button]");
-      if (themeButton) {
-        const selectedTheme = themeButton.dataset.themeButton;
+    const themeButton = clickTarget.closest("[data-theme-button]");
+    if (themeButton instanceof HTMLElement) {
+      const selectedTheme = themeButton.dataset.themeButton;
+      if (selectedTheme) {
         localStorage.setItem("theme", selectedTheme);
         if (selectedTheme === "light") {
           applyTheme(false);
@@ -177,71 +144,123 @@ const { title, description, image = "/nano.png" } = Astro.props;
           applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
         }
         updateThemeButtons();
-        return;
       }
+      return;
+    }
 
-      const menuToggleButton = clickEvent.target.closest("#menu-toggle");
-      if (menuToggleButton) {
-        const mobileMenu = document.getElementById("mobile-menu");
-        const menuOpenIcon = document.getElementById("menu-open-icon");
-        const menuCloseIcon = document.getElementById("menu-close-icon");
-        if (mobileMenu && menuOpenIcon && menuCloseIcon) {
-          mobileMenu.classList.toggle("hidden");
-          menuOpenIcon.classList.toggle("hidden");
-          menuCloseIcon.classList.toggle("hidden");
-          const isExpanded = !mobileMenu.classList.contains("hidden");
-          menuToggleButton.setAttribute(
-            "aria-expanded",
-            isExpanded ? "true" : "false",
-          );
-        }
+    const menuToggleButton = clickTarget.closest("#menu-toggle");
+    if (menuToggleButton instanceof HTMLElement) {
+      const mobileMenu = document.getElementById("mobile-menu");
+      const menuOpenIcon = document.getElementById("menu-open-icon");
+      const menuCloseIcon = document.getElementById("menu-close-icon");
+      if (mobileMenu && menuOpenIcon && menuCloseIcon) {
+        mobileMenu.classList.toggle("hidden");
+        menuOpenIcon.classList.toggle("hidden");
+        menuCloseIcon.classList.toggle("hidden");
+        const isExpanded = !mobileMenu.classList.contains("hidden");
+        menuToggleButton.setAttribute(
+          "aria-expanded",
+          isExpanded ? "true" : "false",
+        );
       }
-    });
+      return;
+    }
 
-    // Nav link hover taglines (desktop only).
-    // pageDescriptions injected via define:vars — maps path → description.
-    // Shows a short description below the header when hovering a nav link.
+    if (clickTarget.closest("#back-to-top")) {
+      clickEvent.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  // Nav link hover taglines (desktop only)
+  document.addEventListener("mouseover", (mouseOverEvent) => {
+    const hoveredNavLink = (mouseOverEvent.target as HTMLElement).closest(
+      "header nav a",
+    );
+    if (!hoveredNavLink) return;
+
+    const hoveredPath =
+      (hoveredNavLink.getAttribute("href") ?? "").replace(/\/$/, "") || "/";
+    const hoveredDescription = PAGE_DESCRIPTIONS[hoveredPath];
+    if (!hoveredDescription) return;
+
     const taglineElement = document.getElementById("nav-tagline");
+    if (!taglineElement) return;
 
-    document.addEventListener("mouseover", function (mouseOverEvent) {
-      if (!taglineElement) return;
-      const hoveredNavLink = mouseOverEvent.target.closest("header nav a");
-      if (!hoveredNavLink) return;
+    taglineElement.textContent = hoveredDescription;
+    taglineElement.style.left =
+      hoveredNavLink.getBoundingClientRect().left + "px";
+    taglineElement.classList.remove("hidden");
+  });
 
-      const hoveredPath =
-        (hoveredNavLink.getAttribute("href") || "").replace(/\/$/, "") || "/";
-      const hoveredDescription = pageDescriptions[hoveredPath];
-      if (!hoveredDescription) return;
+  document.addEventListener("mouseout", (mouseOutEvent) => {
+    if (!(mouseOutEvent.target as HTMLElement).closest("header nav a")) return;
+    const taglineElement = document.getElementById("nav-tagline");
+    if (taglineElement) taglineElement.classList.add("hidden");
+  });
 
-      taglineElement.textContent = hoveredDescription;
-      const linkLeftPosition = hoveredNavLink.getBoundingClientRect().left;
-      taglineElement.style.left = linkLeftPosition + "px";
-      taglineElement.classList.remove("hidden");
+  // System theme preference changes
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (mediaChangeEvent) => {
+      if (localStorage.getItem("theme") === "system") {
+        applyTheme(mediaChangeEvent.matches);
+      }
     });
 
-    document.addEventListener("mouseout", function (mouseOutEvent) {
-      if (!taglineElement) return;
-      const departedNavLink = mouseOutEvent.target.closest("header nav a");
-      if (!departedNavLink) return;
+  // Scroll state
+  document.addEventListener("scroll", handleScroll);
 
-      taglineElement.classList.add("hidden");
-    });
+  // ---------------------------------------------------------------------------
+  // View Transition — prepare new document before swap
+  // ---------------------------------------------------------------------------
 
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", function (mediaChangeEvent) {
-        if (localStorage.theme === "system") {
-          applyTheme(mediaChangeEvent.matches);
-        }
-      });
+  document.addEventListener("astro:before-swap", (swapEvent) => {
+    const transitionEvent = swapEvent as TransitionBeforeSwapEvent;
+
+    // Remove duplicate font links from new document
+    [
+      ...transitionEvent.newDocument.head.querySelectorAll('link[as="font"]'),
+    ].forEach((fontLink) => fontLink.remove());
+
+    // Apply theme to new document before swap to prevent flash
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const shouldBeDark =
+      savedTheme === "dark" || (savedTheme !== "light" && prefersDarkMode);
+    if (shouldBeDark) {
+      transitionEvent.newDocument.documentElement.classList.add("dark");
+    } else {
+      transitionEvent.newDocument.documentElement.classList.remove("dark");
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // Per-navigation setup — runs on initial load AND each navigation
+  // ---------------------------------------------------------------------------
+
+  function onPageLoad(): void {
+    applyTheme(shouldBeDark());
+    updateThemeButtons();
+    handleScroll();
+    revealAnimatedElements(isFirstLoad ? STAGGER_DELAY_MS : 0);
+    isFirstLoad = false;
+
+    resetMobileMenu();
+    updateActiveNavLink();
+    setupTypewriter();
+    setupFooter();
   }
 
+  document.addEventListener("astro:page-load", onPageLoad);
+
   // ---------------------------------------------------------------------------
-  // Content — re-bound after each navigation
+  // Mobile menu reset
   // ---------------------------------------------------------------------------
 
-  function setupContentListeners() {
-    // Close mobile menu on navigation and reset ARIA state
+  function resetMobileMenu(): void {
     const mobileMenu = document.getElementById("mobile-menu");
     if (mobileMenu) mobileMenu.classList.add("hidden");
     const menuOpenIcon = document.getElementById("menu-open-icon");
@@ -249,40 +268,22 @@ const { title, description, image = "/nano.png" } = Astro.props;
     if (menuOpenIcon) menuOpenIcon.classList.remove("hidden");
     if (menuCloseIcon) menuCloseIcon.classList.add("hidden");
     const menuToggleButton = document.getElementById("menu-toggle");
-    if (menuToggleButton)
+    if (menuToggleButton) {
       menuToggleButton.setAttribute("aria-expanded", "false");
-
-    const backToTopButton = document.getElementById("back-to-top");
-    if (backToTopButton) {
-      backToTopButton.addEventListener("click", function (clickEvent) {
-        clickEvent.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
     }
-
-    const backToPrevButton = document.getElementById("back-to-prev");
-    if (backToPrevButton) {
-      backToPrevButton.addEventListener("click", function () {
-        window.history.back();
-      });
-    }
-
-    updateActiveNavLink();
-    setupTypewriter();
-    setupFooter();
   }
 
   // ---------------------------------------------------------------------------
   // Active nav highlighting
   // ---------------------------------------------------------------------------
 
-  function updateActiveNavLink() {
+  function updateActiveNavLink(): void {
     const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
     const navLinks = document.querySelectorAll("header nav a");
 
-    navLinks.forEach(function (navLink) {
+    navLinks.forEach((navLink) => {
       const linkPath =
-        (navLink.getAttribute("href") || "").replace(/\/$/, "") || "/";
+        (navLink.getAttribute("href") ?? "").replace(/\/$/, "") || "/";
       if (
         currentPath === linkPath ||
         (linkPath !== "/" && currentPath.startsWith(linkPath + "/"))
@@ -311,16 +312,29 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Cursor blinks when idle, stays solid when typing/deleting.
   // ---------------------------------------------------------------------------
 
-  function setupTypewriter() {
-    if (typewriterTimeoutId) {
+  function setupTypewriter(): void {
+    if (typewriterTimeoutId !== null) {
       clearTimeout(typewriterTimeoutId);
       typewriterTimeoutId = null;
     }
 
-    const greetingElement = document.getElementById("greeting");
-    const cursorElement = document.getElementById("typewriter-cursor");
-    const wrapperElement = document.getElementById("greeting-wrapper");
-    if (!greetingElement || !cursorElement || !wrapperElement) return;
+    // Early exit if the greeting elements aren't on this page
+    if (
+      !document.getElementById("greeting") ||
+      !document.getElementById("typewriter-cursor") ||
+      !document.getElementById("greeting-wrapper")
+    )
+      return;
+
+    // Re-fetch as non-nullable consts so closures below see HTMLElement, not
+    // HTMLElement | null (TypeScript doesn't narrow captured variables).
+    const greetingElement = document.getElementById("greeting") as HTMLElement;
+    const cursorElement = document.getElementById(
+      "typewriter-cursor",
+    ) as HTMLElement;
+    const wrapperElement = document.getElementById(
+      "greeting-wrapper",
+    ) as HTMLElement;
 
     // Skip animation entirely for users who prefer reduced motion
     const prefersReducedMotion = window.matchMedia(
@@ -337,19 +351,17 @@ const { title, description, image = "/nano.png" } = Astro.props;
     let isDeleting = false;
     let activeColorIndex = 0;
 
-    function pickNextColor() {
-      let nextColorIndex;
+    function pickNextColor(): void {
+      let nextColorIndex: number;
       do {
         nextColorIndex = Math.floor(Math.random() * greetingColorCount);
       } while (nextColorIndex === activeColorIndex);
       activeColorIndex = nextColorIndex;
-      wrapperElement.style.color =
-        "var(--greeting-color-" + nextColorIndex + ")";
-      greetingElement.style.backgroundImage =
-        "var(--greeting-grad-" + nextColorIndex + ")";
+      wrapperElement.style.color = `var(--greeting-color-${nextColorIndex})`;
+      greetingElement.style.backgroundImage = `var(--greeting-grad-${nextColorIndex})`;
     }
 
-    function typewriterTick() {
+    function typewriterTick(): void {
       const currentGreeting = greetings[greetingIndex];
       cursorElement.classList.add("cursor-typing");
 
@@ -364,12 +376,12 @@ const { title, description, image = "/nano.png" } = Astro.props;
           isDeleting = false;
           greetingIndex = (greetingIndex + 1) % greetings.length;
           pickNextColor();
-          typewriterTimeoutId = setTimeout(
+          typewriterTimeoutId = window.setTimeout(
             typewriterTick,
             TYPEWRITER_PAUSE_AFTER_DELETE_MS,
           );
         } else {
-          typewriterTimeoutId = setTimeout(
+          typewriterTimeoutId = window.setTimeout(
             typewriterTick,
             TYPEWRITER_DELETE_SPEED_MS,
           );
@@ -383,12 +395,12 @@ const { title, description, image = "/nano.png" } = Astro.props;
 
         if (characterIndex === greetings[greetingIndex].length) {
           cursorElement.classList.remove("cursor-typing");
-          typewriterTimeoutId = setTimeout(function () {
+          typewriterTimeoutId = window.setTimeout(() => {
             isDeleting = true;
             typewriterTick();
           }, TYPEWRITER_PAUSE_BEFORE_DELETE_MS);
         } else {
-          typewriterTimeoutId = setTimeout(
+          typewriterTimeoutId = window.setTimeout(
             typewriterTick,
             TYPEWRITER_TYPE_SPEED_MS,
           );
@@ -397,7 +409,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     }
 
     // Start with first greeting visible, cursor blinking. After pause, cycle.
-    typewriterTimeoutId = setTimeout(function () {
+    typewriterTimeoutId = window.setTimeout(() => {
       isDeleting = true;
       typewriterTick();
     }, TYPEWRITER_PAUSE_BEFORE_DELETE_MS);
@@ -407,7 +419,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Footer — dynamic year
   // ---------------------------------------------------------------------------
 
-  function setupFooter() {
+  function setupFooter(): void {
     const footerYearElement = document.getElementById("footer-year");
     if (footerYearElement) {
       footerYearElement.textContent = new Date().getFullYear().toString();
@@ -418,12 +430,12 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Stagger animation — reveals .animate elements sequentially on first load
   // ---------------------------------------------------------------------------
 
-  function revealAnimatedElements(delayBetweenMs) {
+  function revealAnimatedElements(delayBetweenMs: number): void {
     const animatedElements = document.querySelectorAll(".animate");
 
-    animatedElements.forEach(function (element, index) {
+    animatedElements.forEach((element, index) => {
       if (delayBetweenMs > 0) {
-        setTimeout(function () {
+        setTimeout(() => {
           element.classList.add("show");
         }, index * delayBetweenMs);
       } else {
@@ -436,7 +448,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Scroll state
   // ---------------------------------------------------------------------------
 
-  function handleScroll() {
+  function handleScroll(): void {
     if (window.scrollY > 0) {
       document.documentElement.classList.add("scrolled");
     } else {
@@ -448,7 +460,14 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Theme
   // ---------------------------------------------------------------------------
 
-  function applyTheme(shouldBeDark) {
+  function shouldBeDark(): boolean {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") return false;
+    if (savedTheme === "dark") return true;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  function applyTheme(dark: boolean): void {
     // Temporarily disable transitions to prevent flash during theme switch
     const transitionBlocker = document.createElement("style");
     transitionBlocker.appendChild(
@@ -464,11 +483,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     );
     document.head.appendChild(transitionBlocker);
 
-    if (shouldBeDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", dark);
 
     // Force reflow so the transition blocker takes effect before removal
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -476,23 +491,12 @@ const { title, description, image = "/nano.png" } = Astro.props;
     document.head.removeChild(transitionBlocker);
   }
 
-  function preloadTheme() {
-    const savedTheme = localStorage.theme;
-    if (savedTheme === "light") {
-      applyTheme(false);
-    } else if (savedTheme === "dark") {
-      applyTheme(true);
-    } else {
-      // No saved preference or explicit "system" → check system preference
-      applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
-    }
-  }
-
-  function updateThemeButtons() {
-    const activeTheme = localStorage.theme || "system";
+  function updateThemeButtons(): void {
+    const activeTheme = localStorage.getItem("theme") ?? "system";
     const themeButtons = document.querySelectorAll("[data-theme-button]");
-    themeButtons.forEach(function (button) {
-      const isActive = button.dataset.themeButton === activeTheme;
+    themeButtons.forEach((button) => {
+      const isActive =
+        (button as HTMLElement).dataset.themeButton === activeTheme;
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
       if (isActive) {
         button.classList.add("theme-active");
@@ -501,16 +505,4 @@ const { title, description, image = "/nano.png" } = Astro.props;
       }
     });
   }
-
-  // ---------------------------------------------------------------------------
-  // Bootstrap
-  // ---------------------------------------------------------------------------
-
-  document.addEventListener("DOMContentLoaded", function () {
-    init();
-  });
-  document.addEventListener("astro:after-swap", function () {
-    init();
-  });
-  preloadTheme();
 </script>
