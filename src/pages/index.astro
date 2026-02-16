@@ -9,6 +9,7 @@ import Link from "@components/Link.astro";
 import Preamble from "@components/Preamble.astro";
 import RichText from "@components/RichText.astro";
 import SectionHeading from "@components/SectionHeading.astro";
+import TromboneEasterEgg from "@components/TromboneEasterEgg.astro";
 import { SITE, HOME } from "@consts";
 import { home } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
@@ -153,4 +154,5 @@ const recentProjects = (await getCollection("projects"))
       </section>
     </div>
   </Container>
+  <TromboneEasterEgg />
 </PageLayout>
