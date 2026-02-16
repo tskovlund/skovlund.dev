@@ -95,7 +95,7 @@ export const home = {
       degreeLabel: "MSc in CS",
     },
   },
-  bio: "I build software, explore rabbit holes, and write about it. When I'm not at a keyboard, I'm playing trombone, running, or enjoying life with my girlfriend Maud.",
+  bio: "I build software, explore rabbit holes, and write about it. When I'm not at a keyboard, I'm probably playing trombone, running, or enjoying life with my girlfriend Maud.",
   interests:
     "Currently into declarative systems, giving AI agents more permissions than they probably deserve, and experimenting with self-hosted infrastructure. I'm a big believer in building personal tooling that compounds — every hour invested pays back across everything else.",
   sections: {

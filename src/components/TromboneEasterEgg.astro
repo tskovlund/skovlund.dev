@@ -1,0 +1,386 @@
+---
+// TromboneEasterEgg.astro
+// Easter egg: click portrait 5 times to play "The Lick" on trombone + trigger confetti
+// The Lick: D E F G E C D (https://en.wikipedia.org/wiki/The_Lick)
+---
+
+<script>
+  import { Soundfont } from "smplr";
+  import confetti from "canvas-confetti";
+
+  // Constants
+  const CLICK_RESET_TIMEOUT_MS = 5000;
+  const SINGLE_NOTE_DURATION_S = 0.3;
+  const SINGLE_NOTE_VELOCITY = 80;
+  const CONFETTI_PARTICLE_COUNT = 300;
+  const CONFETTI_ANGLE_DEGREES = 90; // upward
+  const CONFETTI_SPREAD_DEGREES = 160;
+  const CONFETTI_TICKS = 200;
+  const CONFETTI_GRAVITY = 0.8;
+  const CONFETTI_SCALAR = 1.1;
+  const CONFETTI_START_VELOCITY = 45;
+  const CLICKS_TO_TRIGGER_RIFF = 5;
+  const GLOW_PULSE_DURATION_MS = 250;
+
+  // The Lick rhythm: 1/8 1/8 1/8 1/8 1/4 1/8 3/8
+  const LICK_TEMPO_BPM = 130;
+  const LICK_EIGHTH_NOTE_MS = ((60 / LICK_TEMPO_BPM) * 1000) / 2; // ~230ms
+  const LICK_QUARTER_NOTE_MS = LICK_EIGHTH_NOTE_MS * 2; // ~460ms
+  const LICK_DOTTED_QUARTER_NOTE_MS = LICK_EIGHTH_NOTE_MS * 3; // ~690ms
+  const LICK_RIFF_VELOCITY = 90;
+
+  // "The Lick" in D minor: D4 E4 F4 G4 E4 C4 D4
+  // Clicks 1-4 play the first four notes individually; click 5 plays the full lick
+  const LICK_CLICK_NOTES = ["D4", "E4", "F4", "G4"];
+
+  // Each note in the riff with its rhythmic offset and duration
+  // Rhythm: 1/8  1/8  1/8  1/8  1/4  1/8  3/8
+  //         D4   E4   F4   G4   E4   C4   D4
+  const LICK_RIFF_SCHEDULE: {
+    note: string;
+    offsetMs: number;
+    durationMs: number;
+  }[] = [
+    { note: "D4", offsetMs: 0, durationMs: LICK_EIGHTH_NOTE_MS },
+    {
+      note: "E4",
+      offsetMs: LICK_EIGHTH_NOTE_MS,
+      durationMs: LICK_EIGHTH_NOTE_MS,
+    },
+    {
+      note: "F4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 2,
+      durationMs: LICK_EIGHTH_NOTE_MS,
+    },
+    {
+      note: "G4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 3,
+      durationMs: LICK_EIGHTH_NOTE_MS,
+    },
+    {
+      note: "E4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 4,
+      durationMs: LICK_QUARTER_NOTE_MS,
+    },
+    {
+      note: "C4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 6,
+      durationMs: LICK_EIGHTH_NOTE_MS,
+    },
+    {
+      note: "D4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 7,
+      durationMs: LICK_DOTTED_QUARTER_NOTE_MS,
+    },
+  ];
+
+  const FALLBACK_CONFETTI_COLORS = [
+    "#EF4444",
+    "#F97316",
+    "#EAB308",
+    "#22C55E",
+    "#06B6D4",
+    "#3B82F6",
+  ];
+
+  let clickCount = 0;
+  let resetTimer: number | null = null;
+  let audioContext: AudioContext | null = null;
+  let tromboneInstrument: Soundfont | null = null;
+  let isLoadingInstrument = false;
+  let isRiffPlaying = false;
+  let activeRiffTimeouts: number[] = [];
+  let isClickListenerRegistered = false;
+
+  function getAudioContext(): AudioContext {
+    if (audioContext === null) {
+      audioContext = new AudioContext();
+    }
+    return audioContext;
+  }
+
+  async function loadTromboneIfNeeded(): Promise<Soundfont | null> {
+    if (tromboneInstrument !== null) return tromboneInstrument;
+    if (isLoadingInstrument) return null;
+
+    isLoadingInstrument = true;
+    try {
+      const instrument = new Soundfont(getAudioContext(), {
+        instrument: "trombone",
+      });
+      await instrument.load;
+      tromboneInstrument = instrument;
+      return tromboneInstrument;
+    } catch {
+      // Silently fail — the easter egg just won't play sound
+      return null;
+    } finally {
+      isLoadingInstrument = false;
+    }
+  }
+
+  async function playTromboneNote(noteName: string): Promise<void> {
+    const instrument = await loadTromboneIfNeeded();
+    if (instrument === null) return;
+
+    instrument.start({
+      note: noteName,
+      velocity: SINGLE_NOTE_VELOCITY,
+      duration: SINGLE_NOTE_DURATION_S,
+    });
+  }
+
+  // Number of extra beats to keep pulsing after the riff ends
+  const PULSE_EXTRA_BEATS = 3;
+
+  async function playRiff(portraitElement: HTMLElement | null): Promise<void> {
+    const instrument = await loadTromboneIfNeeded();
+    if (instrument === null) return;
+
+    // Clear any existing riff timeouts
+    activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    activeRiffTimeouts = [];
+
+    // Schedule notes
+    LICK_RIFF_SCHEDULE.forEach((scheduledNote) => {
+      const timeoutId = window.setTimeout(() => {
+        instrument.start({
+          note: scheduledNote.note,
+          velocity: LICK_RIFF_VELOCITY,
+          duration: scheduledNote.durationMs / 1000,
+        });
+      }, scheduledNote.offsetMs);
+      activeRiffTimeouts.push(timeoutId);
+    });
+
+    // Schedule glow pulses on quarter-note beats during the riff, then
+    // continue for PULSE_EXTRA_BEATS more beats at the same tempo.
+    // The riff spans 4 beats (8 eighth notes); total pulse count is 4 + extra.
+    if (portraitElement !== null) {
+      const riffBeats = 4;
+      const totalPulseBeats = riffBeats + PULSE_EXTRA_BEATS;
+      for (let beatIndex = 0; beatIndex < totalPulseBeats; beatIndex++) {
+        const pulseTimeoutId = window.setTimeout(() => {
+          pulsePortraitGlow(portraitElement);
+        }, beatIndex * LICK_QUARTER_NOTE_MS);
+        activeRiffTimeouts.push(pulseTimeoutId);
+      }
+    }
+  }
+
+  function getThemeColors(): string[] {
+    const style = getComputedStyle(document.documentElement);
+    const isDark = document.documentElement.classList.contains("dark");
+
+    const colorKeys = [
+      "accent",
+      "warm",
+      "green",
+      "orange",
+      "red",
+      "cyan",
+      "yellow",
+    ];
+
+    const colors = colorKeys
+      .map((key) => {
+        const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-${key}`;
+        return style.getPropertyValue(cssVarName).trim();
+      })
+      .filter((color) => color !== "");
+
+    if (colors.length > 0) {
+      return colors;
+    }
+
+    return FALLBACK_CONFETTI_COLORS;
+  }
+
+  function fireConfetti(portraitElement: HTMLElement): void {
+    const colors = getThemeColors();
+    const rect = portraitElement.getBoundingClientRect();
+
+    // canvas-confetti uses 0-1 coordinates relative to the viewport
+    const originX = (rect.left + rect.width / 2) / window.innerWidth;
+    const originY = (rect.top + rect.height / 2) / window.innerHeight;
+
+    const confettiPromise = confetti({
+      particleCount: CONFETTI_PARTICLE_COUNT,
+      angle: CONFETTI_ANGLE_DEGREES,
+      spread: CONFETTI_SPREAD_DEGREES,
+      startVelocity: CONFETTI_START_VELOCITY,
+      origin: { x: originX, y: originY },
+      colors,
+      gravity: CONFETTI_GRAVITY,
+      scalar: CONFETTI_SCALAR,
+      ticks: CONFETTI_TICKS,
+      disableForReducedMotion: true,
+    });
+
+    if (confettiPromise !== null) {
+      void confettiPromise.then(() => {
+        isRiffPlaying = false;
+        clickCount = 0;
+      });
+    } else {
+      // Reduced motion is enabled — reset immediately
+      isRiffPlaying = false;
+      clickCount = 0;
+    }
+  }
+
+  function getAccentColor(): string {
+    const style = getComputedStyle(document.documentElement);
+    const isDark = document.documentElement.classList.contains("dark");
+    const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-accent`;
+    return style.getPropertyValue(cssVarName).trim() || "#7aa2f7";
+  }
+
+  function pulsePortraitGlow(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const accentColor = getAccentColor();
+
+    portraitElement.animate(
+      [
+        { boxShadow: `0 0 0 0 ${accentColor}` },
+        { boxShadow: `0 0 20px 8px ${accentColor}` },
+        { boxShadow: `0 0 0 0 ${accentColor}` },
+      ],
+      { duration: GLOW_PULSE_DURATION_MS, easing: "ease-out" },
+    );
+  }
+
+  function addPortraitBounce(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const keyframes = [
+      { transform: "scale(1)" },
+      { transform: "scale(1.05)" },
+      { transform: "scale(1)" },
+    ];
+
+    portraitElement.animate(keyframes, {
+      duration: 200,
+      easing: "ease-out",
+    });
+  }
+
+  function addPortraitShake(portraitElement: HTMLElement): void {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
+    const keyframes = [
+      { transform: "rotate(0deg) scale(1)" },
+      { transform: "rotate(-5deg) scale(1.08)" },
+      { transform: "rotate(5deg) scale(1.08)" },
+      { transform: "rotate(-5deg) scale(1.08)" },
+      { transform: "rotate(5deg) scale(1.08)" },
+      { transform: "rotate(0deg) scale(1)" },
+    ];
+
+    portraitElement.animate(keyframes, {
+      duration: 500,
+      easing: "ease-in-out",
+    });
+  }
+
+  function handlePortraitClick(event: Event): void {
+    // Block all clicks while the riff + confetti sequence is playing
+    if (isRiffPlaying) return;
+
+    const target = (event.target as HTMLElement).closest(
+      "[data-easter-egg-target]",
+    );
+    if (!target) return;
+
+    // Resume AudioContext if suspended (browser autoplay policy requires
+    // a user gesture before audio can play)
+    if (audioContext !== null && audioContext.state === "suspended") {
+      void audioContext.resume();
+    }
+
+    clickCount++;
+
+    if (resetTimer !== null) {
+      clearTimeout(resetTimer);
+    }
+
+    resetTimer = window.setTimeout(() => {
+      clickCount = 0;
+      resetTimer = null;
+    }, CLICK_RESET_TIMEOUT_MS);
+
+    if (clickCount < CLICKS_TO_TRIGGER_RIFF) {
+      void playTromboneNote(LICK_CLICK_NOTES[clickCount - 1]);
+      addPortraitBounce(target as HTMLElement);
+      pulsePortraitGlow(target as HTMLElement);
+    } else if (clickCount === CLICKS_TO_TRIGGER_RIFF) {
+      // Lock out further clicks until confetti finishes
+      isRiffPlaying = true;
+      if (resetTimer !== null) {
+        clearTimeout(resetTimer);
+        resetTimer = null;
+      }
+
+      void playRiff(target as HTMLElement);
+      fireConfetti(target as HTMLElement);
+      addPortraitShake(target as HTMLElement);
+    }
+  }
+
+  function resetState(): void {
+    clickCount = 0;
+    isRiffPlaying = false;
+    if (resetTimer !== null) {
+      clearTimeout(resetTimer);
+      resetTimer = null;
+    }
+  }
+
+  function cleanup(): void {
+    resetState();
+    confetti.reset();
+    activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    activeRiffTimeouts = [];
+
+    if (tromboneInstrument !== null) {
+      tromboneInstrument.disconnect();
+      tromboneInstrument = null;
+    }
+  }
+
+  function initialize(): void {
+    const portraitElement = document.querySelector("[data-easter-egg-target]");
+    if (!portraitElement) return;
+
+    // Reset state on each navigation
+    resetState();
+
+    // Preload trombone samples in background so first click is instant.
+    // AudioContext creation may fail before any user gesture (browser autoplay
+    // policy), in which case loadTromboneIfNeeded() catches the error silently
+    // and the instrument will be loaded on the first actual click instead.
+    void loadTromboneIfNeeded();
+
+    // Register click listener only once
+    if (!isClickListenerRegistered) {
+      document.addEventListener("click", handlePortraitClick);
+      isClickListenerRegistered = true;
+    }
+  }
+
+  // Initialize on page load and on View Transitions navigation
+  document.addEventListener("astro:page-load", initialize);
+
+  // Clean up before navigating to a new page
+  document.addEventListener("astro:before-swap", cleanup);
+</script>
