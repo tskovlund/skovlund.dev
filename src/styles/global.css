@@ -79,7 +79,7 @@ html[data-color-scheme="gruvbox"] {
 
 html[data-color-scheme="nord"] {
   --color-tn-dark-bg: #2e3440;
-  --color-tn-dark-bg-alt: #2e3440;
+  --color-tn-dark-bg-alt: #242933;
   --color-tn-dark-surface: #3b4252;
   --color-tn-dark-fg: #eceff4;
   --color-tn-dark-fg-muted: #d8dee9;
