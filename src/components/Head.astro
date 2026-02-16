@@ -245,9 +245,25 @@ const { title, description, image = "/nano.png" } = Astro.props;
     if (!taglineElement) return;
 
     taglineElement.textContent = hoveredDescription;
-    taglineElement.style.left =
-      hoveredNavLink.getBoundingClientRect().left + "px";
+
+    // Position aligned with hovered link. The tagline is position:absolute
+    // inside its offset parent (the Container), so convert viewport coords
+    // to parent-relative coords.
+    const parentLeft =
+      taglineElement.offsetParent?.getBoundingClientRect().left ?? 0;
+    const linkLeft = hoveredNavLink.getBoundingClientRect().left;
+    taglineElement.style.left = linkLeft - parentLeft + "px";
     taglineElement.classList.remove("hidden");
+
+    // Clamp so the tagline doesn't overflow the offset parent's right edge
+    const taglineRect = taglineElement.getBoundingClientRect();
+    const parentRight =
+      taglineElement.offsetParent?.getBoundingClientRect().right ??
+      window.innerWidth;
+    if (taglineRect.right > parentRight) {
+      taglineElement.style.left =
+        parentRight - parentLeft - taglineRect.width + "px";
+    }
   });
 
   document.addEventListener("mouseout", (mouseOutEvent) => {
