@@ -5,14 +5,12 @@
 ---
 
 <script>
-  import Soundfont from "soundfont-player";
-  import type { Player } from "soundfont-player";
+  import { Soundfont } from "smplr";
 
   // Constants
   const CLICK_RESET_TIMEOUT_MS = 5000;
   const SINGLE_NOTE_DURATION_S = 0.3;
-  const RIFF_NOTE_DURATION_S = 0.15;
-  const RIFF_NOTE_GAP_MS = 50;
+  const SINGLE_NOTE_VELOCITY = 80;
   const CONFETTI_PARTICLE_COUNT = 70;
   const CONFETTI_ANIMATION_DURATION_MS = 3000;
   const CONFETTI_BURST_VELOCITY_MIN = 8;
@@ -21,10 +19,61 @@
   const CONFETTI_HORIZONTAL_DRIFT_MAX = 3;
   const CLICKS_TO_TRIGGER_RIFF = 5;
 
+  // The Lick rhythm in 4/4 time at moderate swing tempo
+  // First 6 notes are eighth notes, final D4 is held longer
+  const LICK_TEMPO_BPM = 130;
+  const LICK_EIGHTH_NOTE_MS = ((60 / LICK_TEMPO_BPM) * 1000) / 2; // ~230ms
+  const LICK_EIGHTH_NOTE_DURATION_S = LICK_EIGHTH_NOTE_MS / 1000;
+  const LICK_FINAL_NOTE_DURATION_S = 0.8;
+  const LICK_RIFF_VELOCITY = 90;
+
   // "The Lick" in D minor: D4 E4 F4 G4 E4 C4 D4
   // Clicks 1-4 play the first four notes individually; click 5 plays the full lick
   const LICK_CLICK_NOTES = ["D4", "E4", "F4", "G4"];
-  const LICK_FULL_NOTES = ["D4", "E4", "F4", "G4", "E4", "C4", "D4"];
+
+  // Each note in the riff with its rhythmic offset and duration
+  // Rhythm: 6 eighth notes + 1 held final note
+  const LICK_RIFF_SCHEDULE: {
+    note: string;
+    offsetMs: number;
+    durationSeconds: number;
+  }[] = [
+    {
+      note: "D4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 0,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "E4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 1,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "F4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 2,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "G4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 3,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "E4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 4,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "C4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 5,
+      durationSeconds: LICK_EIGHTH_NOTE_DURATION_S,
+    },
+    {
+      note: "D4",
+      offsetMs: LICK_EIGHTH_NOTE_MS * 6,
+      durationSeconds: LICK_FINAL_NOTE_DURATION_S,
+    },
+  ];
 
   interface ConfettiParticle {
     element: HTMLDivElement;
@@ -50,7 +99,7 @@
   let clickCount = 0;
   let resetTimer: number | null = null;
   let audioContext: AudioContext | null = null;
-  let trombonePlayer: Player | null = null;
+  let tromboneInstrument: Soundfont | null = null;
   let isLoadingInstrument = false;
   let isRiffPlaying = false;
   let activeConfettiParticles: ConfettiParticle[] = [];
@@ -59,26 +108,23 @@
 
   function getAudioContext(): AudioContext {
     if (audioContext === null) {
-      audioContext = new (
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext
-      )();
+      audioContext = new AudioContext();
     }
     return audioContext;
   }
 
-  async function loadTromboneIfNeeded(): Promise<Player | null> {
-    if (trombonePlayer !== null) return trombonePlayer;
+  async function loadTromboneIfNeeded(): Promise<Soundfont | null> {
+    if (tromboneInstrument !== null) return tromboneInstrument;
     if (isLoadingInstrument) return null;
 
     isLoadingInstrument = true;
     try {
-      trombonePlayer = await Soundfont.instrument(
-        getAudioContext(),
-        "trombone",
-      );
-      return trombonePlayer;
+      const instrument = new Soundfont(getAudioContext(), {
+        instrument: "trombone",
+      });
+      await instrument.load;
+      tromboneInstrument = instrument;
+      return tromboneInstrument;
     } catch {
       // Silently fail — the easter egg just won't play sound
       return null;
@@ -88,33 +134,32 @@
   }
 
   async function playTromboneNote(noteName: string): Promise<void> {
-    const player = await loadTromboneIfNeeded();
-    if (player === null) return;
+    const instrument = await loadTromboneIfNeeded();
+    if (instrument === null) return;
 
-    player.play(noteName, getAudioContext().currentTime, {
+    instrument.start({
+      note: noteName,
+      velocity: SINGLE_NOTE_VELOCITY,
       duration: SINGLE_NOTE_DURATION_S,
     });
   }
 
   async function playRiff(): Promise<void> {
-    const player = await loadTromboneIfNeeded();
-    if (player === null) return;
+    const instrument = await loadTromboneIfNeeded();
+    if (instrument === null) return;
 
     // Clear any existing riff timeouts
     activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     activeRiffTimeouts = [];
 
-    const context = getAudioContext();
-
-    LICK_FULL_NOTES.forEach((noteName, index) => {
-      const timeoutId = window.setTimeout(
-        () => {
-          player.play(noteName, context.currentTime, {
-            duration: RIFF_NOTE_DURATION_S,
-          });
-        },
-        index * (RIFF_NOTE_DURATION_S * 1000 + RIFF_NOTE_GAP_MS),
-      );
+    LICK_RIFF_SCHEDULE.forEach((scheduledNote) => {
+      const timeoutId = window.setTimeout(() => {
+        instrument.start({
+          note: scheduledNote.note,
+          velocity: LICK_RIFF_VELOCITY,
+          duration: scheduledNote.durationSeconds,
+        });
+      }, scheduledNote.offsetMs);
       activeRiffTimeouts.push(timeoutId);
     });
   }
@@ -283,6 +328,12 @@
     );
     if (!target) return;
 
+    // Resume AudioContext if suspended (browser autoplay policy requires
+    // a user gesture before audio can play)
+    if (audioContext !== null && audioContext.state === "suspended") {
+      void audioContext.resume();
+    }
+
     clickCount++;
 
     if (resetTimer !== null) {
@@ -325,6 +376,11 @@
     cleanupConfetti();
     activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     activeRiffTimeouts = [];
+
+    if (tromboneInstrument !== null) {
+      tromboneInstrument.disconnect();
+      tromboneInstrument = null;
+    }
   }
 
   function initialize(): void {
@@ -333,6 +389,12 @@
 
     // Reset state on each navigation
     resetState();
+
+    // Preload trombone samples in background so first click is instant.
+    // AudioContext creation may fail before any user gesture (browser autoplay
+    // policy), in which case loadTromboneIfNeeded() catches the error silently
+    // and the instrument will be loaded on the first actual click instead.
+    void loadTromboneIfNeeded();
 
     // Register click listener only once
     if (!isClickListenerRegistered) {
