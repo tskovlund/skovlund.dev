@@ -33,26 +33,26 @@ function getStreamingUrl(
 <PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
   <Container>
     <div class="space-y-8 sm:space-y-10">
-      <section class="animate">
+      <section
+        class="animate text-center sm:text-left after:block after:clear-both after:content-['']"
+      >
         <div
-          class="flex flex-col sm:flex-row gap-8 sm:gap-10 items-center sm:items-center"
+          class="mx-auto mb-6 w-36 h-36 sm:mx-0 sm:mb-6 sm:mr-10 sm:float-left sm:w-44 sm:h-44 sm:rounded-br-[4.5rem] [shape-outside:margin-box]"
         >
           <Image
             src={portrait}
             alt={about.portraitAlt}
             width={176}
             height={176}
-            class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover shrink-0"
+            class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover"
           />
-          <div class="space-y-4 text-center sm:text-left">
-            <p>
-              <RichText segments={about.intro} />
-            </p>
-            <p>
-              <RichText segments={about.currentWork} />
-            </p>
-          </div>
         </div>
+        <p>
+          <RichText segments={about.intro} />
+        </p>
+        <p class="mt-4">
+          <RichText segments={about.currentWork} />
+        </p>
       </section>
 
       <section class="animate space-y-4">
