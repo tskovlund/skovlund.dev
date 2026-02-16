@@ -17,12 +17,7 @@ import {
   updateColorSchemeButtons,
   closeAllSettingsPanels,
 } from "./theme";
-import {
-  updateActiveNavLink,
-  resetMobileMenu,
-  positionNavTagline,
-  hideNavTagline,
-} from "./navigation";
+import { updateActiveNavLink, resetMobileMenu } from "./navigation";
 import { setupTypewriter } from "./typewriter";
 
 // ---------------------------------------------------------------------------
@@ -129,32 +124,6 @@ document.addEventListener("keydown", (keyboardEvent) => {
   if (keyboardEvent.key === "Escape") {
     closeAllSettingsPanels();
   }
-});
-
-// Nav link hover taglines (desktop only, skip on touch devices)
-let hasTouchInput = false;
-document.addEventListener(
-  "touchstart",
-  () => {
-    hasTouchInput = true;
-  },
-  { once: true },
-);
-
-document.addEventListener("mouseover", (mouseOverEvent) => {
-  if (hasTouchInput) return;
-
-  const hoveredNavLink = (mouseOverEvent.target as HTMLElement).closest(
-    "header nav a",
-  );
-  if (!hoveredNavLink) return;
-
-  positionNavTagline(hoveredNavLink);
-});
-
-document.addEventListener("mouseout", (mouseOutEvent) => {
-  if (!(mouseOutEvent.target as HTMLElement).closest("header nav a")) return;
-  hideNavTagline();
 });
 
 // System theme preference changes

@@ -1,17 +1,6 @@
 // ---------------------------------------------------------------------------
-// Navigation state, mobile menu, and tagline hover positioning
+// Navigation state and mobile menu
 // ---------------------------------------------------------------------------
-
-import { pages } from "@i18n/en";
-
-const TAGLINE_INSET_PX = 48;
-
-export const PAGE_DESCRIPTIONS: Record<string, string> = {
-  "/about": pages.about.description,
-  "/blog": pages.blog.description,
-  "/projects": pages.projects.description,
-  "/shelf": pages.shelf.description,
-};
 
 // ---------------------------------------------------------------------------
 // Active nav highlighting
@@ -52,44 +41,4 @@ export function resetMobileMenu(): void {
   if (menuToggleButton) {
     menuToggleButton.setAttribute("aria-expanded", "false");
   }
-}
-
-// ---------------------------------------------------------------------------
-// Nav tagline positioning
-// ---------------------------------------------------------------------------
-
-export function positionNavTagline(hoveredNavLink: Element): void {
-  const hoveredPath =
-    (hoveredNavLink.getAttribute("href") ?? "").replace(/\/$/, "") || "/";
-  const hoveredDescription = PAGE_DESCRIPTIONS[hoveredPath];
-  if (!hoveredDescription) return;
-
-  const taglineElement = document.getElementById("nav-tagline");
-  if (!taglineElement) return;
-
-  taglineElement.textContent = hoveredDescription;
-
-  // Position aligned with hovered link. The tagline is position:absolute
-  // inside its offset parent (the Container), so convert viewport coords
-  // to parent-relative coords.
-  const parentLeft =
-    taglineElement.offsetParent?.getBoundingClientRect().left ?? 0;
-  const linkLeft = hoveredNavLink.getBoundingClientRect().left;
-  taglineElement.style.left = linkLeft - parentLeft + "px";
-  taglineElement.classList.remove("hidden");
-
-  // Clamp so the tagline doesn't overflow the offset parent's right edge
-  const taglineRect = taglineElement.getBoundingClientRect();
-  const parentRight =
-    (taglineElement.offsetParent?.getBoundingClientRect().right ??
-      window.innerWidth) - TAGLINE_INSET_PX;
-  if (taglineRect.right > parentRight) {
-    taglineElement.style.left =
-      parentRight - parentLeft - taglineRect.width + "px";
-  }
-}
-
-export function hideNavTagline(): void {
-  const taglineElement = document.getElementById("nav-tagline");
-  if (taglineElement) taglineElement.classList.add("hidden");
 }
