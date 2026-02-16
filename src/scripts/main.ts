@@ -177,9 +177,9 @@ document.addEventListener("astro:before-swap", (swapEvent) => {
   const transitionEvent = swapEvent as TransitionBeforeSwapEvent;
 
   // Remove duplicate font links from new document
-  [
-    ...transitionEvent.newDocument.head.querySelectorAll('link[as="font"]'),
-  ].forEach((fontLink) => fontLink.remove());
+  transitionEvent.newDocument.head
+    .querySelectorAll('link[as="font"]')
+    .forEach((fontLink) => fontLink.remove());
 
   // Pre-reveal animated elements so they're at final opacity/position when
   // the View Transition captures the new page snapshot. Without this, the
@@ -190,17 +190,10 @@ document.addEventListener("astro:before-swap", (swapEvent) => {
     .forEach((element) => element.classList.add("show"));
 
   // Apply theme to new document before swap to prevent flash
-  const savedTheme = localStorage.getItem("theme");
-  const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)",
-  ).matches;
-  const shouldBeDarkMode =
-    savedTheme === "dark" || (savedTheme !== "light" && prefersDarkMode);
-  if (shouldBeDarkMode) {
-    transitionEvent.newDocument.documentElement.classList.add("dark");
-  } else {
-    transitionEvent.newDocument.documentElement.classList.remove("dark");
-  }
+  transitionEvent.newDocument.documentElement.classList.toggle(
+    "dark",
+    shouldBeDark(),
+  );
 
   // Apply color scheme to new document before swap to prevent flash
   const savedColorScheme = localStorage.getItem("colorScheme");
@@ -255,11 +248,7 @@ function revealAnimatedElements(delayBetweenMs: number): void {
 // ---------------------------------------------------------------------------
 
 function handleScroll(): void {
-  if (window.scrollY > 0) {
-    document.documentElement.classList.add("scrolled");
-  } else {
-    document.documentElement.classList.remove("scrolled");
-  }
+  document.documentElement.classList.toggle("scrolled", window.scrollY > 0);
 
   const backToTopButton = document.getElementById("back-to-top");
   if (backToTopButton) {

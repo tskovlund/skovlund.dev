@@ -18,17 +18,7 @@ export function shouldBeDark(): boolean {
 export function applyTheme(dark: boolean): void {
   // Temporarily disable transitions to prevent flash during theme switch
   const transitionBlocker = document.createElement("style");
-  transitionBlocker.appendChild(
-    document.createTextNode(
-      "* {" +
-        "-webkit-transition: none !important;" +
-        "-moz-transition: none !important;" +
-        "-o-transition: none !important;" +
-        "-ms-transition: none !important;" +
-        "transition: none !important;" +
-        "}",
-    ),
-  );
+  transitionBlocker.textContent = "* { transition: none !important; }";
   document.head.appendChild(transitionBlocker);
 
   document.documentElement.classList.toggle("dark", dark);
@@ -46,11 +36,7 @@ export function updateThemeButtons(): void {
     const isActive =
       (button as HTMLElement).dataset.themeButton === activeTheme;
     button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    if (isActive) {
-      button.classList.add("theme-active");
-    } else {
-      button.classList.remove("theme-active");
-    }
+    button.classList.toggle("theme-active", isActive);
   });
 }
 
@@ -65,13 +51,9 @@ export function applyColorScheme(): void {
   // Validate saved scheme against available scheme buttons in the DOM
   const schemeButtons = document.querySelectorAll("[data-scheme-button]");
   if (schemeButtons.length > 0) {
-    let isValidScheme = false;
-    schemeButtons.forEach((button) => {
-      if ((button as HTMLElement).dataset.schemeButton === savedScheme) {
-        isValidScheme = true;
-      }
-    });
-
+    const isValidScheme = Array.from(schemeButtons).some(
+      (button) => (button as HTMLElement).dataset.schemeButton === savedScheme,
+    );
     if (!isValidScheme) {
       effectiveScheme = DEFAULT_COLOR_SCHEME;
       localStorage.setItem("colorScheme", effectiveScheme);
@@ -89,11 +71,7 @@ export function updateColorSchemeButtons(): void {
     const isActive =
       (button as HTMLElement).dataset.schemeButton === activeScheme;
     button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    if (isActive) {
-      button.classList.add("scheme-active");
-    } else {
-      button.classList.remove("scheme-active");
-    }
+    button.classList.toggle("scheme-active", isActive);
   });
 }
 

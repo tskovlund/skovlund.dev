@@ -24,23 +24,16 @@ export function updateActiveNavLink(): void {
   navLinks.forEach((navLink) => {
     const linkPath =
       (navLink.getAttribute("href") ?? "").replace(/\/$/, "") || "/";
-    if (
+    navLink.classList.toggle(
+      "nav-active",
       currentPath === linkPath ||
-      (linkPath !== "/" && currentPath.startsWith(linkPath + "/"))
-    ) {
-      navLink.classList.add("nav-active");
-    } else {
-      navLink.classList.remove("nav-active");
-    }
+        (linkPath !== "/" && currentPath.startsWith(linkPath + "/")),
+    );
   });
 
   const homeNavLink = document.getElementById("nav-home");
   if (homeNavLink) {
-    if (currentPath === "/") {
-      homeNavLink.classList.add("nav-active");
-    } else {
-      homeNavLink.classList.remove("nav-active");
-    }
+    homeNavLink.classList.toggle("nav-active", currentPath === "/");
   }
 }
 
