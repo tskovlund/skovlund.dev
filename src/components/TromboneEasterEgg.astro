@@ -130,6 +130,9 @@
     });
   }
 
+  // Number of extra beats to keep pulsing after the riff ends
+  const PULSE_EXTRA_BEATS = 4;
+
   async function playRiff(portraitElement: HTMLElement | null): Promise<void> {
     const instrument = await loadTromboneIfNeeded();
     if (instrument === null) return;
@@ -138,6 +141,7 @@
     activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     activeRiffTimeouts = [];
 
+    // Schedule notes
     LICK_RIFF_SCHEDULE.forEach((scheduledNote) => {
       const timeoutId = window.setTimeout(() => {
         instrument.start({
@@ -145,12 +149,23 @@
           velocity: LICK_RIFF_VELOCITY,
           duration: scheduledNote.durationMs / 1000,
         });
-        if (portraitElement !== null) {
-          pulsePortraitGlow(portraitElement);
-        }
       }, scheduledNote.offsetMs);
       activeRiffTimeouts.push(timeoutId);
     });
+
+    // Schedule glow pulses on quarter-note beats during the riff, then
+    // continue for PULSE_EXTRA_BEATS more beats at the same tempo.
+    // The riff spans 4 beats (8 eighth notes); total pulse count is 4 + extra.
+    if (portraitElement !== null) {
+      const riffBeats = 4;
+      const totalPulseBeats = riffBeats + PULSE_EXTRA_BEATS;
+      for (let beatIndex = 0; beatIndex < totalPulseBeats; beatIndex++) {
+        const pulseTimeoutId = window.setTimeout(() => {
+          pulsePortraitGlow(portraitElement);
+        }, beatIndex * LICK_QUARTER_NOTE_MS);
+        activeRiffTimeouts.push(pulseTimeoutId);
+      }
+    }
   }
 
   function getThemeColors(): string[] {
