@@ -1,6 +1,7 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
+import AmbientSound from "@components/AmbientSound.astro";
 import { Sun, Moon, Monitor, Menu, X } from "@lucide/astro";
 import { site, nav } from "@i18n/en";
 ---
@@ -69,6 +70,7 @@ import { site, nav } from "@i18n/en";
               class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
             />
           </button>
+          <AmbientSound />
         </div>
       </div>
 
@@ -136,6 +138,7 @@ import { site, nav } from "@i18n/en";
             class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
           />
         </button>
+        <AmbientSound />
       </div>
     </div>
   </Container>

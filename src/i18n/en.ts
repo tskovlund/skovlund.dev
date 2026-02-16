@@ -327,6 +327,23 @@ export const about = {
 };
 
 // ---------------------------------------------------------------------------
+// Ambient sound player
+// ---------------------------------------------------------------------------
+
+export const ambientSound = {
+  trigger: "Ambient sounds",
+  sounds: {
+    rain: "Rain",
+    coffee: "Coffee",
+    fireplace: "Fire",
+    nature: "Nature",
+  },
+  volume: "Volume",
+  play: "Play",
+  pause: "Pause",
+} as const;
+
+// ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
