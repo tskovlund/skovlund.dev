@@ -119,6 +119,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
   const TYPEWRITER_PAUSE_BEFORE_DELETE_MS = 2500;
   const TYPEWRITER_PAUSE_AFTER_DELETE_MS = 150;
   const DEFAULT_COLOR_SCHEME = "tokyo-night";
+  const TAGLINE_INSET_PX = 48;
 
   const PAGE_DESCRIPTIONS: Record<string, string> = {
     "/about": pages.about.description,
@@ -258,8 +259,8 @@ const { title, description, image = "/nano.png" } = Astro.props;
     // Clamp so the tagline doesn't overflow the offset parent's right edge
     const taglineRect = taglineElement.getBoundingClientRect();
     const parentRight =
-      taglineElement.offsetParent?.getBoundingClientRect().right ??
-      window.innerWidth;
+      (taglineElement.offsetParent?.getBoundingClientRect().right ??
+        window.innerWidth) - TAGLINE_INSET_PX;
     if (taglineRect.right > parentRight) {
       taglineElement.style.left =
         parentRight - parentLeft - taglineRect.width + "px";
