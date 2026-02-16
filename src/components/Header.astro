@@ -1,8 +1,8 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
-import { Sun, Moon, Monitor, Menu, X } from "@lucide/astro";
-import { site, nav, colorSchemes } from "@i18n/en";
+import { Settings, Sun, Moon, Monitor, Menu, X } from "@lucide/astro";
+import { site, nav, settings, colorSchemes } from "@i18n/en";
 ---
 
 <header>
@@ -16,7 +16,7 @@ import { site, nav, colorSchemes } from "@i18n/en";
         {site.brandName}
       </a>
 
-      <!-- Desktop nav + theme -->
+      <!-- Desktop nav + settings -->
       <div class="hidden sm:flex items-center gap-3">
         <nav class="flex gap-1.5 text-base">
           <Link href="/about" underline={false}>{nav.about}</Link>
@@ -34,88 +34,224 @@ import { site, nav, colorSchemes } from "@i18n/en";
           <Link href="/shelf" underline={false}>{nav.shelf}</Link>
         </nav>
         <div
-          class="flex items-center gap-0.5 ml-1 border-l border-tn-light-surface dark:border-tn-dark-surface pl-3"
+          class="flex items-center ml-1 border-l border-tn-light-surface dark:border-tn-dark-surface pl-3"
         >
-          <button
-            data-theme-button="light"
-            aria-label="Light theme"
-            aria-pressed="false"
-            class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-          >
-            <Sun
-              size={15}
-              class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-            />
-          </button>
-          <button
-            data-theme-button="dark"
-            aria-label="Dark theme"
-            aria-pressed="false"
-            class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-          >
-            <Moon
-              size={15}
-              class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-            />
-          </button>
-          <button
-            data-theme-button="system"
-            aria-label="System theme"
-            aria-pressed="false"
-            class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-          >
-            <Monitor
-              size={15}
-              class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-            />
-          </button>
-        </div>
-        <div
-          class="flex items-center gap-0.5 ml-1 border-l border-tn-light-surface dark:border-tn-dark-surface pl-3"
-        >
-          {
-            colorSchemes.map((scheme) => (
-              <button
-                data-scheme-button={scheme.id}
-                aria-label={`${scheme.label} color scheme`}
-                aria-pressed="false"
-                class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-              >
-                <span
-                  class="size-2.5 rounded-full transition-transform duration-200 group-hover:scale-125"
-                  style={`background-color: ${scheme.selectorColor}`}
+          <div class="relative" data-settings-root>
+            <button
+              data-settings-trigger
+              aria-label={settings.trigger}
+              aria-expanded="false"
+              class="group size-7 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+            >
+              <Settings
+                size={15}
+                class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
+              />
+            </button>
+
+            <div
+              data-settings-panel
+              class="settings-panel hidden absolute right-0 top-full mt-2 w-56 p-3 bg-tn-light-bg-alt dark:bg-tn-dark-bg-alt border border-tn-light-surface dark:border-tn-dark-surface rounded-lg shadow-lg z-50 font-mono"
+            >
+              <div class="flex flex-col gap-3">
+                <!-- Appearance -->
+                <div class="flex flex-col gap-1.5">
+                  <span
+                    class="text-[11px] uppercase tracking-wider text-tn-light-fg-muted/60 dark:text-tn-dark-fg-muted/60"
+                  >
+                    {settings.appearance}
+                  </span>
+                  <div class="flex gap-1">
+                    <button
+                      data-theme-button="light"
+                      aria-label={settings.themeLight}
+                      aria-pressed="false"
+                      class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                    >
+                      <Sun size={13} class="shrink-0" aria-hidden="true" />
+                      <span>{settings.themeLight}</span>
+                    </button>
+                    <button
+                      data-theme-button="dark"
+                      aria-label={settings.themeDark}
+                      aria-pressed="false"
+                      class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                    >
+                      <Moon size={13} class="shrink-0" aria-hidden="true" />
+                      <span>{settings.themeDark}</span>
+                    </button>
+                    <button
+                      data-theme-button="system"
+                      aria-label={settings.themeSystem}
+                      aria-pressed="false"
+                      class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                    >
+                      <Monitor size={13} class="shrink-0" aria-hidden="true" />
+                      <span>{settings.themeSystem}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Divider -->
+                <div
+                  class="h-px bg-tn-light-surface/40 dark:bg-tn-dark-surface/40"
                   aria-hidden="true"
-                />
-              </button>
-            ))
-          }
+                >
+                </div>
+
+                <!-- Color scheme -->
+                <div class="flex flex-col gap-1.5">
+                  <span
+                    class="text-[11px] uppercase tracking-wider text-tn-light-fg-muted/60 dark:text-tn-dark-fg-muted/60"
+                  >
+                    {settings.colorScheme}
+                  </span>
+                  <div class="flex flex-col gap-0.5">
+                    {
+                      colorSchemes.map((scheme) => (
+                        <button
+                          data-scheme-button={scheme.id}
+                          aria-label={`${scheme.label} color scheme`}
+                          aria-pressed="false"
+                          class="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
+                        >
+                          <span
+                            class="size-2.5 rounded-full shrink-0"
+                            style={`background-color: ${scheme.selectorColor}`}
+                            aria-hidden="true"
+                          />
+                          <span>{scheme.label}</span>
+                        </button>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Mobile hamburger -->
-      <button
-        id="menu-toggle"
-        class="sm:hidden size-9 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-      >
-        <Menu
-          size={20}
-          id="menu-open-icon"
-          class="stroke-current"
-          aria-hidden="true"
-        />
-        <X
-          size={20}
-          id="menu-close-icon"
-          class="stroke-current hidden"
-          aria-hidden="true"
-        />
-      </button>
+      <!-- Mobile: settings + hamburger -->
+      <div class="flex sm:hidden items-center gap-1">
+        <div class="relative" data-settings-root>
+          <button
+            data-settings-trigger
+            aria-label={settings.trigger}
+            aria-expanded="false"
+            class="group size-9 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+          >
+            <Settings
+              size={18}
+              class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
+            />
+          </button>
+
+          <div
+            data-settings-panel
+            class="settings-panel hidden absolute right-0 top-full mt-2 w-56 p-3 bg-tn-light-bg-alt dark:bg-tn-dark-bg-alt border border-tn-light-surface dark:border-tn-dark-surface rounded-lg shadow-lg z-50 font-mono"
+          >
+            <div class="flex flex-col gap-3">
+              <!-- Appearance -->
+              <div class="flex flex-col gap-1.5">
+                <span
+                  class="text-[11px] uppercase tracking-wider text-tn-light-fg-muted/60 dark:text-tn-dark-fg-muted/60"
+                >
+                  {settings.appearance}
+                </span>
+                <div class="flex gap-1">
+                  <button
+                    data-theme-button="light"
+                    aria-label={settings.themeLight}
+                    aria-pressed="false"
+                    class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                  >
+                    <Sun size={13} class="shrink-0" aria-hidden="true" />
+                    <span>{settings.themeLight}</span>
+                  </button>
+                  <button
+                    data-theme-button="dark"
+                    aria-label={settings.themeDark}
+                    aria-pressed="false"
+                    class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                  >
+                    <Moon size={13} class="shrink-0" aria-hidden="true" />
+                    <span>{settings.themeDark}</span>
+                  </button>
+                  <button
+                    data-theme-button="system"
+                    aria-label={settings.themeSystem}
+                    aria-pressed="false"
+                    class="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200"
+                  >
+                    <Monitor size={13} class="shrink-0" aria-hidden="true" />
+                    <span>{settings.themeSystem}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Divider -->
+              <div
+                class="h-px bg-tn-light-surface/40 dark:bg-tn-dark-surface/40"
+                aria-hidden="true"
+              >
+              </div>
+
+              <!-- Color scheme -->
+              <div class="flex flex-col gap-1.5">
+                <span
+                  class="text-[11px] uppercase tracking-wider text-tn-light-fg-muted/60 dark:text-tn-dark-fg-muted/60"
+                >
+                  {settings.colorScheme}
+                </span>
+                <div class="flex flex-col gap-0.5">
+                  {
+                    colorSchemes.map((scheme) => (
+                      <button
+                        data-scheme-button={scheme.id}
+                        aria-label={`${scheme.label} color scheme`}
+                        aria-pressed="false"
+                        class="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
+                      >
+                        <span
+                          class="size-2.5 rounded-full shrink-0"
+                          style={`background-color: ${scheme.selectorColor}`}
+                          aria-hidden="true"
+                        />
+                        <span>{scheme.label}</span>
+                      </button>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          id="menu-toggle"
+          class="size-9 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <Menu
+            size={20}
+            id="menu-open-icon"
+            class="stroke-current"
+            aria-hidden="true"
+          />
+          <X
+            size={20}
+            id="menu-close-icon"
+            class="stroke-current hidden"
+            aria-hidden="true"
+          />
+        </button>
+      </div>
     </div>
 
-    <!-- Mobile menu -->
+    <!-- Mobile menu (navigation only — settings are in the dropdown) -->
     <div id="mobile-menu" class="hidden sm:hidden pt-4 pb-2 font-mono">
       <nav class="flex flex-col gap-3 text-base">
         <Link href="/about" underline={false}>{nav.about}</Link>
@@ -123,59 +259,6 @@ import { site, nav, colorSchemes } from "@i18n/en";
         <Link href="/projects" underline={false}>{nav.projects}</Link>
         <Link href="/shelf" underline={false}>{nav.shelf}</Link>
       </nav>
-      <div
-        class="flex items-center gap-1 mt-4 pt-3 border-t border-tn-light-surface/30 dark:border-tn-dark-surface/30"
-      >
-        <button
-          data-theme-button="light"
-          aria-label="Light theme"
-          class="group size-8 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-        >
-          <Sun
-            size={16}
-            class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-          />
-        </button>
-        <button
-          data-theme-button="dark"
-          aria-label="Dark theme"
-          class="group size-8 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-        >
-          <Moon
-            size={16}
-            class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-          />
-        </button>
-        <button
-          data-theme-button="system"
-          aria-label="System theme"
-          class="group size-8 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-        >
-          <Monitor
-            size={16}
-            class="stroke-current group-hover:stroke-tn-light-fg group-hover:dark:stroke-tn-dark-fg transition-colors duration-300"
-          />
-        </button>
-        <span
-          class="mx-1.5 h-4 w-px bg-tn-light-surface/30 dark:bg-tn-dark-surface/30"
-          aria-hidden="true"></span>
-        {
-          colorSchemes.map((scheme) => (
-            <button
-              data-scheme-button={scheme.id}
-              aria-label={`${scheme.label} color scheme`}
-              aria-pressed="false"
-              class="group size-8 flex items-center justify-center rounded-full hover:bg-tn-light-surface/50 dark:hover:bg-tn-dark-surface/50 transition-colors duration-300"
-            >
-              <span
-                class="size-3 rounded-full transition-transform duration-200 group-hover:scale-125"
-                style={`background-color: ${scheme.selectorColor}`}
-                aria-hidden="true"
-              />
-            </button>
-          ))
-        }
-      </div>
     </div>
   </Container>
 

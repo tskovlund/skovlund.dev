@@ -134,10 +134,38 @@ const { title, description, image = "/nano.png" } = Astro.props;
   // Chrome listeners — registered once at module load, use event delegation
   // ---------------------------------------------------------------------------
 
-  // Click delegation: theme buttons, color scheme buttons, mobile menu toggle,
-  // back-to-top
+  // Click delegation: settings panel, theme buttons, color scheme buttons,
+  // mobile menu toggle, back-to-top
   document.addEventListener("click", (clickEvent) => {
     const clickTarget = clickEvent.target as HTMLElement;
+
+    // Settings panel trigger — toggle the panel that contains this trigger
+    const settingsTrigger = clickTarget.closest("[data-settings-trigger]");
+    if (settingsTrigger instanceof HTMLElement) {
+      const settingsRoot = settingsTrigger.closest("[data-settings-root]");
+      const settingsPanel = settingsRoot?.querySelector(
+        "[data-settings-panel]",
+      );
+      if (settingsPanel) {
+        const isOpen = !settingsPanel.classList.contains("hidden");
+        // Close all open panels first (handles the case where both mobile and
+        // desktop panels exist, e.g. during resize)
+        closeAllSettingsPanels();
+        if (!isOpen) {
+          settingsPanel.classList.remove("hidden");
+          settingsTrigger.setAttribute("aria-expanded", "true");
+        }
+      }
+      return;
+    }
+
+    // Clicks inside a settings panel should not close it
+    if (clickTarget.closest("[data-settings-panel]")) {
+      // Fall through to theme/scheme button handlers below
+    } else {
+      // Click outside any settings panel — close all
+      closeAllSettingsPanels();
+    }
 
     const themeButton = clickTarget.closest("[data-theme-button]");
     if (themeButton instanceof HTMLElement) {
@@ -191,6 +219,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
     if (clickTarget.closest("#back-to-top")) {
       clickEvent.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  // Close settings panel on Escape
+  document.addEventListener("keydown", (keyboardEvent) => {
+    if (keyboardEvent.key === "Escape") {
+      closeAllSettingsPanels();
     }
   });
 
@@ -287,6 +322,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     revealAnimatedElements(isFirstLoad ? STAGGER_DELAY_MS : 0);
     isFirstLoad = false;
 
+    closeAllSettingsPanels();
     resetMobileMenu();
     updateActiveNavLink();
     setupTypewriter();
@@ -542,6 +578,19 @@ const { title, description, image = "/nano.png" } = Astro.props;
       } else {
         button.classList.remove("theme-active");
       }
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Settings panel
+  // ---------------------------------------------------------------------------
+
+  function closeAllSettingsPanels(): void {
+    document.querySelectorAll("[data-settings-panel]").forEach((panel) => {
+      panel.classList.add("hidden");
+    });
+    document.querySelectorAll("[data-settings-trigger]").forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
     });
   }
 

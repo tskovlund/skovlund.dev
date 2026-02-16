@@ -345,6 +345,19 @@ export const colorSchemes: readonly ColorScheme[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Settings panel
+// ---------------------------------------------------------------------------
+
+export const settings = {
+  trigger: "Settings",
+  appearance: "Appearance",
+  colorScheme: "Color scheme",
+  themeLight: "Light",
+  themeDark: "Dark",
+  themeSystem: "System",
+} as const;
+
+// ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
