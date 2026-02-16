@@ -25,7 +25,7 @@
 
   /* Tokyo Night Day (light) */
   --color-tn-light-bg: #e1e2e7;
-  --color-tn-light-bg-alt: #d5d6db;
+  --color-tn-light-bg-alt: #d0d5e3;
   --color-tn-light-surface: #c4c8da;
   --color-tn-light-fg: #3760bf;
   --color-tn-light-fg-muted: #6172b0;
@@ -110,9 +110,9 @@ html[data-color-scheme="nord"] {
 html[data-color-scheme="nightfox"] {
   --color-tn-dark-bg: #192330;
   --color-tn-dark-bg-alt: #131a24;
-  --color-tn-dark-surface: #283b4d;
+  --color-tn-dark-surface: #29394f;
   --color-tn-dark-fg: #cdcecf;
-  --color-tn-dark-fg-muted: #aeafb0;
+  --color-tn-dark-fg-muted: #71839b;
   --color-tn-dark-accent: #719cd6;
   --color-tn-dark-accent-hover: #63cdcf;
   --color-tn-dark-warm: #9d79d6;
@@ -123,18 +123,18 @@ html[data-color-scheme="nightfox"] {
   --color-tn-dark-cyan: #63cdcf;
 
   --color-tn-light-bg: #f6f2ee;
-  --color-tn-light-bg-alt: #eaeaea;
-  --color-tn-light-surface: #dfdad4;
-  --color-tn-light-fg: #3d484d;
-  --color-tn-light-fg-muted: #738091;
-  --color-tn-light-accent: #4d688e;
-  --color-tn-light-accent-hover: #4d836e;
-  --color-tn-light-warm: #8e6f98;
-  --color-tn-light-green: #4d836e;
-  --color-tn-light-red: #b34d5a;
-  --color-tn-light-orange: #c6723b;
-  --color-tn-light-yellow: #a07828;
-  --color-tn-light-cyan: #5a8a82;
+  --color-tn-light-bg-alt: #e4dcd4;
+  --color-tn-light-surface: #d3c7bb;
+  --color-tn-light-fg: #3d2b5a;
+  --color-tn-light-fg-muted: #824d5b;
+  --color-tn-light-accent: #2848a9;
+  --color-tn-light-accent-hover: #287980;
+  --color-tn-light-warm: #6e33ce;
+  --color-tn-light-green: #396847;
+  --color-tn-light-red: #a5222f;
+  --color-tn-light-orange: #955f61;
+  --color-tn-light-yellow: #ac5402;
+  --color-tn-light-cyan: #287980;
 }
 
 html[data-color-scheme="rose-pine"] {
