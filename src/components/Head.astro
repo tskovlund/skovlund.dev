@@ -223,6 +223,14 @@ const { title, description, image = "/nano.png" } = Astro.props;
       ...transitionEvent.newDocument.head.querySelectorAll('link[as="font"]'),
     ].forEach((fontLink) => fontLink.remove());
 
+    // Pre-reveal animated elements so they're at final opacity/position when
+    // the View Transition captures the new page snapshot. Without this, the
+    // .animate class leaves elements at opacity:0 + translate-y:3, creating a
+    // gap between the transition fade-in and content appearing.
+    transitionEvent.newDocument
+      .querySelectorAll(".animate")
+      .forEach((element) => element.classList.add("show"));
+
     // Apply theme to new document before swap to prevent flash
     const savedTheme = localStorage.getItem("theme");
     const prefersDarkMode = window.matchMedia(
