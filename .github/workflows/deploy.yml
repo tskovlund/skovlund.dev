@@ -66,26 +66,11 @@ jobs:
         with:
           script: |
             const body = `🔍 **Preview deployment ready:** ${process.env.DEPLOYMENT_URL}`;
-            const { data: comments } = await github.rest.issues.listComments({
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
+              body,
             });
-            const existing = comments.find(c => c.body.includes('Preview deployment ready:'));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
         env:
           DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
