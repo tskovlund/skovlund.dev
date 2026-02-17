@@ -173,7 +173,7 @@ html[data-color-scheme="kanagawa"] {
   --color-tn-dark-bg-alt: #16161d;
   --color-tn-dark-surface: #2a2a37;
   --color-tn-dark-fg: #dcd7ba;
-  --color-tn-dark-fg-muted: #938aa9;
+  --color-tn-dark-fg-muted: #727169;
   --color-tn-dark-accent: #7e9cd8;
   --color-tn-dark-accent-hover: #7fb4ca;
   --color-tn-dark-warm: #957fb8;
@@ -185,12 +185,12 @@ html[data-color-scheme="kanagawa"] {
 
   /* Light: Kanagawa Lotus — github.com/rebelot/kanagawa.nvim */
   --color-tn-light-bg: #f2ecbc;
-  --color-tn-light-bg-alt: #dcd5ac;
-  --color-tn-light-surface: #c9cbd1;
+  --color-tn-light-bg-alt: #e5ddb0;
+  --color-tn-light-surface: #d5cea3;
   --color-tn-light-fg: #43436c;
-  --color-tn-light-fg-muted: #716e61;
-  --color-tn-light-accent: #4d699b;
-  --color-tn-light-accent-hover: #4e8ca2;
+  --color-tn-light-fg-muted: #8a8980;
+  --color-tn-light-accent: #5d57a3;
+  --color-tn-light-accent-hover: #6693bf;
   --color-tn-light-warm: #624c83;
   --color-tn-light-green: #6f894e;
   --color-tn-light-red: #c84053;
@@ -217,10 +217,10 @@ html[data-color-scheme="everforest"] {
 
   /* Light: Everforest Light Medium — github.com/sainnhe/everforest */
   --color-tn-light-bg: #fdf6e3;
-  --color-tn-light-bg-alt: #efebd4;
-  --color-tn-light-surface: #f4f0d9;
+  --color-tn-light-bg-alt: #f4f0d9;
+  --color-tn-light-surface: #efebd4;
   --color-tn-light-fg: #5c6a72;
-  --color-tn-light-fg-muted: #939f91;
+  --color-tn-light-fg-muted: #829181;
   --color-tn-light-accent: #3a94c5;
   --color-tn-light-accent-hover: #35a77c;
   --color-tn-light-warm: #df69ba;
@@ -239,8 +239,8 @@ html[data-color-scheme="dracula"] {
   --color-tn-dark-fg: #f8f8f2;
   --color-tn-dark-fg-muted: #6272a4;
   --color-tn-dark-accent: #bd93f9;
-  --color-tn-dark-accent-hover: #ff79c6;
-  --color-tn-dark-warm: #bd93f9;
+  --color-tn-dark-accent-hover: #8be9fd;
+  --color-tn-dark-warm: #ff79c6;
   --color-tn-dark-green: #50fa7b;
   --color-tn-dark-red: #ff5555;
   --color-tn-dark-orange: #ffb86c;
@@ -249,25 +249,25 @@ html[data-color-scheme="dracula"] {
 
   /* Light: Dracula-derived (inverted palette with matching hues) */
   --color-tn-light-bg: #f8f8f2;
-  --color-tn-light-bg-alt: #eee8e4;
-  --color-tn-light-surface: #d6d6d2;
+  --color-tn-light-bg-alt: #f0f1eb;
+  --color-tn-light-surface: #e6e6df;
   --color-tn-light-fg: #282a36;
   --color-tn-light-fg-muted: #6272a4;
-  --color-tn-light-accent: #7c3aed;
-  --color-tn-light-accent-hover: #d6336c;
-  --color-tn-light-warm: #7c3aed;
-  --color-tn-light-green: #1b9e3e;
-  --color-tn-light-red: #e6194b;
-  --color-tn-light-orange: #d35400;
-  --color-tn-light-yellow: #b8860b;
-  --color-tn-light-cyan: #1a8eab;
+  --color-tn-light-accent: #7c4dbd;
+  --color-tn-light-accent-hover: #1b9ca8;
+  --color-tn-light-warm: #d63384;
+  --color-tn-light-green: #2d9f4e;
+  --color-tn-light-red: #e03131;
+  --color-tn-light-orange: #d4702a;
+  --color-tn-light-yellow: #b5a300;
+  --color-tn-light-cyan: #1b9ca8;
 }
 
 html[data-color-scheme="solarized"] {
   /* Dark: Solarized Dark — ethanschoonover.com/solarized */
   --color-tn-dark-bg: #002b36;
   --color-tn-dark-bg-alt: #073642;
-  --color-tn-dark-surface: #586e75;
+  --color-tn-dark-surface: #073642;
   --color-tn-dark-fg: #839496;
   --color-tn-dark-fg-muted: #586e75;
   --color-tn-dark-accent: #268bd2;
@@ -282,7 +282,7 @@ html[data-color-scheme="solarized"] {
   /* Light: Solarized Light — ethanschoonover.com/solarized */
   --color-tn-light-bg: #fdf6e3;
   --color-tn-light-bg-alt: #eee8d5;
-  --color-tn-light-surface: #93a1a1;
+  --color-tn-light-surface: #eee8d5;
   --color-tn-light-fg: #657b83;
   --color-tn-light-fg-muted: #93a1a1;
   --color-tn-light-accent: #268bd2;
