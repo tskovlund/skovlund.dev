@@ -130,7 +130,8 @@ document.addEventListener("keydown", (keyboardEvent) => {
 window
   .matchMedia("(prefers-color-scheme: dark)")
   .addEventListener("change", (mediaChangeEvent) => {
-    if (localStorage.getItem("theme") === "system") {
+    const savedTheme = localStorage.getItem("theme");
+    if (!savedTheme || savedTheme === "system") {
       applyTheme(mediaChangeEvent.matches);
     }
   });

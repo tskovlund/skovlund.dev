@@ -107,36 +107,6 @@ html[data-color-scheme="nord"] {
   --color-tn-light-cyan: #8fbcbb;
 }
 
-html[data-color-scheme="nightfox"] {
-  --color-tn-dark-bg: #192330;
-  --color-tn-dark-bg-alt: #131a24;
-  --color-tn-dark-surface: #29394f;
-  --color-tn-dark-fg: #cdcecf;
-  --color-tn-dark-fg-muted: #71839b;
-  --color-tn-dark-accent: #719cd6;
-  --color-tn-dark-accent-hover: #63cdcf;
-  --color-tn-dark-warm: #9d79d6;
-  --color-tn-dark-green: #81b29a;
-  --color-tn-dark-red: #c94f6d;
-  --color-tn-dark-orange: #f4a261;
-  --color-tn-dark-yellow: #dbc074;
-  --color-tn-dark-cyan: #63cdcf;
-
-  --color-tn-light-bg: #f6f2ee;
-  --color-tn-light-bg-alt: #e4dcd4;
-  --color-tn-light-surface: #d3c7bb;
-  --color-tn-light-fg: #3d2b5a;
-  --color-tn-light-fg-muted: #824d5b;
-  --color-tn-light-accent: #2848a9;
-  --color-tn-light-accent-hover: #287980;
-  --color-tn-light-warm: #6e33ce;
-  --color-tn-light-green: #396847;
-  --color-tn-light-red: #a5222f;
-  --color-tn-light-orange: #955f61;
-  --color-tn-light-yellow: #ac5402;
-  --color-tn-light-cyan: #287980;
-}
-
 html[data-color-scheme="rose-pine"] {
   --color-tn-dark-bg: #232136;
   --color-tn-dark-bg-alt: #2a273f;
@@ -167,71 +137,7 @@ html[data-color-scheme="rose-pine"] {
   --color-tn-light-cyan: #56949f;
 }
 
-html[data-color-scheme="catppuccin-frappe"] {
-  /* Dark: Catppuccin Frappé — catppuccin.com */
-  --color-tn-dark-bg: #303446;
-  --color-tn-dark-bg-alt: #292c3c;
-  --color-tn-dark-surface: #414559;
-  --color-tn-dark-fg: #c6d0f5;
-  --color-tn-dark-fg-muted: #a5adce;
-  --color-tn-dark-accent: #8caaee;
-  --color-tn-dark-accent-hover: #99d1db;
-  --color-tn-dark-warm: #ca9ee6;
-  --color-tn-dark-green: #a6d189;
-  --color-tn-dark-red: #e78284;
-  --color-tn-dark-orange: #ef9f76;
-  --color-tn-dark-yellow: #e5c890;
-  --color-tn-dark-cyan: #81c8be;
-
-  /* Light: Catppuccin Latte — catppuccin.com */
-  --color-tn-light-bg: #eff1f5;
-  --color-tn-light-bg-alt: #e6e9ef;
-  --color-tn-light-surface: #ccd0da;
-  --color-tn-light-fg: #4c4f69;
-  --color-tn-light-fg-muted: #6c6f85;
-  --color-tn-light-accent: #1e66f5;
-  --color-tn-light-accent-hover: #04a5e5;
-  --color-tn-light-warm: #8839ef;
-  --color-tn-light-green: #40a02b;
-  --color-tn-light-red: #d20f39;
-  --color-tn-light-orange: #fe640b;
-  --color-tn-light-yellow: #df8e1d;
-  --color-tn-light-cyan: #179299;
-}
-
-html[data-color-scheme="catppuccin-macchiato"] {
-  /* Dark: Catppuccin Macchiato — catppuccin.com */
-  --color-tn-dark-bg: #24273a;
-  --color-tn-dark-bg-alt: #1e2030;
-  --color-tn-dark-surface: #363a4f;
-  --color-tn-dark-fg: #cad3f5;
-  --color-tn-dark-fg-muted: #a5adcb;
-  --color-tn-dark-accent: #8aadf4;
-  --color-tn-dark-accent-hover: #91d7e3;
-  --color-tn-dark-warm: #c6a0f6;
-  --color-tn-dark-green: #a6da95;
-  --color-tn-dark-red: #ed8796;
-  --color-tn-dark-orange: #f5a97f;
-  --color-tn-dark-yellow: #eed49f;
-  --color-tn-dark-cyan: #8bd5ca;
-
-  /* Light: Catppuccin Latte — catppuccin.com */
-  --color-tn-light-bg: #eff1f5;
-  --color-tn-light-bg-alt: #e6e9ef;
-  --color-tn-light-surface: #ccd0da;
-  --color-tn-light-fg: #4c4f69;
-  --color-tn-light-fg-muted: #6c6f85;
-  --color-tn-light-accent: #1e66f5;
-  --color-tn-light-accent-hover: #04a5e5;
-  --color-tn-light-warm: #8839ef;
-  --color-tn-light-green: #40a02b;
-  --color-tn-light-red: #d20f39;
-  --color-tn-light-orange: #fe640b;
-  --color-tn-light-yellow: #df8e1d;
-  --color-tn-light-cyan: #179299;
-}
-
-html[data-color-scheme="catppuccin-mocha"] {
+html[data-color-scheme="catppuccin"] {
   /* Dark: Catppuccin Mocha — catppuccin.com */
   --color-tn-dark-bg: #1e1e2e;
   --color-tn-dark-bg-alt: #181825;
@@ -261,6 +167,230 @@ html[data-color-scheme="catppuccin-mocha"] {
   --color-tn-light-orange: #fe640b;
   --color-tn-light-yellow: #df8e1d;
   --color-tn-light-cyan: #179299;
+}
+
+html[data-color-scheme="kanagawa"] {
+  /* Dark: Kanagawa Wave — github.com/rebelot/kanagawa.nvim */
+  --color-tn-dark-bg: #1f1f28;
+  --color-tn-dark-bg-alt: #16161d;
+  --color-tn-dark-surface: #2a2a37;
+  --color-tn-dark-fg: #dcd7ba;
+  --color-tn-dark-fg-muted: #727169;
+  --color-tn-dark-accent: #7e9cd8;
+  --color-tn-dark-accent-hover: #7fb4ca;
+  --color-tn-dark-warm: #957fb8;
+  --color-tn-dark-green: #98bb6c;
+  --color-tn-dark-red: #ff5d62;
+  --color-tn-dark-orange: #ffa066;
+  --color-tn-dark-yellow: #e6c384;
+  --color-tn-dark-cyan: #7aa89f;
+
+  /* Light: Kanagawa Lotus — github.com/rebelot/kanagawa.nvim */
+  --color-tn-light-bg: #f2ecbc;
+  --color-tn-light-bg-alt: #e5ddb0;
+  --color-tn-light-surface: #d5cea3;
+  --color-tn-light-fg: #43436c;
+  --color-tn-light-fg-muted: #8a8980;
+  --color-tn-light-accent: #5d57a3;
+  --color-tn-light-accent-hover: #6693bf;
+  --color-tn-light-warm: #624c83;
+  --color-tn-light-green: #6f894e;
+  --color-tn-light-red: #c84053;
+  --color-tn-light-orange: #cc6d00;
+  --color-tn-light-yellow: #77713f;
+  --color-tn-light-cyan: #5a7785;
+}
+
+html[data-color-scheme="everforest"] {
+  /* Dark: Everforest Dark Medium — github.com/sainnhe/everforest */
+  --color-tn-dark-bg: #2d353b;
+  --color-tn-dark-bg-alt: #232a2e;
+  --color-tn-dark-surface: #343f44;
+  --color-tn-dark-fg: #d3c6aa;
+  --color-tn-dark-fg-muted: #859289;
+  --color-tn-dark-accent: #7fbbb3;
+  --color-tn-dark-accent-hover: #83c092;
+  --color-tn-dark-warm: #d699b6;
+  --color-tn-dark-green: #a7c080;
+  --color-tn-dark-red: #e67e80;
+  --color-tn-dark-orange: #e69875;
+  --color-tn-dark-yellow: #dbbc7f;
+  --color-tn-dark-cyan: #83c092;
+
+  /* Light: Everforest Light Medium — github.com/sainnhe/everforest */
+  --color-tn-light-bg: #fdf6e3;
+  --color-tn-light-bg-alt: #f4f0d9;
+  --color-tn-light-surface: #efebd4;
+  --color-tn-light-fg: #5c6a72;
+  --color-tn-light-fg-muted: #829181;
+  --color-tn-light-accent: #3a94c5;
+  --color-tn-light-accent-hover: #35a77c;
+  --color-tn-light-warm: #df69ba;
+  --color-tn-light-green: #8da101;
+  --color-tn-light-red: #f85552;
+  --color-tn-light-orange: #f57d26;
+  --color-tn-light-yellow: #dfa000;
+  --color-tn-light-cyan: #35a77c;
+}
+
+html[data-color-scheme="dracula"] {
+  /* Dark: Dracula — draculatheme.com */
+  --color-tn-dark-bg: #282a36;
+  --color-tn-dark-bg-alt: #21222c;
+  --color-tn-dark-surface: #44475a;
+  --color-tn-dark-fg: #f8f8f2;
+  --color-tn-dark-fg-muted: #6272a4;
+  --color-tn-dark-accent: #bd93f9;
+  --color-tn-dark-accent-hover: #8be9fd;
+  --color-tn-dark-warm: #ff79c6;
+  --color-tn-dark-green: #50fa7b;
+  --color-tn-dark-red: #ff5555;
+  --color-tn-dark-orange: #ffb86c;
+  --color-tn-dark-yellow: #f1fa8c;
+  --color-tn-dark-cyan: #8be9fd;
+
+  /* Light: Dracula Alucard — draculatheme.com/pro */
+  --color-tn-light-bg: #fffbeb;
+  --color-tn-light-bg-alt: #f5f0dc;
+  --color-tn-light-surface: #cfcfde;
+  --color-tn-light-fg: #1f1f1f;
+  --color-tn-light-fg-muted: #6c664b;
+  --color-tn-light-accent: #644ac9;
+  --color-tn-light-accent-hover: #036a96;
+  --color-tn-light-warm: #a3144d;
+  --color-tn-light-green: #14710a;
+  --color-tn-light-red: #cb3a2a;
+  --color-tn-light-orange: #a34d14;
+  --color-tn-light-yellow: #846e15;
+  --color-tn-light-cyan: #036a96;
+}
+
+html[data-color-scheme="solarized"] {
+  /* Dark: Solarized Dark — ethanschoonover.com/solarized */
+  --color-tn-dark-bg: #002b36;
+  --color-tn-dark-bg-alt: #073642;
+  --color-tn-dark-surface: #073642;
+  --color-tn-dark-fg: #839496;
+  --color-tn-dark-fg-muted: #586e75;
+  --color-tn-dark-accent: #268bd2;
+  --color-tn-dark-accent-hover: #2aa198;
+  --color-tn-dark-warm: #6c71c4;
+  --color-tn-dark-green: #859900;
+  --color-tn-dark-red: #dc322f;
+  --color-tn-dark-orange: #cb4b16;
+  --color-tn-dark-yellow: #b58900;
+  --color-tn-dark-cyan: #2aa198;
+
+  /* Light: Solarized Light — ethanschoonover.com/solarized */
+  --color-tn-light-bg: #fdf6e3;
+  --color-tn-light-bg-alt: #eee8d5;
+  --color-tn-light-surface: #eee8d5;
+  --color-tn-light-fg: #657b83;
+  --color-tn-light-fg-muted: #93a1a1;
+  --color-tn-light-accent: #268bd2;
+  --color-tn-light-accent-hover: #2aa198;
+  --color-tn-light-warm: #6c71c4;
+  --color-tn-light-green: #859900;
+  --color-tn-light-red: #dc322f;
+  --color-tn-light-orange: #cb4b16;
+  --color-tn-light-yellow: #b58900;
+  --color-tn-light-cyan: #2aa198;
+}
+
+html[data-color-scheme="monokai"] {
+  /* Dark: Monokai Pro — monokai.pro */
+  --color-tn-dark-bg: #2d2a2e;
+  --color-tn-dark-bg-alt: #221f22;
+  --color-tn-dark-surface: #403e41;
+  --color-tn-dark-fg: #fcfcfa;
+  --color-tn-dark-fg-muted: #727072;
+  --color-tn-dark-accent: #78dce8;
+  --color-tn-dark-accent-hover: #ab9df2;
+  --color-tn-dark-warm: #ff6188;
+  --color-tn-dark-green: #a9dc76;
+  --color-tn-dark-red: #ff6188;
+  --color-tn-dark-orange: #fc9867;
+  --color-tn-dark-yellow: #ffd866;
+  --color-tn-dark-cyan: #78dce8;
+
+  /* Light: Monokai Pro Light — monokai.pro */
+  --color-tn-light-bg: #faf4f2;
+  --color-tn-light-bg-alt: #f3efed;
+  --color-tn-light-surface: #d8d1d3;
+  --color-tn-light-fg: #3c353a;
+  --color-tn-light-fg-muted: #93888d;
+  --color-tn-light-accent: #1c8ca8;
+  --color-tn-light-accent-hover: #7058be;
+  --color-tn-light-warm: #e14775;
+  --color-tn-light-green: #269d69;
+  --color-tn-light-red: #e14775;
+  --color-tn-light-orange: #e16032;
+  --color-tn-light-yellow: #cc7a0a;
+  --color-tn-light-cyan: #1c8ca8;
+}
+
+html[data-color-scheme="horizon"] {
+  /* Dark: Horizon — github.com/jolaleye/horizon-theme-vscode */
+  --color-tn-dark-bg: #1c1e26;
+  --color-tn-dark-bg-alt: #232530;
+  --color-tn-dark-surface: #2e303e;
+  --color-tn-dark-fg: #d5d8da;
+  --color-tn-dark-fg-muted: #6c6f93;
+  --color-tn-dark-accent: #e95678;
+  --color-tn-dark-accent-hover: #e9436d;
+  --color-tn-dark-warm: #fab795;
+  --color-tn-dark-green: #09f7a0;
+  --color-tn-dark-red: #f43e5c;
+  --color-tn-dark-orange: #f09483;
+  --color-tn-dark-yellow: #fac29a;
+  --color-tn-dark-cyan: #25b0bc;
+
+  /* Light: Horizon Bright — github.com/jolaleye/horizon-theme-vscode */
+  --color-tn-light-bg: #fdf0ed;
+  --color-tn-light-bg-alt: #fadad1;
+  --color-tn-light-surface: #f9cbbe;
+  --color-tn-light-fg: #06060c;
+  --color-tn-light-fg-muted: #333333;
+  --color-tn-light-accent: #da103f;
+  --color-tn-light-accent-hover: #e84a72;
+  --color-tn-light-warm: #f77d26;
+  --color-tn-light-green: #07da8c;
+  --color-tn-light-red: #f43e5c;
+  --color-tn-light-orange: #dc3318;
+  --color-tn-light-yellow: #f6661e;
+  --color-tn-light-cyan: #1d8991;
+}
+
+html[data-color-scheme="night-owl"] {
+  /* Dark: Night Owl — github.com/sdras/night-owl-vscode-theme */
+  --color-tn-dark-bg: #011627;
+  --color-tn-dark-bg-alt: #01111d;
+  --color-tn-dark-surface: #1d3b53;
+  --color-tn-dark-fg: #d6deeb;
+  --color-tn-dark-fg-muted: #637777;
+  --color-tn-dark-accent: #82aaff;
+  --color-tn-dark-accent-hover: #80cbc4;
+  --color-tn-dark-warm: #c792ea;
+  --color-tn-dark-green: #c5e478;
+  --color-tn-dark-red: #ef5350;
+  --color-tn-dark-orange: #f78c6c;
+  --color-tn-dark-yellow: #ecc48d;
+  --color-tn-dark-cyan: #7fdbca;
+
+  /* Light: Light Owl — github.com/sdras/night-owl-vscode-theme */
+  --color-tn-light-bg: #fbfbfb;
+  --color-tn-light-bg-alt: #f0f0f0;
+  --color-tn-light-surface: #e0e0e0;
+  --color-tn-light-fg: #403f53;
+  --color-tn-light-fg-muted: #989fb1;
+  --color-tn-light-accent: #4876d6;
+  --color-tn-light-accent-hover: #2aa298;
+  --color-tn-light-warm: #994cc3;
+  --color-tn-light-green: #08916a;
+  --color-tn-light-red: #de3d3b;
+  --color-tn-light-orange: #aa0982;
+  --color-tn-light-yellow: #daaa01;
+  --color-tn-light-cyan: #0c969b;
 }
 
 html {

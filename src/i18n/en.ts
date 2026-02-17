@@ -91,7 +91,7 @@ export const home = {
     university: {
       name: "Aarhus University",
       abbreviation: "AU",
-      href: "https://international.au.dk",
+      href: "https://au.dk",
       degreeLabel: "MSc in CS",
     },
   },
@@ -131,7 +131,7 @@ export const about = {
     "I'm Thomas — a software engineer with an MSc in Computer Science from ",
     {
       label: "Aarhus University",
-      href: "https://international.au.dk",
+      href: "https://au.dk",
       external: true,
     },
     ". I care about building things well: clean architecture, declarative systems, tools that compound over time, and a (sometimes obsessive) attention to detail.",
@@ -140,7 +140,11 @@ export const about = {
     "Right now I'm deep into ",
     { label: "Nix", href: "https://nixos.org", external: true },
     ", autonomous coding agents, and self-hosted infrastructure. My computing environment is fully declarative — every setting, package, and secret managed as code in my ",
-    { label: "nix-config", href: "/projects/nix-config" },
+    {
+      label: "nix-config",
+      href: "https://github.com/tskovlund/nix-config",
+      external: true,
+    },
     " setup. ",
     { label: "This site", href: "/projects/skovlund-dev" },
     " was built without writing a single line of code myself.",
@@ -186,7 +190,7 @@ export const about = {
         "MSc in Computer Science from ",
         {
           label: "Aarhus University",
-          href: "https://international.au.dk",
+          href: "https://au.dk",
           external: true,
         },
       ],
@@ -340,23 +344,15 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "tokyo-night", label: "Tokyo Night", selectorColor: "#7aa2f7" },
   { id: "gruvbox", label: "Gruvbox", selectorColor: "#83a598" },
   { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
-  { id: "nightfox", label: "Nightfox", selectorColor: "#719cd6" },
   { id: "rose-pine", label: "Rosé Pine", selectorColor: "#c4a7e7" },
-  {
-    id: "catppuccin-frappe",
-    label: "Catppuccin Frappé",
-    selectorColor: "#8caaee",
-  },
-  {
-    id: "catppuccin-macchiato",
-    label: "Catppuccin Macchiato",
-    selectorColor: "#8aadf4",
-  },
-  {
-    id: "catppuccin-mocha",
-    label: "Catppuccin Mocha",
-    selectorColor: "#89b4fa",
-  },
+  { id: "catppuccin", label: "Catppuccin", selectorColor: "#89b4fa" },
+  { id: "kanagawa", label: "Kanagawa", selectorColor: "#7e9cd8" },
+  { id: "everforest", label: "Everforest", selectorColor: "#7fbbb3" },
+  { id: "dracula", label: "Dracula", selectorColor: "#bd93f9" },
+  { id: "solarized", label: "Solarized", selectorColor: "#268bd2" },
+  { id: "monokai", label: "Monokai", selectorColor: "#ff6188" },
+  { id: "horizon", label: "Horizon", selectorColor: "#e95678" },
+  { id: "night-owl", label: "Night Owl", selectorColor: "#82aaff" },
 ];
 
 // ---------------------------------------------------------------------------
@@ -497,7 +493,11 @@ export const shelf = {
       href: "https://neovim.io",
       description: [
         "The editor I keep coming back to. Extensible, fast, keyboard-driven. My config lives in ",
-        { label: "nix-config", href: "/projects/nix-config" },
+        {
+          label: "nix-config",
+          href: "https://github.com/tskovlund/nix-config",
+          external: true,
+        },
         ".",
       ],
     },
@@ -508,7 +508,11 @@ export const shelf = {
       href: "https://nixos.org",
       description: [
         "Declarative, reproducible Linux. Once you go Nix, you don't go back. See my ",
-        { label: "nix-config", href: "/projects/nix-config" },
+        {
+          label: "nix-config",
+          href: "https://github.com/tskovlund/nix-config",
+          external: true,
+        },
         " for how I manage everything.",
       ],
     },
@@ -517,7 +521,11 @@ export const shelf = {
       href: "https://adventofcode.com",
       description: [
         "Annual programming puzzles in December. My kind of advent calendar. See my ",
-        { label: "solutions", href: "/projects/advent-of-code" },
+        {
+          label: "solutions",
+          href: "https://github.com/tskovlund/advent-of-code",
+          external: true,
+        },
         ".",
       ],
     },
