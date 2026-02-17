@@ -1,3 +1,4 @@
+import process from "node:process";
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -18,5 +19,10 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    define: {
+      "import.meta.env.COMMIT_SHA": JSON.stringify(
+        process.env.COMMIT_SHA || "",
+      ),
+    },
   },
 });
