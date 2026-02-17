@@ -6,6 +6,15 @@ import { site, footer, footerMessages, paletteColorCount } from "@i18n/en";
 import { Icon } from "astro-icon/components";
 import { Code, Mail } from "@lucide/astro";
 
+const COMMIT_SHA_DISPLAY_LENGTH: number = 7;
+const commitSha: string = import.meta.env.COMMIT_SHA || "";
+const sourceUrl: string = commitSha
+  ? `${site.sourceUrl}/commit/${commitSha}`
+  : site.sourceUrl;
+const sourceLabel: string = commitSha
+  ? commitSha.slice(0, COMMIT_SHA_DISPLAY_LENGTH)
+  : footer.sourceLabel;
+
 // Typewriter timing constants for footer messages
 const FOOTER_TYPEWRITER_TYPE_SPEED_MS: number = 40;
 const FOOTER_TYPEWRITER_DELETE_SPEED_MS: number = 25;
@@ -60,13 +69,13 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
           {SITE.NAME}
         </div>
         <a
-          href={site.sourceUrl}
+          href={sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="flex items-center gap-1.5 text-sm opacity-60 hover:opacity-100 hover:text-tn-light-accent dark:hover:text-tn-dark-accent transition-all duration-300"
         >
           <Code size={14} />
-          {footer.sourceLabel}
+          <span class={commitSha ? "font-mono" : ""}>{sourceLabel}</span>
         </a>
       </div>
       <hr class="border-tn-light-surface/40 dark:border-tn-dark-surface/40" />
