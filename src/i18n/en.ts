@@ -350,6 +350,21 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "everforest", label: "Everforest", selectorColor: "#a7c080" },
   { id: "dracula", label: "Dracula", selectorColor: "#bd93f9" },
   { id: "solarized", label: "Solarized", selectorColor: "#268bd2" },
+  {
+    id: "catppuccin-frappe",
+    label: "Catppuccin Frappé",
+    selectorColor: "#8caaee",
+  },
+  {
+    id: "catppuccin-macchiato",
+    label: "Catppuccin Macchiato",
+    selectorColor: "#8aadf4",
+  },
+  {
+    id: "catppuccin-mocha",
+    label: "Catppuccin Mocha",
+    selectorColor: "#89b4fa",
+  },
 ];
 
 // ---------------------------------------------------------------------------

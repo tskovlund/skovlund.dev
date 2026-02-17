@@ -295,6 +295,102 @@ html[data-color-scheme="solarized"] {
   --color-tn-light-cyan: #2aa198;
 }
 
+html[data-color-scheme="catppuccin-frappe"] {
+  /* Dark: Catppuccin Frappé — catppuccin.com */
+  --color-tn-dark-bg: #303446;
+  --color-tn-dark-bg-alt: #292c3c;
+  --color-tn-dark-surface: #414559;
+  --color-tn-dark-fg: #c6d0f5;
+  --color-tn-dark-fg-muted: #a5adce;
+  --color-tn-dark-accent: #8caaee;
+  --color-tn-dark-accent-hover: #99d1db;
+  --color-tn-dark-warm: #ca9ee6;
+  --color-tn-dark-green: #a6d189;
+  --color-tn-dark-red: #e78284;
+  --color-tn-dark-orange: #ef9f76;
+  --color-tn-dark-yellow: #e5c890;
+  --color-tn-dark-cyan: #81c8be;
+
+  /* Light: Catppuccin Latte — catppuccin.com */
+  --color-tn-light-bg: #eff1f5;
+  --color-tn-light-bg-alt: #e6e9ef;
+  --color-tn-light-surface: #ccd0da;
+  --color-tn-light-fg: #4c4f69;
+  --color-tn-light-fg-muted: #6c6f85;
+  --color-tn-light-accent: #1e66f5;
+  --color-tn-light-accent-hover: #04a5e5;
+  --color-tn-light-warm: #8839ef;
+  --color-tn-light-green: #40a02b;
+  --color-tn-light-red: #d20f39;
+  --color-tn-light-orange: #fe640b;
+  --color-tn-light-yellow: #df8e1d;
+  --color-tn-light-cyan: #179299;
+}
+
+html[data-color-scheme="catppuccin-macchiato"] {
+  /* Dark: Catppuccin Macchiato — catppuccin.com */
+  --color-tn-dark-bg: #24273a;
+  --color-tn-dark-bg-alt: #1e2030;
+  --color-tn-dark-surface: #363a4f;
+  --color-tn-dark-fg: #cad3f5;
+  --color-tn-dark-fg-muted: #a5adcb;
+  --color-tn-dark-accent: #8aadf4;
+  --color-tn-dark-accent-hover: #91d7e3;
+  --color-tn-dark-warm: #c6a0f6;
+  --color-tn-dark-green: #a6da95;
+  --color-tn-dark-red: #ed8796;
+  --color-tn-dark-orange: #f5a97f;
+  --color-tn-dark-yellow: #eed49f;
+  --color-tn-dark-cyan: #8bd5ca;
+
+  /* Light: Catppuccin Latte — catppuccin.com */
+  --color-tn-light-bg: #eff1f5;
+  --color-tn-light-bg-alt: #e6e9ef;
+  --color-tn-light-surface: #ccd0da;
+  --color-tn-light-fg: #4c4f69;
+  --color-tn-light-fg-muted: #6c6f85;
+  --color-tn-light-accent: #1e66f5;
+  --color-tn-light-accent-hover: #04a5e5;
+  --color-tn-light-warm: #8839ef;
+  --color-tn-light-green: #40a02b;
+  --color-tn-light-red: #d20f39;
+  --color-tn-light-orange: #fe640b;
+  --color-tn-light-yellow: #df8e1d;
+  --color-tn-light-cyan: #179299;
+}
+
+html[data-color-scheme="catppuccin-mocha"] {
+  /* Dark: Catppuccin Mocha — catppuccin.com */
+  --color-tn-dark-bg: #1e1e2e;
+  --color-tn-dark-bg-alt: #181825;
+  --color-tn-dark-surface: #313244;
+  --color-tn-dark-fg: #cdd6f4;
+  --color-tn-dark-fg-muted: #a6adc8;
+  --color-tn-dark-accent: #89b4fa;
+  --color-tn-dark-accent-hover: #89dceb;
+  --color-tn-dark-warm: #cba6f7;
+  --color-tn-dark-green: #a6e3a1;
+  --color-tn-dark-red: #f38ba8;
+  --color-tn-dark-orange: #fab387;
+  --color-tn-dark-yellow: #f9e2af;
+  --color-tn-dark-cyan: #94e2d5;
+
+  /* Light: Catppuccin Latte — catppuccin.com */
+  --color-tn-light-bg: #eff1f5;
+  --color-tn-light-bg-alt: #e6e9ef;
+  --color-tn-light-surface: #ccd0da;
+  --color-tn-light-fg: #4c4f69;
+  --color-tn-light-fg-muted: #6c6f85;
+  --color-tn-light-accent: #1e66f5;
+  --color-tn-light-accent-hover: #04a5e5;
+  --color-tn-light-warm: #8839ef;
+  --color-tn-light-green: #40a02b;
+  --color-tn-light-red: #d20f39;
+  --color-tn-light-orange: #fe640b;
+  --color-tn-light-yellow: #df8e1d;
+  --color-tn-light-cyan: #179299;
+}
+
 html {
   overflow-y: scroll;
   color-scheme: light;
