@@ -91,7 +91,7 @@ export const home = {
     university: {
       name: "Aarhus University",
       abbreviation: "AU",
-      href: "https://international.au.dk",
+      href: "https://au.dk",
       degreeLabel: "MSc in CS",
     },
   },
@@ -131,7 +131,7 @@ export const about = {
     "I'm Thomas — a software engineer with an MSc in Computer Science from ",
     {
       label: "Aarhus University",
-      href: "https://international.au.dk",
+      href: "https://au.dk",
       external: true,
     },
     ". I care about building things well: clean architecture, declarative systems, tools that compound over time, and a (sometimes obsessive) attention to detail.",
@@ -140,7 +140,11 @@ export const about = {
     "Right now I'm deep into ",
     { label: "Nix", href: "https://nixos.org", external: true },
     ", autonomous coding agents, and self-hosted infrastructure. My computing environment is fully declarative — every setting, package, and secret managed as code in my ",
-    { label: "nix-config", href: "/projects/nix-config" },
+    {
+      label: "nix-config",
+      href: "https://github.com/tskovlund/nix-config",
+      external: true,
+    },
     " setup. ",
     { label: "This site", href: "/projects/skovlund-dev" },
     " was built without writing a single line of code myself.",
@@ -186,7 +190,7 @@ export const about = {
         "MSc in Computer Science from ",
         {
           label: "Aarhus University",
-          href: "https://international.au.dk",
+          href: "https://au.dk",
           external: true,
         },
       ],
@@ -486,7 +490,11 @@ export const shelf = {
       href: "https://neovim.io",
       description: [
         "The editor I keep coming back to. Extensible, fast, keyboard-driven. My config lives in ",
-        { label: "nix-config", href: "/projects/nix-config" },
+        {
+          label: "nix-config",
+          href: "https://github.com/tskovlund/nix-config",
+          external: true,
+        },
         ".",
       ],
     },
@@ -497,7 +505,11 @@ export const shelf = {
       href: "https://nixos.org",
       description: [
         "Declarative, reproducible Linux. Once you go Nix, you don't go back. See my ",
-        { label: "nix-config", href: "/projects/nix-config" },
+        {
+          label: "nix-config",
+          href: "https://github.com/tskovlund/nix-config",
+          external: true,
+        },
         " for how I manage everything.",
       ],
     },
@@ -506,7 +518,11 @@ export const shelf = {
       href: "https://adventofcode.com",
       description: [
         "Annual programming puzzles in December. My kind of advent calendar. See my ",
-        { label: "solutions", href: "/projects/advent-of-code" },
+        {
+          label: "solutions",
+          href: "https://github.com/tskovlund/advent-of-code",
+          external: true,
+        },
         ".",
       ],
     },
