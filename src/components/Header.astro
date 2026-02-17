@@ -106,21 +106,21 @@ import { site, nav, settings, colorSchemes } from "@i18n/en";
                   >
                     {settings.colorScheme}
                   </span>
-                  <div class="flex flex-col gap-0.5">
+                  <div class="grid grid-cols-2 gap-0.5">
                     {
                       colorSchemes.map((scheme) => (
                         <button
                           data-scheme-button={scheme.id}
                           aria-label={`${scheme.label} color scheme`}
                           aria-pressed="false"
-                          class="flex items-center gap-2.5 px-2 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
                         >
                           <span
                             class="size-2.5 rounded-full shrink-0"
                             style={`background-color: ${scheme.selectorColor}`}
                             aria-hidden="true"
                           />
-                          <span>{scheme.label}</span>
+                          <span class="truncate">{scheme.label}</span>
                         </button>
                       ))
                     }
@@ -213,21 +213,21 @@ import { site, nav, settings, colorSchemes } from "@i18n/en";
         >
           {settings.colorScheme}
         </span>
-        <div class="flex flex-col gap-0.5 mt-1.5">
+        <div class="grid grid-cols-2 gap-0.5 mt-1.5">
           {
             colorSchemes.map((scheme) => (
               <button
                 data-scheme-button={scheme.id}
                 aria-label={`${scheme.label} color scheme`}
                 aria-pressed="false"
-                class="flex items-center gap-2.5 px-2 py-2 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
+                class="flex items-center gap-2 px-2 py-2 rounded-md text-xs hover:bg-tn-light-surface/30 dark:hover:bg-tn-dark-surface/30 transition-colors duration-200 w-full text-left"
               >
                 <span
                   class="size-3 rounded-full shrink-0"
                   style={`background-color: ${scheme.selectorColor}`}
                   aria-hidden="true"
                 />
-                <span>{scheme.label}</span>
+                <span class="truncate">{scheme.label}</span>
               </button>
             ))
           }

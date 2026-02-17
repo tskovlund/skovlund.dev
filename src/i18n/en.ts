@@ -344,12 +344,15 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "tokyo-night", label: "Tokyo Night", selectorColor: "#7aa2f7" },
   { id: "gruvbox", label: "Gruvbox", selectorColor: "#83a598" },
   { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
-  { id: "nightfox", label: "Nightfox", selectorColor: "#719cd6" },
   { id: "rose-pine", label: "Rosé Pine", selectorColor: "#c4a7e7" },
+  { id: "catppuccin", label: "Catppuccin", selectorColor: "#89b4fa" },
   { id: "kanagawa", label: "Kanagawa", selectorColor: "#7e9cd8" },
   { id: "everforest", label: "Everforest", selectorColor: "#7fbbb3" },
   { id: "dracula", label: "Dracula", selectorColor: "#bd93f9" },
   { id: "solarized", label: "Solarized", selectorColor: "#268bd2" },
+  { id: "monokai", label: "Monokai", selectorColor: "#ff6188" },
+  { id: "horizon", label: "Horizon", selectorColor: "#e95678" },
+  { id: "night-owl", label: "Night Owl", selectorColor: "#82aaff" },
 ];
 
 // ---------------------------------------------------------------------------
