@@ -342,6 +342,10 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
   { id: "nightfox", label: "Nightfox", selectorColor: "#719cd6" },
   { id: "rose-pine", label: "Rosé Pine", selectorColor: "#c4a7e7" },
+  { id: "kanagawa", label: "Kanagawa", selectorColor: "#7e9cd8" },
+  { id: "everforest", label: "Everforest", selectorColor: "#a7c080" },
+  { id: "dracula", label: "Dracula", selectorColor: "#bd93f9" },
+  { id: "solarized", label: "Solarized", selectorColor: "#268bd2" },
 ];
 
 // ---------------------------------------------------------------------------

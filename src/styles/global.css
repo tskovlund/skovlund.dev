@@ -167,6 +167,134 @@ html[data-color-scheme="rose-pine"] {
   --color-tn-light-cyan: #56949f;
 }
 
+html[data-color-scheme="kanagawa"] {
+  /* Dark: Kanagawa Wave — github.com/rebelot/kanagawa.nvim */
+  --color-tn-dark-bg: #1f1f28;
+  --color-tn-dark-bg-alt: #16161d;
+  --color-tn-dark-surface: #2a2a37;
+  --color-tn-dark-fg: #dcd7ba;
+  --color-tn-dark-fg-muted: #938aa9;
+  --color-tn-dark-accent: #7e9cd8;
+  --color-tn-dark-accent-hover: #7fb4ca;
+  --color-tn-dark-warm: #957fb8;
+  --color-tn-dark-green: #98bb6c;
+  --color-tn-dark-red: #ff5d62;
+  --color-tn-dark-orange: #ffa066;
+  --color-tn-dark-yellow: #e6c384;
+  --color-tn-dark-cyan: #7aa89f;
+
+  /* Light: Kanagawa Lotus — github.com/rebelot/kanagawa.nvim */
+  --color-tn-light-bg: #f2ecbc;
+  --color-tn-light-bg-alt: #dcd5ac;
+  --color-tn-light-surface: #c9cbd1;
+  --color-tn-light-fg: #43436c;
+  --color-tn-light-fg-muted: #716e61;
+  --color-tn-light-accent: #4d699b;
+  --color-tn-light-accent-hover: #4e8ca2;
+  --color-tn-light-warm: #624c83;
+  --color-tn-light-green: #6f894e;
+  --color-tn-light-red: #c84053;
+  --color-tn-light-orange: #cc6d00;
+  --color-tn-light-yellow: #77713f;
+  --color-tn-light-cyan: #597b75;
+}
+
+html[data-color-scheme="everforest"] {
+  /* Dark: Everforest Dark Medium — github.com/sainnhe/everforest */
+  --color-tn-dark-bg: #2d353b;
+  --color-tn-dark-bg-alt: #232a2e;
+  --color-tn-dark-surface: #343f44;
+  --color-tn-dark-fg: #d3c6aa;
+  --color-tn-dark-fg-muted: #859289;
+  --color-tn-dark-accent: #7fbbb3;
+  --color-tn-dark-accent-hover: #83c092;
+  --color-tn-dark-warm: #d699b6;
+  --color-tn-dark-green: #a7c080;
+  --color-tn-dark-red: #e67e80;
+  --color-tn-dark-orange: #e69875;
+  --color-tn-dark-yellow: #dbbc7f;
+  --color-tn-dark-cyan: #83c092;
+
+  /* Light: Everforest Light Medium — github.com/sainnhe/everforest */
+  --color-tn-light-bg: #fdf6e3;
+  --color-tn-light-bg-alt: #efebd4;
+  --color-tn-light-surface: #f4f0d9;
+  --color-tn-light-fg: #5c6a72;
+  --color-tn-light-fg-muted: #939f91;
+  --color-tn-light-accent: #3a94c5;
+  --color-tn-light-accent-hover: #35a77c;
+  --color-tn-light-warm: #df69ba;
+  --color-tn-light-green: #8da101;
+  --color-tn-light-red: #f85552;
+  --color-tn-light-orange: #f57d26;
+  --color-tn-light-yellow: #dfa000;
+  --color-tn-light-cyan: #35a77c;
+}
+
+html[data-color-scheme="dracula"] {
+  /* Dark: Dracula — draculatheme.com */
+  --color-tn-dark-bg: #282a36;
+  --color-tn-dark-bg-alt: #21222c;
+  --color-tn-dark-surface: #44475a;
+  --color-tn-dark-fg: #f8f8f2;
+  --color-tn-dark-fg-muted: #6272a4;
+  --color-tn-dark-accent: #bd93f9;
+  --color-tn-dark-accent-hover: #ff79c6;
+  --color-tn-dark-warm: #bd93f9;
+  --color-tn-dark-green: #50fa7b;
+  --color-tn-dark-red: #ff5555;
+  --color-tn-dark-orange: #ffb86c;
+  --color-tn-dark-yellow: #f1fa8c;
+  --color-tn-dark-cyan: #8be9fd;
+
+  /* Light: Dracula-derived (inverted palette with matching hues) */
+  --color-tn-light-bg: #f8f8f2;
+  --color-tn-light-bg-alt: #eee8e4;
+  --color-tn-light-surface: #d6d6d2;
+  --color-tn-light-fg: #282a36;
+  --color-tn-light-fg-muted: #6272a4;
+  --color-tn-light-accent: #7c3aed;
+  --color-tn-light-accent-hover: #d6336c;
+  --color-tn-light-warm: #7c3aed;
+  --color-tn-light-green: #1b9e3e;
+  --color-tn-light-red: #e6194b;
+  --color-tn-light-orange: #d35400;
+  --color-tn-light-yellow: #b8860b;
+  --color-tn-light-cyan: #1a8eab;
+}
+
+html[data-color-scheme="solarized"] {
+  /* Dark: Solarized Dark — ethanschoonover.com/solarized */
+  --color-tn-dark-bg: #002b36;
+  --color-tn-dark-bg-alt: #073642;
+  --color-tn-dark-surface: #586e75;
+  --color-tn-dark-fg: #839496;
+  --color-tn-dark-fg-muted: #586e75;
+  --color-tn-dark-accent: #268bd2;
+  --color-tn-dark-accent-hover: #2aa198;
+  --color-tn-dark-warm: #6c71c4;
+  --color-tn-dark-green: #859900;
+  --color-tn-dark-red: #dc322f;
+  --color-tn-dark-orange: #cb4b16;
+  --color-tn-dark-yellow: #b58900;
+  --color-tn-dark-cyan: #2aa198;
+
+  /* Light: Solarized Light — ethanschoonover.com/solarized */
+  --color-tn-light-bg: #fdf6e3;
+  --color-tn-light-bg-alt: #eee8d5;
+  --color-tn-light-surface: #93a1a1;
+  --color-tn-light-fg: #657b83;
+  --color-tn-light-fg-muted: #93a1a1;
+  --color-tn-light-accent: #268bd2;
+  --color-tn-light-accent-hover: #2aa198;
+  --color-tn-light-warm: #6c71c4;
+  --color-tn-light-green: #859900;
+  --color-tn-light-red: #dc322f;
+  --color-tn-light-orange: #cb4b16;
+  --color-tn-light-yellow: #b58900;
+  --color-tn-light-cyan: #2aa198;
+}
+
 html {
   overflow-y: scroll;
   color-scheme: light;
