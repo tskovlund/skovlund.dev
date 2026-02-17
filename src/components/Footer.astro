@@ -10,7 +10,7 @@ import { Code, Mail } from "@lucide/astro";
 const COMMIT_SHA_LENGTH: number = 7;
 const commitSha: string = import.meta.env.COMMIT_SHA || "";
 const sourceUrl: string = commitSha
-  ? `https://github.com/tskovlund/skovlund.dev/commit/${commitSha}`
+  ? `${site.sourceUrl}/commit/${commitSha}`
   : site.sourceUrl;
 const sourceLabel: string = commitSha
   ? commitSha.slice(0, COMMIT_SHA_LENGTH)
