@@ -342,6 +342,21 @@ export const colorSchemes: readonly ColorScheme[] = [
   { id: "nord", label: "Nord", selectorColor: "#88c0d0" },
   { id: "nightfox", label: "Nightfox", selectorColor: "#719cd6" },
   { id: "rose-pine", label: "Rosé Pine", selectorColor: "#c4a7e7" },
+  {
+    id: "catppuccin-frappe",
+    label: "Catppuccin Frappé",
+    selectorColor: "#8caaee",
+  },
+  {
+    id: "catppuccin-macchiato",
+    label: "Catppuccin Macchiato",
+    selectorColor: "#8aadf4",
+  },
+  {
+    id: "catppuccin-mocha",
+    label: "Catppuccin Mocha",
+    selectorColor: "#89b4fa",
+  },
 ];
 
 // ---------------------------------------------------------------------------
