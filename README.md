@@ -1,5 +1,7 @@
 # skovlund.dev
 
+[![Build & Deploy](https://github.com/tskovlund/skovlund.dev/workflows/Build%20%26%20Deploy/badge.svg)](https://github.com/tskovlund/skovlund.dev/actions/workflows/deploy.yml)
+
 Personal website and blog. Built with [Astro](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [TypeScript](https://www.typescriptlang.org). Deployed to [Cloudflare Pages](https://pages.cloudflare.com) via GitHub Actions.
 
 Based on [Astro Nano](https://github.com/markhorn-dev/astro-nano). Tokyo Night theme.
