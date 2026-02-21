@@ -59,8 +59,26 @@ This is non-negotiable. Enforced via ESLint rules and git hooks where possible, 
 ## Content
 
 - **Blog**: `src/content/blog/<slug>/index.md` — frontmatter: title, description, date, draft
-- **Projects**: `src/content/projects/<slug>/index.md` — frontmatter: title, description, date, draft, demoURL, repoURL, featured
+- **Projects**: `src/content/projects/<slug>/index.md` — frontmatter: title, description, date, draft, demoURL, repoURL, featured, cover
   - `featured: true` projects get a dedicated page via `[...slug].astro`; others are card-only with source/demo links
+
+### Blog posts vs project pages
+
+These serve different purposes — never duplicate content between them:
+
+- **Project pages** = evergreen reference. "What is this, how it's built, current state." Updated as the project evolves.
+- **Blog posts** = time-stamped narrative. "How/why I built this, the journey, tradeoffs, debugging rabbit holes." Published once.
+
+Blog posts link _to_ project pages for current state. Project pages can link back to related blog posts. If it's about current state → project page. If it's about the process/journey → blog post.
+
+### Service and tool linking
+
+Link to services/tools naturally — not mechanically "first occurrence only." The goal is that any sentence reads well on its own. Rules:
+
+- If a sentence mentions several tools and some are linked, link them all. Unlinked names next to linked names look inconsistent.
+- Re-link in new sections. A reader skimming to "Security" shouldn't have to scroll up to find the Tailscale link.
+- Don't over-link within the same paragraph — if Grafana appears three times in one bullet, linking once is fine.
+- In `en.ts`, use the shared `links` object (top of file) for frequently referenced URLs.
 
 ## Styling
 

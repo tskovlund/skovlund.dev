@@ -2,6 +2,7 @@
 title: "Advent of Code"
 description: "My solutions to Advent of Code — 25 days of programming puzzles each December."
 date: "2024-12-01"
+cover: "./cover.png"
 repoURL: "https://github.com/tskovlund/advent-of-code"
 ---
 

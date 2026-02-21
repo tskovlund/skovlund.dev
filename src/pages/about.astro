@@ -48,10 +48,10 @@ function getStreamingUrl(
             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover"
           />
         </div>
-        <p>
+        <p class="text-tn-light-fg dark:text-tn-dark-fg">
           <RichText segments={about.intro} />
         </p>
-        <p class="mt-4">
+        <p class="mt-4 text-tn-light-fg dark:text-tn-dark-fg">
           <RichText segments={about.currentWork} />
         </p>
       </section>
@@ -60,26 +60,21 @@ function getStreamingUrl(
         <SectionHeading color="accent"
           >{about.sections.experience}</SectionHeading
         >
+        {
+          about.experienceProse.map((paragraph) => (
+            <p class="text-tn-light-fg dark:text-tn-dark-fg">
+              <RichText segments={paragraph} />
+            </p>
+          ))
+        }
         <Timeline entries={about.experience} />
       </section>
 
       <section class="animate space-y-4">
-        <SectionHeading color="cyan">{about.sections.privacy}</SectionHeading>
-        <p>
-          <RichText segments={about.privacy} />
-        </p>
-      </section>
-
-      <section class="animate space-y-4">
         <SectionHeading color="warm">{about.sections.music}</SectionHeading>
-        <p>
+        <p class="text-tn-light-fg dark:text-tn-dark-fg">
           <RichText segments={about.music} />
         </p>
-      </section>
-
-      <section class="animate space-y-4">
-        <SectionHeading color="green">{about.sections.releases}</SectionHeading>
-        <p>{about.sections.releasesIntro}</p>
         <ul class="space-y-3">
           {
             about.releases.map((entry) => {

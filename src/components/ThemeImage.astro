@@ -1,0 +1,72 @@
+---
+/**
+ * Theme-aware image component — renders dark and light variants,
+ * swapping via CSS based on the active theme.
+ *
+ * If only one variant is provided, renders it without swapping.
+ */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  dark?: ImageMetadata;
+  light?: ImageMetadata;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: "eager" | "lazy";
+}
+
+const {
+  dark,
+  light,
+  alt,
+  width,
+  height,
+  class: className,
+  loading,
+} = Astro.props;
+const hasBoth = dark && light;
+---
+
+{
+  hasBoth ? (
+    <>
+      <Image
+        src={light}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        class:list={[className, "dark:!hidden"]}
+      />
+      <Image
+        src={dark}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loading}
+        class:list={[className, "hidden dark:!block"]}
+      />
+    </>
+  ) : dark ? (
+    <Image
+      src={dark}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      class={className}
+    />
+  ) : light ? (
+    <Image
+      src={light}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      class={className}
+    />
+  ) : null
+}

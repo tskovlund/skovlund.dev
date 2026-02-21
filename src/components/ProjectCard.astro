@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Link from "@components/Link.astro";
+import ThemeImage from "@components/ThemeImage.astro";
 import { CARD_COLOR_CLASSES } from "@consts";
 
 interface Props {
@@ -11,43 +12,75 @@ interface Props {
 const { entry, index = 0 } = Astro.props;
 
 const color = CARD_COLOR_CLASSES[index % CARD_COLOR_CLASSES.length];
-const hasLinks =
-  entry.data.repoURL || entry.data.demoURL || entry.data.featured;
+const hasExternalLinks = entry.data.repoURL || entry.data.demoURL;
+const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
 ---
 
 <div
   class:list={[
-    "py-3 px-4 rounded-lg border border-tn-light-surface/60 dark:border-tn-dark-surface/60 border-l-[3px] transition-all duration-300 ease-in-out",
+    "relative rounded-lg border border-tn-light-surface/60 dark:border-tn-dark-surface/60 border-l-[3px] transition-all duration-300 ease-in-out overflow-hidden",
+    entry.data.cover ? "flex items-stretch" : "py-3 px-4",
+    projectUrl
+      ? "hover:border-tn-light-accent/40 dark:hover:border-tn-dark-accent/40"
+      : "",
     color,
   ]}
 >
-  <div class="font-semibold">
-    {entry.data.title}
-  </div>
-  <div class="text-sm">
-    {entry.data.description}
-  </div>
   {
-    hasLinks && (
-      <nav class="flex gap-1 mt-1.5 text-sm">
-        {entry.data.repoURL && (
-          <Link href={entry.data.repoURL} external>
-            source
-          </Link>
-        )}
-        {entry.data.repoURL && entry.data.demoURL && <span>/</span>}
-        {entry.data.demoURL && (
-          <Link href={entry.data.demoURL} external>
-            demo
-          </Link>
-        )}
-        {(entry.data.repoURL || entry.data.demoURL) && entry.data.featured && (
-          <span>/</span>
-        )}
-        {entry.data.featured && (
-          <Link href={`/projects/${entry.slug}`}>read more &rarr;</Link>
-        )}
-      </nav>
+    entry.data.cover && (
+      <ThemeImage
+        dark={entry.data.cover}
+        light={entry.data.coverLight}
+        alt={`${entry.data.title} preview`}
+        width={96}
+        height={96}
+        class="object-cover w-24 shrink-0"
+      />
     )
   }
+  <div class:list={["min-w-0", entry.data.cover ? "py-3 px-4" : ""]}>
+    <div class="font-semibold">
+      {
+        projectUrl ? (
+          <a
+            href={projectUrl}
+            class="stretched-link hover:text-tn-light-accent dark:hover:text-tn-dark-accent transition-colors"
+          >
+            {entry.data.title}
+          </a>
+        ) : (
+          entry.data.title
+        )
+      }
+    </div>
+    <div class="text-sm">{entry.data.description}</div>
+    {
+      (hasExternalLinks || projectUrl) && (
+        <nav class="relative z-10 flex gap-1 mt-1.5 text-sm">
+          {entry.data.repoURL && (
+            <Link href={entry.data.repoURL} external>
+              source
+            </Link>
+          )}
+          {entry.data.repoURL && entry.data.demoURL && <span>/</span>}
+          {entry.data.demoURL && (
+            <Link href={entry.data.demoURL} external>
+              demo
+            </Link>
+          )}
+          {projectUrl && hasExternalLinks && <span>/</span>}
+          {projectUrl && <Link href={projectUrl}>read more</Link>}
+        </nav>
+      )
+    }
+  </div>
 </div>
+
+<style>
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+</style>

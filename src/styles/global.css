@@ -572,6 +572,23 @@ article {
   @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
   @apply prose-headings:font-mono prose-headings:font-semibold;
   @apply prose-headings:text-tn-light-fg prose-headings:dark:text-tn-dark-fg;
+  @apply text-tn-light-fg dark:text-tn-dark-fg;
+}
+
+article :where(code):not(:where(pre *)) {
+  @apply font-mono text-sm px-1.5 py-0.5 rounded;
+  @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+}
+
+/* Image captions — *italic text* immediately after an image renders as a visible caption */
+article p:has(> img, > picture) + p:has(> em:only-child) {
+  @apply text-center text-sm;
+  @apply text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70;
+  margin-top: 0.25rem;
+}
+
+article p:has(> img, > picture) + p:has(> em:only-child) em {
+  @apply not-italic;
 }
 
 article a {

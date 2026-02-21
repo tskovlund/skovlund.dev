@@ -23,11 +23,6 @@ for (const entry of entries) {
     grouped.push({ year: entry.year, entries: [entry] });
   }
 }
-
-// Detect year gaps between groups (e.g. 2025 → 2023 skips 2024)
-function hasYearGap(currentYear: string, nextYear: string): boolean {
-  return parseInt(currentYear) - parseInt(nextYear) > 1;
-}
 ---
 
 <div class="space-y-0">
@@ -47,10 +42,6 @@ function hasYearGap(currentYear: string, nextYear: string): boolean {
     grouped.map((group, groupIndex) => {
       const isFirstGroup = groupIndex === 0;
       const isLastGroup = groupIndex === grouped.length - 1;
-      const hasGapBefore =
-        !isFirstGroup && hasYearGap(grouped[groupIndex - 1].year, group.year);
-      const hasGapAfter =
-        !isLastGroup && hasYearGap(group.year, grouped[groupIndex + 1].year);
 
       return (
         <div class="grid grid-cols-[3rem_1rem_1fr]">
@@ -60,13 +51,8 @@ function hasYearGap(currentYear: string, nextYear: string): boolean {
             const isFirstOverall = isFirstGroup && isFirstInGroup;
             const isLastOverall = isLastGroup && isLastInGroup;
 
-            // Top connector: visible unless first overall or first after a year gap
-            const showTopLine =
-              !isFirstOverall && !(isFirstInGroup && hasGapBefore);
-
-            // Bottom connector: visible unless last overall or last before a year gap
-            const showBottomLine =
-              !isLastOverall && !(isLastInGroup && hasGapAfter);
+            const showTopLine = !isFirstOverall;
+            const showBottomLine = !isLastOverall;
 
             return (
               <>
