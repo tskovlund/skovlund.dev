@@ -1,6 +1,11 @@
 # skovlund.dev
 
 [![Build & Deploy](https://github.com/tskovlund/skovlund.dev/workflows/Build%20%26%20Deploy/badge.svg)](https://github.com/tskovlund/skovlund.dev/actions/workflows/deploy.yml)
+[![Astro](https://img.shields.io/badge/Astro-5-BC52EE?logo=astro&logoColor=white)](https://astro.build)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Personal website and blog. Built with [Astro](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [TypeScript](https://www.typescriptlang.org). Deployed to [Cloudflare Pages](https://pages.cloudflare.com) via GitHub Actions.
 
