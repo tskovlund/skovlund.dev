@@ -15,40 +15,44 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.0.2",
-    "@astrojs/rss": "^4.0.10",
-    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/monaspace-neon": "^5.2.5",
-    "@lucide/astro": "^0.564.0",
+    "@lucide/astro": "^0.575.0",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.0.5",
+    "@tailwindcss/vite": "^4.2.0",
+    "astro": "^5.17.3",
     "astro-icon": "^1.1.5",
     "canvas-confetti": "^1.9.4",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "sharp": "^0.34.5",
-    "smplr": "^0.16.4",
-    "tailwind-merge": "^3.4.0",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.4.2"
+    "smplr": "^0.17.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
-    "@iconify-json/simple-icons": "^1.2.70",
+    "@eslint/js": "^10.0.1",
+    "@iconify-json/simple-icons": "^1.2.71",
     "@types/canvas-confetti": "^1.9.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.56.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "minimatch": ">=10.2.1",
+      "lodash": ">=4.17.23"
+    }
   }
 }

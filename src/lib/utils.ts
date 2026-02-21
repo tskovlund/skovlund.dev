@@ -7,7 +7,10 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 export function readingTime(html: string): string {
-  const textOnly: string = html.replace(/<[^>]+>/g, "");
+  let textOnly: string = html;
+  while (/<[^>]+>/.test(textOnly)) {
+    textOnly = textOnly.replace(/<[^>]+>/g, "");
+  }
   const wordCount: number = textOnly.split(/\s+/).length;
   const readingTimeMinutes: string = (
     wordCount / SITE.AVERAGE_WORDS_PER_MINUTE +
