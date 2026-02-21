@@ -115,6 +115,7 @@ WCAG 2.1 AA compliance. Every change must maintain these standards.
 - **Pre-commit**: lints + format-checks staged files only (fast feedback)
 - **Pre-push**: full `pnpm build` (includes `astro check` for type checking)
 - Plain shell scripts in `.githooks/` — zero dependencies, activated via `git config core.hooksPath .githooks`
+- **Devbox gotcha**: `devbox run -- git commit -m "$(cat <<'EOF'...)"` produces literal `\n` instead of newlines. For multi-line commit messages, write to a temp file and use `git commit -F /tmp/msg.txt`.
 
 ## Git workflow
 
