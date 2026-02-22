@@ -70,23 +70,24 @@ The combination works well — the systemd sandbox prevents catastrophic mistake
 
 ## Memory
 
-Eliza wakes up fresh each session — no implicit context from prior conversations. Memory is explicit:
+ZeroClaw uses a [SQLite](https://sqlite.org) backend with FTS5 full-text search for memory. Two layers:
 
-- **MEMORY.md** — curated long-term knowledge (decisions, preferences, debugging insights)
-- **memory/YYYY-MM-DD.md** — daily session notes, auto-created
-- **Recall workflow** — search memory before making decisions that might have prior context
+- **Core memories** — persistent facts (who Thomas is, communication preferences, project status). Auto-hydrated on startup via a snapshot file. Currently 6 entries.
+- **Conversation memory** — recent message history (capped at 30 messages, archived after 2 days). Provides short-term continuity without unbounded context growth.
 
-"No mental notes. Write it down or it dies with the session." This eliminates hallucinated continuity — if something isn't in a file, Eliza doesn't pretend to remember it.
+On top of this, a curated `MEMORY.md` file is loaded into every system prompt — long-term knowledge that Eliza should always have access to (decisions, preferences, key facts). This is version-controlled in eliza-config and deployed immutably like the other workspace files.
+
+The design philosophy: "No mental notes. Write it down or it dies with the session." Core memories and MEMORY.md are the durable layer; conversation memory is ephemeral by design. If something isn't written down explicitly, Eliza doesn't pretend to remember it.
 
 ## Integrations
 
-All services are accessible only via [Tailscale](https://tailscale.com) mesh VPN:
+Eliza integrates with external services over the internet and internal services over [Tailscale](https://tailscale.com):
 
+- [**Telegram**](https://telegram.org) — primary communication channel, async message delivery
 - [**GitHub**](https://github.com) — PR reviews, CI checks, issue management via `gh` CLI
 - [**Linear**](https://linear.app) — backlog management, issue creation, status updates via GraphQL API
-- [**Grafana**](https://grafana.com) — dashboard queries, alert checks for infrastructure monitoring
-- [**Telegram**](https://telegram.org) — primary communication channel, async message delivery
+- [**Grafana**](https://grafana.com) — dashboard queries, alert checks (Tailscale-only, not exposed to the internet)
 
 ## Stack
 
-[ZeroClaw](https://github.com/zeroclaw-labs/zeroclaw) (Rust), [OpenRouter](https://openrouter.ai) (model routing to Claude), [NixOS](https://nixos.org) (deployment), [systemd](https://systemd.io) (service management + hardening), [SQLite](https://sqlite.org) (memory with hybrid vector + FTS5 search), [Tailscale](https://tailscale.com) (network security).
+[ZeroClaw](https://github.com/zeroclaw-labs/zeroclaw) (Rust), [OpenRouter](https://openrouter.ai) (model routing to Claude), [NixOS](https://nixos.org) (deployment), [systemd](https://systemd.io) (service management + hardening), [SQLite](https://sqlite.org) (memory with FTS5 search, vector search not yet enabled), [Tailscale](https://tailscale.com) (network security).
