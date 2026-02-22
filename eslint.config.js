@@ -5,7 +5,7 @@ import eslintConfigPrettier from "eslint-config-prettier/flat";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  globalIgnores(["dist/", ".astro/", ".wrangler/"]),
+  globalIgnores(["dist/", ".astro/", ".wrangler/", "scripts/"]),
 
   eslint.configs.recommended,
   tseslint.configs.strict,
