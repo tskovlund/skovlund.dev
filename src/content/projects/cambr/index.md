@@ -15,7 +15,7 @@ The evolution loop:
 1. **Load** a population of strategy modules (each one a Python file implementing a simple contract)
 2. **Evaluate** fitness using walk-forward backtesting — 70% in-sample, 30% out-of-sample
 3. **Select** top performers based on a composite score (Sharpe ratio, drawdown, return, win rate)
-4. **Mutate** — AI agents read parent strategies and their performance data, then write new ones
+4. **Evolve** — AI agents generate children via mutation (tweak one parent), crossover (combine two parents), or genesis (invent from scratch)
 5. **Validate** children (must parse, implement the contract, and survive a backtest)
 6. **Cull** strategies that fail minimum viability thresholds
 7. Repeat
@@ -34,6 +34,7 @@ class SmaCrossover(Strategy):
             name="sma_crossover",
             version="1.0.0",
             description="Buy when 10-SMA crosses above 50-SMA",
+            parent_names=(),
         )
 
     def generate_signals(self, open, high, low, close, volume):
@@ -61,8 +62,8 @@ The engine is fully open. The strategies stay private — publishing profitable 
 
 ## Stack
 
-Python 3.13, [pandas](https://pandas.pydata.org)/[numpy](https://numpy.org) for the backtest engine (~175 lines), [ccxt](https://github.com/ccxt/ccxt) for exchange data, SQLite for caching, [Nix](https://nixos.org) + [uv](https://docs.astral.sh/uv/) for the dev environment, [pyright](https://github.com/microsoft/pyright) in strict mode, [ruff](https://github.com/astral-sh/ruff) for linting.
+Python 3.13, [Claude](https://docs.anthropic.com/en/docs/about-claude/models) via Anthropic API / [OpenRouter](https://openrouter.ai) for strategy generation, [pandas](https://pandas.pydata.org)/[numpy](https://numpy.org) for the backtest engine (~175 lines), [ccxt](https://github.com/ccxt/ccxt) for exchange data, SQLite for caching, [Nix](https://nixos.org) + [uv](https://docs.astral.sh/uv/) for the dev environment, [pyright](https://github.com/microsoft/pyright) in strict mode, [ruff](https://github.com/astral-sh/ruff) for linting.
 
 ## Status
 
-The engine is built and working — data fetching, backtesting, fitness evaluation, and CLI are all functional. The evolution loop (AI agent integration for mutation/crossover/genesis) is the next phase.
+Active development. The full pipeline works end-to-end: `cambr evolve` generates an initial population via Claude, evaluates fitness, selects top performers, and evolves children through mutation, crossover, and genesis — all automated. Supports both Anthropic API and OpenRouter.
