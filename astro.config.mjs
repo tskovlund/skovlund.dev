@@ -4,10 +4,19 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
+import rehypeExternalLinks from "rehype-external-links";
 import icon from "astro-icon";
 
 export default defineConfig({
   site: "https://skovlund.dev",
+  markdown: {
+    rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        { rel: ["noopener", "noreferrer"], target: "_blank" },
+      ],
+    ],
+  },
   integrations: [
     mdx(),
     sitemap(),

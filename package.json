@@ -30,6 +30,7 @@
     "astro-icon": "^1.1.5",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "rehype-external-links": "^3.0.0",
     "sharp": "^0.34.5",
     "smplr": "^0.17.0",
     "tailwind-merge": "^3.5.0",
