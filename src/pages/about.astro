@@ -81,6 +81,11 @@ function getStreamingUrl(
             about.releases.map((entry) => {
               const cover = getCover(entry.cover);
               const streamingUrl = getStreamingUrl(entry.segments);
+              const firstSegment = entry.segments[0];
+              const albumTitle =
+                typeof firstSegment !== "string"
+                  ? firstSegment.label
+                  : entry.cover;
               return (
                 <li class="flex items-start gap-3">
                   <span class="font-mono text-sm text-tn-light-fg-muted/50 dark:text-tn-dark-fg-muted/50 shrink-0 w-10 text-right pt-1">
@@ -95,7 +100,7 @@ function getStreamingUrl(
                     >
                       <Image
                         src={cover}
-                        alt=""
+                        alt={`${albumTitle} album cover`}
                         width={40}
                         height={40}
                         class="rounded size-10 object-cover"
@@ -104,7 +109,7 @@ function getStreamingUrl(
                   ) : cover ? (
                     <Image
                       src={cover}
-                      alt=""
+                      alt={`${albumTitle} album cover`}
                       width={40}
                       height={40}
                       class="rounded size-10 object-cover shrink-0"
