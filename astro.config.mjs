@@ -33,5 +33,14 @@ export default defineConfig({
         process.env.COMMIT_SHA || "",
       ),
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("smplr")) return "smplr";
+          },
+        },
+      },
+    },
   },
 });

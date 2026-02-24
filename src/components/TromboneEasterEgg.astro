@@ -373,11 +373,9 @@
     // Reset state on each navigation
     resetState();
 
-    // Preload trombone samples in background so first click is instant.
-    // AudioContext creation may fail before any user gesture (browser autoplay
-    // policy), in which case loadTromboneIfNeeded() catches the error silently
-    // and the instrument will be loaded on the first actual click instead.
-    void loadTromboneIfNeeded();
+    // Trombone samples load on first click — no eager preloading.
+    // The user needs 5 clicks to trigger the riff, giving plenty of
+    // time to fetch + decode between click 1 and click 5.
 
     // Register click listener only once
     if (!isClickListenerRegistered) {
