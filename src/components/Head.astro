@@ -1,9 +1,5 @@
 ---
 import "../styles/global.css";
-import "@fontsource/monaspace-neon/latin-400.css";
-import "@fontsource/monaspace-neon/latin-600.css";
-import "@fontsource/inter/latin-400.css";
-import "@fontsource/inter/latin-600.css";
 import mono400 from "@fontsource/monaspace-neon/files/monaspace-neon-latin-400-normal.woff2";
 import mono600 from "@fontsource/monaspace-neon/files/monaspace-neon-latin-600-normal.woff2";
 import sans400 from "@fontsource/inter/files/inter-latin-400-normal.woff2";
@@ -25,6 +21,36 @@ const { title, description, image = "/og.png" } = Astro.props;
 const isBlogPost =
   Astro.url.pathname.startsWith("/blog/") && Astro.url.pathname !== "/blog/";
 const ogType = isBlogPost ? "article" : "website";
+
+const fontFaceCss = `
+@font-face {
+  font-family: "Monaspace Neon";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(${mono400}) format("woff2");
+}
+@font-face {
+  font-family: "Monaspace Neon";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(${mono600}) format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(${sans400}) format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(${sans600}) format("woff2");
+}`;
 ---
 
 <!-- Global Metadata -->
@@ -38,6 +64,9 @@ const ogType = isBlogPost ? "article" : "website";
 <link rel="preload" href={mono600} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={sans400} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={sans600} as="font" type="font/woff2" crossorigin />
+
+<!-- Font face declarations (woff2 only, no woff fallbacks) -->
+<style set:html={fontFaceCss}></style>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
