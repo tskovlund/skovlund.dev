@@ -373,9 +373,13 @@
     // Reset state on each navigation
     resetState();
 
-    // Trombone samples load on first click — no eager preloading.
-    // The user needs 5 clicks to trigger the riff, giving plenty of
-    // time to fetch + decode between click 1 and click 5.
+    // Preload smplr after the browser is idle so it doesn't affect TBT,
+    // but is ready by the time the user clicks the portrait.
+    const idleCallback =
+      typeof requestIdleCallback === "function"
+        ? requestIdleCallback
+        : (callback: () => void): number => window.setTimeout(callback, 2000);
+    idleCallback(() => void loadTromboneIfNeeded());
 
     // Register click listener only once
     if (!isClickListenerRegistered) {
