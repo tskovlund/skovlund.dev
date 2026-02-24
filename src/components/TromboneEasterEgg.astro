@@ -5,8 +5,8 @@
 ---
 
 <script>
-  import { Soundfont } from "smplr";
-  import confetti from "canvas-confetti";
+  import type { Soundfont } from "smplr";
+  import type confettiType from "canvas-confetti";
 
   // Constants
   const CLICK_RESET_TIMEOUT_MS = 5000;
@@ -90,6 +90,7 @@
   let isLoadingInstrument = false;
   let isRiffPlaying = false;
   let activeRiffTimeouts: number[] = [];
+  let confettiFunction: typeof confettiType | null = null;
   let isClickListenerRegistered = false;
 
   function getAudioContext(): AudioContext {
@@ -105,6 +106,7 @@
 
     isLoadingInstrument = true;
     try {
+      const { Soundfont } = await import("smplr");
       const instrument = new Soundfont(getAudioContext(), {
         instrument: "trombone",
       });
@@ -196,7 +198,13 @@
     return FALLBACK_CONFETTI_COLORS;
   }
 
-  function fireConfetti(portraitElement: HTMLElement): void {
+  async function fireConfetti(portraitElement: HTMLElement): Promise<void> {
+    if (confettiFunction === null) {
+      const mod = await import("canvas-confetti");
+      confettiFunction = mod.default;
+    }
+    const confetti = confettiFunction;
+
     const colors = getThemeColors();
     const rect = portraitElement.getBoundingClientRect();
 
@@ -348,7 +356,7 @@
 
   function cleanup(): void {
     resetState();
-    confetti.reset();
+    if (confettiFunction !== null) confettiFunction.reset();
     activeRiffTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     activeRiffTimeouts = [];
 

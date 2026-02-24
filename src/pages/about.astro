@@ -33,6 +33,7 @@ function getStreamingUrl(
 <PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
   <Container>
     <div class="space-y-8 sm:space-y-10">
+      <h1 class="sr-only">{ABOUT.TITLE}</h1>
       <section
         class="animate text-center sm:text-left after:block after:clear-both after:content-['']"
       >
@@ -94,7 +95,7 @@ function getStreamingUrl(
                     >
                       <Image
                         src={cover}
-                        alt={`Cover art`}
+                        alt=""
                         width={40}
                         height={40}
                         class="rounded size-10 object-cover"
@@ -103,7 +104,7 @@ function getStreamingUrl(
                   ) : cover ? (
                     <Image
                       src={cover}
-                      alt={`Cover art`}
+                      alt=""
                       width={40}
                       height={40}
                       class="rounded size-10 object-cover shrink-0"

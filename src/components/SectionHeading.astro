@@ -15,7 +15,7 @@ interface Props {
   level?: "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-const { color, level: Element = "h3" } = Astro.props;
+const { color, level: Element = "h2" } = Astro.props;
 
 const colorClasses: Record<ThemeColor, string> = {
   accent: "text-tn-light-accent dark:text-tn-dark-accent",

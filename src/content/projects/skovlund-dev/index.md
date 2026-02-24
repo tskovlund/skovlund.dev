@@ -36,5 +36,5 @@ It's a portfolio piece, so I hold it to a high standard:
 
 - **[ESLint](https://eslint.org)** with strict [typescript-eslint](https://typescript-eslint.io) rules — explicit return types, naming conventions, no abbreviations
 - **WCAG 2.1 AA** accessibility — skip links, keyboard focus indicators, ARIA attributes, reduced motion support, semantic HTML
-- **Perfect [Lighthouse](https://developer.chrome.com/docs/lighthouse/) scores** — 100 across performance, accessibility, best practices, and SEO
+- **High [Lighthouse](https://developer.chrome.com/docs/lighthouse/) scores** — 100 best practices, 95+ accessibility, with ongoing improvements to performance and SEO
 - **Git hooks** — pre-commit lints staged files, pre-push runs the full build

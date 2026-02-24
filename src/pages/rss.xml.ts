@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { HOME } from "@consts";
+import { SITE, HOME } from "@consts";
 
 type RssContext = {
   site: string;
@@ -10,7 +10,7 @@ export async function GET(context: RssContext): Promise<Response> {
   const blog = (await getCollection("blog")).filter((post) => !post.data.draft);
 
   const projects = (await getCollection("projects")).filter(
-    (project) => !project.data.draft,
+    (project) => !project.data.draft && project.data.featured,
   );
 
   const items = [...blog, ...projects].sort(
@@ -20,7 +20,7 @@ export async function GET(context: RssContext): Promise<Response> {
   );
 
   return rss({
-    title: HOME.TITLE,
+    title: SITE.NAME,
     description: HOME.DESCRIPTION,
     site: context.site,
     items: items.map((item) => ({

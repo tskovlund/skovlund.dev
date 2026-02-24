@@ -40,6 +40,8 @@ const recentProjects = (await getCollection("projects"))
             width={176}
             height={176}
             loading="eager"
+            fetchpriority="high"
+            decoding="auto"
             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover shrink-0"
             data-easter-egg-target
           />
@@ -53,7 +55,7 @@ const recentProjects = (await getCollection("projects"))
                 ><span id="typewriter-cursor" class="cursor-blink"></span></span
               >
             </p>
-            <p
+            <h1
               class="mt-2 font-semibold text-lg text-tn-light-fg dark:text-tn-dark-fg"
             >
               I'm {home.intro.nameFirst}
@@ -61,7 +63,7 @@ const recentProjects = (await getCollection("projects"))
                 class="font-normal text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
                 >{home.intro.nameLast}</span
               >.
-            </p>
+            </h1>
             <div class="space-y-1 mt-2">
               <p
                 class="text-sm whitespace-nowrap text-tn-light-fg dark:text-tn-dark-fg"
