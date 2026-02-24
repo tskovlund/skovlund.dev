@@ -373,13 +373,14 @@
     // Reset state on each navigation
     resetState();
 
-    // Preload smplr after the browser is idle so it doesn't affect TBT,
-    // but is ready by the time the user clicks the portrait.
+    // Preload the smplr JS module after the browser is idle so parsing
+    // doesn't affect TBT. Don't create AudioContext or Soundfont here —
+    // mobile browsers require a user gesture for AudioContext to work.
     const idleCallback =
       typeof requestIdleCallback === "function"
         ? requestIdleCallback
         : (callback: () => void): number => window.setTimeout(callback, 2000);
-    idleCallback(() => void loadTromboneIfNeeded());
+    idleCallback(() => void import("smplr"));
 
     // Register click listener only once
     if (!isClickListenerRegistered) {
