@@ -34,22 +34,20 @@ This is non-negotiable. Enforced via ESLint rules and git hooks where possible, 
 
 ### Naming
 
-- **No abbreviations.** `el`, `btn`, `acc`, `e`, `i`, `s` are never acceptable. Use full, descriptive names: `greetingElement`, `themeButton`, `postsByYear`, `clickEvent`, `index`, `social`.
+- Enforced via `@typescript-eslint/naming-convention`. Examples: `greetingElement` not `el`, `themeButton` not `btn`, `postsByYear` not `acc`, `clickEvent` not `e`, `index` not `i`, `social` not `s`.
 - **Sort comparators**: use `first`/`second`, not `a`/`b`.
 - **Types**: PascalCase. Variables/functions: camelCase. Constants: UPPER_SNAKE_CASE.
-- Enforced: `@typescript-eslint/naming-convention` for casing patterns.
 
 ### Typing
 
-- **Explicit types everywhere.** Every function must have an explicit return type. Every exported function must have explicit parameter and return types. Never rely on type inference for function signatures.
-- **No `var`.** Use `const` by default, `let` only when reassignment is necessary.
+- Use `const` by default, `let` only when reassignment is necessary.
 - In `is:inline` scripts (plain JS, e.g. `Head.astro`), use `const`/`let` and descriptive names. TS annotations aren't available there.
 - Prefer bundled `<script>` over `is:inline` + `define:vars` — bundled scripts run once as modules, avoiding re-execution issues with View Transitions. Pass config via `data-*` attributes.
 - Enforced: `explicit-function-return-type`, `explicit-module-boundary-types`, `no-inferrable-types: off`.
 
 ### Magic numbers
 
-- Extract numeric literals into named constants. `TYPEWRITER_TYPE_SPEED_MS = 100`, not bare `100`.
+- Example: `TYPEWRITER_TYPE_SPEED_MS = 100`, not bare `100`.
 - Exception: 0, 1, and values in Tailwind classes.
 
 ### Structure
@@ -139,12 +137,9 @@ WCAG 2.1 AA compliance. Every change must maintain these standards.
 
 ## Git workflow
 
-- Direct to main for content and small changes
-- Branch + PR for structural changes
 - GitHub Actions: build + deploy on push to main; build-only on PRs
 
 ## Style
 
-- Conventional commits
 - Prettier for formatting (double quotes, semicolons, trailing commas)
 - ESLint for linting (strict typescript-eslint + astro plugin + prettier compat)
