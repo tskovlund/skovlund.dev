@@ -1,4 +1,4 @@
-# CLAUDE.md — skovlund.dev
+# AGENTS.md — skovlund.dev
 
 Follow the code standards in [CONVENTIONS.md](CONVENTIONS.md).
 
