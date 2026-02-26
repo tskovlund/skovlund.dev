@@ -1,5 +1,7 @@
 # CLAUDE.md — skovlund.dev
 
+Follow the code standards in [CONVENTIONS.md](CONVENTIONS.md).
+
 ## Overview
 
 Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Deployed to Cloudflare Pages via GitHub Actions. Based on Astro Nano.
