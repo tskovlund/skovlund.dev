@@ -1,4 +1,5 @@
 ---
+import type { GetStaticPathsResult } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
@@ -6,7 +7,7 @@ import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 
-export async function getStaticPaths() {
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const posts = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
     .sort(
