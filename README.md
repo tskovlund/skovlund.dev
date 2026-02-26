@@ -63,6 +63,10 @@ Requires two repository secrets:
 - `CLOUDFLARE_API_TOKEN` — Cloudflare API token with Pages edit permissions
 - `CLOUDFLARE_ACCOUNT_ID` — Cloudflare account ID
 
+## Author
+
+Thomas Skovlund Hansen — [thomas@skovlund.dev](mailto:thomas@skovlund.dev)
+
 ## License
 
 [MIT](LICENSE)
