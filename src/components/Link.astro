@@ -1,5 +1,5 @@
 ---
-import { cn } from "@lib/utils";
+import { classNames } from "@lib/utils";
 
 type Props = {
   href: string;
@@ -14,7 +14,7 @@ const { href, external, underline = true, ...rest } = Astro.props;
   href={href}
   target={external ? "_blank" : "_self"}
   rel={external ? "noopener noreferrer" : undefined}
-  class={cn(
+  class={classNames(
     "inline-block text-tn-light-accent dark:text-tn-dark-accent hover:text-tn-light-accent-hover hover:dark:text-tn-dark-accent-hover transition-colors duration-300 ease-in-out",
     underline &&
       "underline underline-offset-2 decoration-tn-light-accent/30 dark:decoration-tn-dark-accent/30 hover:decoration-tn-light-accent/60 hover:dark:decoration-tn-dark-accent/60",
