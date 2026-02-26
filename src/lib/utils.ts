@@ -6,6 +6,8 @@ export function classNames(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
+const MINIMUM_READING_TIME_MINUTES = 1;
+
 export function readingTime(html: string): string {
   let textOnly: string = html;
   while (/<[^>]+>/.test(textOnly)) {
@@ -14,7 +16,7 @@ export function readingTime(html: string): string {
   const wordCount: number = textOnly.split(/\s+/).length;
   const readingTimeMinutes: string = (
     wordCount / SITE.AVERAGE_WORDS_PER_MINUTE +
-    1
+    MINIMUM_READING_TIME_MINUTES
   ).toFixed();
   return `${readingTimeMinutes} min read`;
 }
