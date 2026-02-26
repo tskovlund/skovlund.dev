@@ -21,6 +21,9 @@
   const CONFETTI_START_VELOCITY = 45;
   const CLICKS_TO_TRIGGER_RIFF = 5;
   const GLOW_PULSE_DURATION_MS = 250;
+  const BOUNCE_DURATION_MS = 200;
+  const SHAKE_DURATION_MS = 500;
+  const IDLE_CALLBACK_FALLBACK_MS = 2000;
 
   // The Lick rhythm: 1/8 1/8 1/8 1/8 1/4 1/8 3/8
   const LICK_TEMPO_BPM = 130;
@@ -275,7 +278,7 @@
     ];
 
     portraitElement.animate(keyframes, {
-      duration: 200,
+      duration: BOUNCE_DURATION_MS,
       easing: "ease-out",
     });
   }
@@ -296,7 +299,7 @@
     ];
 
     portraitElement.animate(keyframes, {
-      duration: 500,
+      duration: SHAKE_DURATION_MS,
       easing: "ease-in-out",
     });
   }
@@ -379,7 +382,8 @@
     const idleCallback =
       typeof requestIdleCallback === "function"
         ? requestIdleCallback
-        : (callback: () => void): number => window.setTimeout(callback, 2000);
+        : (callback: () => void): number =>
+            window.setTimeout(callback, IDLE_CALLBACK_FALLBACK_MS);
     idleCallback(() => void import("smplr"));
 
     // Register click listener only once
