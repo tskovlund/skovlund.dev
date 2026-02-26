@@ -67,9 +67,11 @@ const config = JSON.stringify({
     _typewriterActive?: boolean;
   }
 
+  const GRADIENT_COLOR_COUNT = 3;
+
   function randomGradient(colorCount: number): string {
     const indices: number[] = [];
-    while (indices.length < 3) {
+    while (indices.length < GRADIENT_COLOR_COUNT) {
       const candidate = Math.floor(Math.random() * colorCount);
       if (!indices.includes(candidate)) indices.push(candidate);
     }
