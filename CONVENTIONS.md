@@ -5,8 +5,9 @@ relevant subset in its own AGENTS.md / CLAUDE.md / CONTRIBUTING.md.
 
 ## Code Quality
 
-- **Explicit types whenever possible** — no `var` where the type isn't obvious.
-  The reader should never have to guess a type
+- **Explicit types whenever possible** — full type annotations in Python, no
+  `var` in C#, no `auto` where the type isn't obvious. The reader should never
+  have to guess a type
 - **Proper fixes over workarounds.** Solve at the root cause. If a hack is
   unavoidable (something outside our control), track it so it can be replaced
   when a proper solution is available
@@ -34,8 +35,26 @@ relevant subset in its own AGENTS.md / CLAUDE.md / CONTRIBUTING.md.
 
 ## Error Handling & Resilience
 
+- **Surface problems, don't swallow them** — errors should be visible, not
+  silently ignored
+- **Validate data** — at system boundaries, API inputs, external data. Trust
+  internal code
+- **Proper retry patterns** — use battle-tested libraries (Polly/.NET,
+  tenacity/Python, EF Core built-in retries) instead of homebrew retry loops
+- **Structured logging** — use proper logging frameworks (`logging` in Python,
+  Serilog/.NET, etc.) with consistent log levels (DEBUG/INFO/WARN/ERROR). No
+  print debugging in production code
 - **Fail CI on warnings** — warnings that persist become invisible. Either fix
   them or explicitly suppress with justification
+
+## API Design
+
+- **Predictable and consistent** — consistent naming, consistent error shapes,
+  consistent return types. If one endpoint returns `{"error": "..."}`, all
+  endpoints do
+- **Version APIs deliberately** — whether versioning adds value depends on the
+  technology and situation. Make it a conscious decision, not a default or an
+  afterthought
 
 ## Library Usage
 
@@ -58,6 +77,19 @@ relevant subset in its own AGENTS.md / CLAUDE.md / CONTRIBUTING.md.
 - **Dependabot/Renovate** for automated dependency updates when available
 - **No secrets in code** — env vars or secret managers. `.env` files gitignored
 
+## Testing
+
+- **Naming:** `test_<action>_<expected_outcome>`
+- **Structure:** Arrange / Act / Assert comments in every test
+- **Lean:** every test must earn its place. No trivial tests, no tests of
+  library/built-in functionality
+- **No duplication:** shared logic tested once in the base, not per subclass
+- **Complete coverage:** every error path, edge case, and branching condition
+  that could fail in production
+- **Integration tests alongside unit tests** — unit tests verify components in
+  isolation, integration tests verify outcomes end-to-end. Both complement each
+  other
+
 ## Git & Workflow
 
 - **Conventional commits** — `feat:`, `fix:`, `refactor:`, `docs:`, `test:`,
@@ -73,8 +105,8 @@ relevant subset in its own AGENTS.md / CLAUDE.md / CONTRIBUTING.md.
 
 ## Project Structure
 
-- **Follow established conventions per language/framework** — standard
-  framework structures
+- **Follow established conventions per language/framework** — `src/` layout in
+  Python, standard framework structures elsewhere
 - **AGENTS.md in every repo** with a CLAUDE.md symlink — the canonical file for
   AI agent instructions
 - **Shared CI via `tskovlund/.github`** — reusable workflows for common
