@@ -34,4 +34,8 @@ I play trombone in [Nordkraft Big Band](https://nordkraftbigband.dk) and have be
 
 I realized this was exactly the kind of problem an AI agent could solve in a single focused session. So I described what I wanted, went for a run, and came back to a working prototype. mcp-score grew from there.
 
-It understands transposing instruments, voice leading, jazz harmony, and standard arranging conventions. The result is a real score you can rehearse from — not a rough sketch that needs hours of cleanup. Published on [PyPI](https://pypi.org/project/mcp-score/) — install with `pip install mcp-score`.
+It understands transposing instruments, voice leading, jazz harmony, and standard arranging conventions. The result is a real score you can rehearse from — not a rough sketch that needs hours of cleanup.
+
+## Status
+
+Feature-complete and undergoing testing. Source on [GitHub](https://github.com/tskovlund/mcp-score) — PyPI release coming soon.

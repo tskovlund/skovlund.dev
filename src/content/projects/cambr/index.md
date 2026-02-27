@@ -30,6 +30,6 @@ Strategies implement a minimal contract: pure functions from market data to entr
 
 ## Status
 
-Active development. The full pipeline works end-to-end: population initialization, fitness evaluation, selection, and multi-strategy evolution — all automated.
+The full pipeline works end-to-end: population initialization, fitness evaluation, selection, and multi-strategy evolution — all automated. Currently preparing for paper trading to validate strategy performance against live market data.
 
 Cambr is a private project. The competitive nature of algorithmic trading means publishing the full system would undermine its edge. That said, the framework contains components — the backtest engine, strategy contract, fitness evaluation — that aren't competitive on their own. I plan to open-source those pieces selectively once the boundaries are well-defined.
