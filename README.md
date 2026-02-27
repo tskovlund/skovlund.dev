@@ -9,7 +9,7 @@
 
 Personal website and blog. Built with [Astro](https://astro.build), [Tailwind CSS v4](https://tailwindcss.com), and [TypeScript](https://www.typescriptlang.org). Deployed to [Cloudflare Pages](https://pages.cloudflare.com) via GitHub Actions.
 
-Based on [Astro Nano](https://github.com/markhorn-dev/astro-nano). Tokyo Night theme.
+Based on [Astro Nano](https://github.com/markhorn-dev/astro-nano). 12 color schemes (Tokyo Night default).
 
 ## Development
 
@@ -29,7 +29,7 @@ pnpm preview        # preview production build locally
 - **Tailwind CSS 4** — styling via CSS-first config (`@theme` in `global.css`)
 - **TypeScript** — strict mode with explicit types everywhere
 - **Fonts** — Inter (body), Monaspace Neon (headings/nav/code) via Fontsource
-- **Theme** — Tokyo Night (dark, default) / Tokyo Night Day (light)
+- **Theme** — 12 color schemes (Tokyo Night default) with light/dark/system mode
 - **Icons** — Lucide (UI icons) + Simple Icons via astro-icon (brand logos)
 - **i18n** — all user-facing strings in `src/i18n/en.ts`
 
@@ -50,8 +50,8 @@ git config core.hooksPath .githooks
 
 ## Content
 
-- **Blog**: `src/content/blog/<slug>/index.md`
-- **Projects**: `src/content/projects/<slug>/index.md`
+- **Blog**: `src/content/blog/<slug>/index.md` (or `.mdx` for posts with components)
+- **Projects**: `src/content/projects/<slug>/index.md` (or `.mdx`)
 - **Shelf**: curated links and media in `src/i18n/en.ts` (no content collection — data-driven)
 
 ## Deployment

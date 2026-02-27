@@ -14,10 +14,12 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 - **Tailwind CSS 4** — CSS-first config via `@theme` in `src/styles/global.css` (no `tailwind.config.mjs`)
 - **Content** lives in `src/content/` — blog posts (markdown/MDX) and projects
 - **i18n** — all user-facing strings in `src/i18n/en.ts` (single source of truth for copy)
-- **Theme** — Tokyo Night (dark) / Tokyo Night Day (light), class-based dark mode via `@custom-variant`
+- **Theme** — 12 color schemes (Tokyo Night default), class-based dark mode via `@custom-variant`, scheme switcher via `data-color-scheme` attribute
 - **Fonts** — Inter (body/sans), Monaspace Neon (headings/nav/code/mono) via Fontsource
 - **Icons** — Lucide (`@lucide/astro`) for UI icons, Simple Icons via `astro-icon` for brand logos
 - **Config** centralized in `src/consts.ts` (typed re-exports from i18n + numeric config)
+- **Utilities**: `src/lib/icons.ts` (Lucide icon registry + theme color classes), `src/lib/utils.ts` (`classNames` via clsx/tailwind-merge, `readingTime`)
+- **Scripts**: `src/scripts/main.ts` (orchestrator), `theme.ts`, `navigation.ts`, `typewriter.ts`
 - **Deployment** via GitHub Actions → Cloudflare Pages (static output, no SSR)
 
 ## Commands
@@ -58,9 +60,10 @@ This is non-negotiable. Enforced via ESLint rules and git hooks where possible, 
 
 ## Content
 
-- **Blog**: `src/content/blog/<slug>/index.md` — frontmatter: title, description, date, draft
-- **Projects**: `src/content/projects/<slug>/index.md` — frontmatter: title, description, date, draft, demoURL, repoURL, featured, cover
+- **Blog**: `src/content/blog/<slug>/index.md` (or `.mdx` for posts with components) — frontmatter: title, description, date, draft
+- **Projects**: `src/content/projects/<slug>/index.md` (or `.mdx`) — frontmatter: title, description, sortOrder, draft, featured, demoURL, repoURL, icon, iconColor
   - `featured: true` projects get a dedicated page via `[...slug].astro`; others are card-only with source/demo links
+- **Shelf**: curated links and media defined in `src/i18n/en.ts` (`shelf` object) — no content collection, purely data-driven
 
 ### Blog posts vs project pages
 
@@ -82,12 +85,13 @@ Link to services/tools naturally — not mechanically "first occurrence only." T
 
 ## Styling
 
+- **Color schemes**: 12 switchable schemes (Tokyo Night, Gruvbox, Nord, Rosé Pine, Catppuccin, Kanagawa, Everforest, Dracula, Solarized, Monokai Pro, Horizon, Night Owl) defined as CSS variable overrides in `global.css` via `html[data-color-scheme="..."]` selectors. Active scheme stored in `localStorage` and applied via `data-color-scheme` attribute. Scheme list in `src/i18n/en.ts` (`colorSchemes`).
 - All theme colors defined as CSS custom properties in `src/styles/global.css` `@theme` block
 - UI color tokens: `{light,dark}-{bg,bg-alt,surface,fg,fg-muted,accent,accent-hover,warm,green,red,orange,yellow,cyan}`
 - Syntax highlighting tokens: `{light,dark}-syntax-{keyword,string,comment,function,constant,parameter,string-expr,punctuation,link}`
 - Each scheme block defines **all** its colors (UI + syntax) — single source of truth per scheme
 - Code block mapping (`--astro-code-*`) references syntax tokens and is scheme-agnostic
-- Dark mode is the default fallback (no system preference → dark)
+- System preference is honored by default (no saved preference → follows `prefers-color-scheme`)
 - Typography plugin registered via `@plugin "@tailwindcss/typography"` in CSS
 
 ## Transitions & Animation
@@ -97,9 +101,9 @@ The site uses Astro's View Transitions API (`<ClientRouter />`) for navigation. 
 ### How it works
 
 - **Header and footer** use `transition:persist` — they stay in the DOM across navigations and never re-render. Their event listeners (theme buttons, scroll handler, back-to-top) are bound once on first load. Social links live in the footer, visible on every page.
-- **Main content** uses a subtle 200ms fade (`fade({ duration: "0.2s" })`) between pages. Fast enough to feel instant, slow enough to avoid a hard cut.
+- **Main content** uses a subtle 300ms fade (`fade({ duration: "0.3s" })`) between pages. Fast enough to feel instant, slow enough to avoid a hard cut.
 - **Stagger animation** (`.animate` elements fading in one by one) runs with 150ms delays on first page load for a dramatic entrance. On subsequent navigations, elements reveal instantly (delay=0) since the View Transition fade already provides the visual transition.
-- **Script architecture** (`Head.astro`): `setupChromeListeners()` runs once (persisted UI), `setupContentListeners()` runs on every navigation (back buttons etc. in new content), `revealAnimatedElements()` adapts its timing based on whether it's first load or navigation.
+- **Script architecture** (`src/scripts/main.ts`): Chrome listeners are registered at module scope on first load (event delegation on `document`), `onPageLoad()` runs on every `astro:page-load` event (theme, nav state, typewriter, animated elements), and `revealAnimatedElements()` adapts its timing based on whether it's first load or navigation.
 - **Event delegation**: All persistent chrome listeners use event delegation on `document` (via `closest()`) so they survive DOM replacement during View Transitions.
 
 ### Design principles
@@ -117,7 +121,7 @@ WCAG 2.1 AA compliance. Every change must maintain these standards.
 
 - **Skip link**: "Skip to main content" link at top of every page, visible on keyboard focus
 - **Keyboard focus indicators**: `focus-visible` outline on all interactive elements (accent color, 2px offset)
-- **ARIA attributes**: `aria-expanded` on mobile menu toggle, `aria-pressed` on theme buttons, `aria-hidden` on decorative SVGs, `aria-controls` linking menu button to menu
+- **ARIA attributes**: `aria-expanded` on mobile menu toggle and settings panel trigger, `aria-pressed` on theme and color scheme buttons, `aria-hidden` on decorative SVGs, `aria-controls` linking menu button to menu
 - **Reduced motion**: `prefers-reduced-motion` disables all animations, transitions, and the typewriter effect — shows static greeting instead
 - **Semantic HTML**: proper landmark regions (`<header>`, `<main>`, `<footer>`, `<nav>`), list markup for navigation and content
 - **External links**: `rel="noopener noreferrer"` on all `target="_blank"` links
@@ -134,13 +138,14 @@ WCAG 2.1 AA compliance. Every change must maintain these standards.
 ## Git Hooks
 
 - **Pre-commit**: lints + format-checks staged files only (fast feedback)
+- **Commit-msg**: enforces conventional commit format (`type(scope): description`)
 - **Pre-push**: full `pnpm build` (includes `astro check` for type checking)
 - Plain shell scripts in `.githooks/` — zero dependencies, activated via `git config core.hooksPath .githooks`
 - **Devbox gotcha**: `devbox run -- git commit -m "$(cat <<'EOF'...)"` produces literal `\n` instead of newlines. For multi-line commit messages, write to a temp file and use `git commit -F /tmp/msg.txt`.
 
 ## Git workflow
 
-- GitHub Actions: build + deploy on push to main; build-only on PRs
+- GitHub Actions: lint + format-check + build on push to main and PRs; deploy to Cloudflare Pages on push to main (preview deployments on PRs). CodeQL scanning via separate workflow.
 
 ## Style
 
