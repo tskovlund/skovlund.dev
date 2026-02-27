@@ -9,388 +9,604 @@
   --font-mono: "Monaspace Neon", ui-monospace, SFMono-Regular, monospace;
 
   /* Tokyo Night (dark) */
-  --color-tn-dark-bg: #1a1b26;
-  --color-tn-dark-bg-alt: #16161e;
-  --color-tn-dark-surface: #292e42;
-  --color-tn-dark-fg: #c0caf5;
-  --color-tn-dark-fg-muted: #a9b1d6;
-  --color-tn-dark-accent: #7aa2f7;
-  --color-tn-dark-accent-hover: #7dcfff;
-  --color-tn-dark-warm: #bb9af7;
-  --color-tn-dark-green: #9ece6a;
-  --color-tn-dark-red: #f7768e;
-  --color-tn-dark-orange: #ff9e64;
-  --color-tn-dark-yellow: #e0af68;
-  --color-tn-dark-cyan: #7dcfff;
+  --color-dark-bg: #1a1b26;
+  --color-dark-bg-alt: #16161e;
+  --color-dark-surface: #292e42;
+  --color-dark-fg: #c0caf5;
+  --color-dark-fg-muted: #a9b1d6;
+  --color-dark-accent: #7aa2f7;
+  --color-dark-accent-hover: #7dcfff;
+  --color-dark-warm: #bb9af7;
+  --color-dark-green: #9ece6a;
+  --color-dark-red: #f7768e;
+  --color-dark-orange: #ff9e64;
+  --color-dark-yellow: #e0af68;
+  --color-dark-cyan: #7dcfff;
+  --color-dark-syntax-keyword: #bb9af7;
+  --color-dark-syntax-string: #9ece6a;
+  --color-dark-syntax-comment: #a9b1d6;
+  --color-dark-syntax-function: #7aa2f7;
+  --color-dark-syntax-constant: #ff9e64;
+  --color-dark-syntax-parameter: #e0af68;
+  --color-dark-syntax-string-expr: #9ece6a;
+  --color-dark-syntax-punctuation: #a9b1d6;
+  --color-dark-syntax-link: #7dcfff;
 
   /* Tokyo Night Day (light) */
-  --color-tn-light-bg: #e1e2e7;
-  --color-tn-light-bg-alt: #d0d5e3;
-  --color-tn-light-surface: #c4c8da;
-  --color-tn-light-fg: #3760bf;
-  --color-tn-light-fg-muted: #6172b0;
-  --color-tn-light-accent: #2e7de9;
-  --color-tn-light-accent-hover: #007197;
-  --color-tn-light-warm: #9854f1;
-  --color-tn-light-green: #587539;
-  --color-tn-light-red: #f52a65;
-  --color-tn-light-orange: #b15c00;
-  --color-tn-light-yellow: #8c6c3e;
-  --color-tn-light-cyan: #007197;
+  --color-light-bg: #e1e2e7;
+  --color-light-bg-alt: #d0d5e3;
+  --color-light-surface: #c4c8da;
+  --color-light-fg: #3760bf;
+  --color-light-fg-muted: #6172b0;
+  --color-light-accent: #2e7de9;
+  --color-light-accent-hover: #007197;
+  --color-light-warm: #9854f1;
+  --color-light-green: #587539;
+  --color-light-red: #f52a65;
+  --color-light-orange: #b15c00;
+  --color-light-yellow: #8c6c3e;
+  --color-light-cyan: #007197;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-green);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-accent);
+  --color-light-syntax-constant: var(--color-light-orange);
+  --color-light-syntax-parameter: var(--color-light-yellow);
+  --color-light-syntax-string-expr: var(--color-light-green);
+  --color-light-syntax-punctuation: var(--color-light-fg-muted);
+  --color-light-syntax-link: var(--color-light-cyan);
 }
 
 /* ---------------------------------------------------------------------------
  * Color scheme overrides
  *
  * Tokyo Night is the default (defined in @theme above).
- * Override --color-tn-* variables per scheme so all existing
+ * Override --color-{dark,light}-* variables per scheme so all existing
  * Tailwind utilities work without template changes.
  * --------------------------------------------------------------------------- */
 
 html[data-color-scheme="gruvbox"] {
-  --color-tn-dark-bg: #282828;
-  --color-tn-dark-bg-alt: #1d2021;
-  --color-tn-dark-surface: #3c3836;
-  --color-tn-dark-fg: #ebdbb2;
-  --color-tn-dark-fg-muted: #a89984;
-  --color-tn-dark-accent: #83a598;
-  --color-tn-dark-accent-hover: #8ec07c;
-  --color-tn-dark-warm: #d3869b;
-  --color-tn-dark-green: #b8bb26;
-  --color-tn-dark-red: #fb4934;
-  --color-tn-dark-orange: #fe8019;
-  --color-tn-dark-yellow: #fabd2f;
-  --color-tn-dark-cyan: #83a598;
+  --color-dark-bg: #282828;
+  --color-dark-bg-alt: #1d2021;
+  --color-dark-surface: #3c3836;
+  --color-dark-fg: #ebdbb2;
+  --color-dark-fg-muted: #a89984;
+  --color-dark-accent: #83a598;
+  --color-dark-accent-hover: #8ec07c;
+  --color-dark-warm: #d3869b;
+  --color-dark-green: #b8bb26;
+  --color-dark-red: #fb4934;
+  --color-dark-orange: #fe8019;
+  --color-dark-yellow: #fabd2f;
+  --color-dark-cyan: #8ec07c;
+  --color-dark-syntax-keyword: var(--color-dark-red);
+  --color-dark-syntax-string: var(--color-dark-green);
+  --color-dark-syntax-comment: #928374;
+  --color-dark-syntax-function: var(--color-dark-accent-hover);
+  --color-dark-syntax-constant: var(--color-dark-warm);
+  --color-dark-syntax-parameter: var(--color-dark-accent);
+  --color-dark-syntax-string-expr: var(--color-dark-orange);
+  --color-dark-syntax-punctuation: var(--color-dark-fg-muted);
+  --color-dark-syntax-link: var(--color-dark-cyan);
 
-  --color-tn-light-bg: #fbf1c7;
-  --color-tn-light-bg-alt: #f2e5bc;
-  --color-tn-light-surface: #d5c4a1;
-  --color-tn-light-fg: #3c3836;
-  --color-tn-light-fg-muted: #665c54;
-  --color-tn-light-accent: #076678;
-  --color-tn-light-accent-hover: #427b58;
-  --color-tn-light-warm: #8f3f71;
-  --color-tn-light-green: #79740e;
-  --color-tn-light-red: #9d0006;
-  --color-tn-light-orange: #af3a03;
-  --color-tn-light-yellow: #b57614;
-  --color-tn-light-cyan: #076678;
+  --color-light-bg: #fbf1c7;
+  --color-light-bg-alt: #f2e5bc;
+  --color-light-surface: #d5c4a1;
+  --color-light-fg: #3c3836;
+  --color-light-fg-muted: #665c54;
+  --color-light-accent: #076678;
+  --color-light-accent-hover: #427b58;
+  --color-light-warm: #8f3f71;
+  --color-light-green: #79740e;
+  --color-light-red: #9d0006;
+  --color-light-orange: #af3a03;
+  --color-light-yellow: #b57614;
+  --color-light-cyan: #427b58;
+  --color-light-syntax-keyword: var(--color-light-red);
+  --color-light-syntax-string: var(--color-light-green);
+  --color-light-syntax-comment: #928374;
+  --color-light-syntax-function: var(--color-light-accent-hover);
+  --color-light-syntax-constant: var(--color-light-warm);
+  --color-light-syntax-parameter: var(--color-light-accent);
+  --color-light-syntax-string-expr: var(--color-light-orange);
+  --color-light-syntax-punctuation: #7c6f64;
+  --color-light-syntax-link: var(--color-light-cyan);
 }
 
 html[data-color-scheme="nord"] {
-  --color-tn-dark-bg: #2e3440;
-  --color-tn-dark-bg-alt: #242933;
-  --color-tn-dark-surface: #3b4252;
-  --color-tn-dark-fg: #eceff4;
-  --color-tn-dark-fg-muted: #d8dee9;
-  --color-tn-dark-accent: #88c0d0;
-  --color-tn-dark-accent-hover: #81a1c1;
-  --color-tn-dark-warm: #b48ead;
-  --color-tn-dark-green: #a3be8c;
-  --color-tn-dark-red: #bf616a;
-  --color-tn-dark-orange: #d08770;
-  --color-tn-dark-yellow: #ebcb8b;
-  --color-tn-dark-cyan: #8fbcbb;
+  --color-dark-bg: #2e3440;
+  --color-dark-bg-alt: #242933;
+  --color-dark-surface: #3b4252;
+  --color-dark-fg: #eceff4;
+  --color-dark-fg-muted: #d8dee9;
+  --color-dark-accent: #88c0d0;
+  --color-dark-accent-hover: #81a1c1;
+  --color-dark-warm: #b48ead;
+  --color-dark-green: #a3be8c;
+  --color-dark-red: #bf616a;
+  --color-dark-orange: #d08770;
+  --color-dark-yellow: #ebcb8b;
+  --color-dark-cyan: #8fbcbb;
+  --color-dark-syntax-keyword: var(--color-dark-accent-hover);
+  --color-dark-syntax-string: var(--color-dark-green);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-accent);
+  --color-dark-syntax-constant: var(--color-dark-warm);
+  --color-dark-syntax-parameter: var(--color-dark-fg-muted);
+  --color-dark-syntax-string-expr: var(--color-dark-yellow);
+  --color-dark-syntax-punctuation: var(--color-dark-fg);
+  --color-dark-syntax-link: var(--color-dark-accent);
 
-  --color-tn-light-bg: #eceff4;
-  --color-tn-light-bg-alt: #e5e9f0;
-  --color-tn-light-surface: #d8dee9;
-  --color-tn-light-fg: #2e3440;
-  --color-tn-light-fg-muted: #4c566a;
-  --color-tn-light-accent: #5e81ac;
-  --color-tn-light-accent-hover: #81a1c1;
-  --color-tn-light-warm: #b48ead;
-  --color-tn-light-green: #a3be8c;
-  --color-tn-light-red: #bf616a;
-  --color-tn-light-orange: #d08770;
-  --color-tn-light-yellow: #ebcb8b;
-  --color-tn-light-cyan: #8fbcbb;
+  --color-light-bg: #eceff4;
+  --color-light-bg-alt: #e5e9f0;
+  --color-light-surface: #d8dee9;
+  --color-light-fg: #2e3440;
+  --color-light-fg-muted: #4c566a;
+  --color-light-accent: #5e81ac;
+  --color-light-accent-hover: #81a1c1;
+  --color-light-warm: #b48ead;
+  --color-light-green: #a3be8c;
+  --color-light-red: #bf616a;
+  --color-light-orange: #d08770;
+  --color-light-yellow: #ebcb8b;
+  --color-light-cyan: #8fbcbb;
+  --color-light-syntax-keyword: var(--color-light-accent-hover);
+  --color-light-syntax-string: var(--color-light-green);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: #88c0d0;
+  --color-light-syntax-constant: var(--color-light-warm);
+  --color-light-syntax-parameter: var(--color-light-fg);
+  --color-light-syntax-string-expr: var(--color-light-yellow);
+  --color-light-syntax-punctuation: #3b4252;
+  --color-light-syntax-link: #88c0d0;
 }
 
 html[data-color-scheme="rose-pine"] {
-  --color-tn-dark-bg: #232136;
-  --color-tn-dark-bg-alt: #2a273f;
-  --color-tn-dark-surface: #393552;
-  --color-tn-dark-fg: #e0def4;
-  --color-tn-dark-fg-muted: #908caa;
-  --color-tn-dark-accent: #c4a7e7;
-  --color-tn-dark-accent-hover: #9ccfd8;
-  --color-tn-dark-warm: #c4a7e7;
-  --color-tn-dark-green: #3e8fb0;
-  --color-tn-dark-red: #eb6f92;
-  --color-tn-dark-orange: #ea9a97;
-  --color-tn-dark-yellow: #f6c177;
-  --color-tn-dark-cyan: #9ccfd8;
+  --color-dark-bg: #232136;
+  --color-dark-bg-alt: #2a273f;
+  --color-dark-surface: #393552;
+  --color-dark-fg: #e0def4;
+  --color-dark-fg-muted: #908caa;
+  --color-dark-accent: #c4a7e7;
+  --color-dark-accent-hover: #9ccfd8;
+  --color-dark-warm: #c4a7e7;
+  --color-dark-green: #3e8fb0;
+  --color-dark-red: #eb6f92;
+  --color-dark-orange: #ea9a97;
+  --color-dark-yellow: #f6c177;
+  --color-dark-cyan: #9ccfd8;
+  --color-dark-syntax-keyword: #31748f;
+  --color-dark-syntax-string: var(--color-dark-yellow);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: #ebbcba;
+  --color-dark-syntax-constant: #ebbcba;
+  --color-dark-syntax-parameter: var(--color-dark-warm);
+  --color-dark-syntax-string-expr: var(--color-dark-yellow);
+  --color-dark-syntax-punctuation: var(--color-dark-fg-muted);
+  --color-dark-syntax-link: #31748f;
 
-  --color-tn-light-bg: #faf4ed;
-  --color-tn-light-bg-alt: #fffaf3;
-  --color-tn-light-surface: #f2e9e1;
-  --color-tn-light-fg: #575279;
-  --color-tn-light-fg-muted: #9893a5;
-  --color-tn-light-accent: #907aa9;
-  --color-tn-light-accent-hover: #56949f;
-  --color-tn-light-warm: #907aa9;
-  --color-tn-light-green: #286983;
-  --color-tn-light-red: #b4637a;
-  --color-tn-light-orange: #d7827e;
-  --color-tn-light-yellow: #ea9d34;
-  --color-tn-light-cyan: #56949f;
+  --color-light-bg: #faf4ed;
+  --color-light-bg-alt: #fffaf3;
+  --color-light-surface: #f2e9e1;
+  --color-light-fg: #575279;
+  --color-light-fg-muted: #9893a5;
+  --color-light-accent: #907aa9;
+  --color-light-accent-hover: #56949f;
+  --color-light-warm: #907aa9;
+  --color-light-green: #286983;
+  --color-light-red: #b4637a;
+  --color-light-orange: #d7827e;
+  --color-light-yellow: #ea9d34;
+  --color-light-cyan: #56949f;
+  --color-light-syntax-keyword: var(--color-light-green);
+  --color-light-syntax-string: var(--color-light-yellow);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-orange);
+  --color-light-syntax-constant: var(--color-light-orange);
+  --color-light-syntax-parameter: var(--color-light-warm);
+  --color-light-syntax-string-expr: var(--color-light-yellow);
+  --color-light-syntax-punctuation: #797593;
+  --color-light-syntax-link: var(--color-light-green);
 }
 
 html[data-color-scheme="catppuccin"] {
   /* Dark: Catppuccin Mocha — catppuccin.com */
-  --color-tn-dark-bg: #1e1e2e;
-  --color-tn-dark-bg-alt: #181825;
-  --color-tn-dark-surface: #313244;
-  --color-tn-dark-fg: #cdd6f4;
-  --color-tn-dark-fg-muted: #a6adc8;
-  --color-tn-dark-accent: #89b4fa;
-  --color-tn-dark-accent-hover: #89dceb;
-  --color-tn-dark-warm: #cba6f7;
-  --color-tn-dark-green: #a6e3a1;
-  --color-tn-dark-red: #f38ba8;
-  --color-tn-dark-orange: #fab387;
-  --color-tn-dark-yellow: #f9e2af;
-  --color-tn-dark-cyan: #94e2d5;
+  --color-dark-bg: #1e1e2e;
+  --color-dark-bg-alt: #181825;
+  --color-dark-surface: #313244;
+  --color-dark-fg: #cdd6f4;
+  --color-dark-fg-muted: #a6adc8;
+  --color-dark-accent: #89b4fa;
+  --color-dark-accent-hover: #89dceb;
+  --color-dark-warm: #cba6f7;
+  --color-dark-green: #a6e3a1;
+  --color-dark-red: #f38ba8;
+  --color-dark-orange: #fab387;
+  --color-dark-yellow: #f9e2af;
+  --color-dark-cyan: #94e2d5;
+  --color-dark-syntax-keyword: var(--color-dark-warm);
+  --color-dark-syntax-string: var(--color-dark-green);
+  --color-dark-syntax-comment: #6c7086;
+  --color-dark-syntax-function: var(--color-dark-accent);
+  --color-dark-syntax-constant: var(--color-dark-orange);
+  --color-dark-syntax-parameter: #eba0ac;
+  --color-dark-syntax-string-expr: #f5c2e7;
+  --color-dark-syntax-punctuation: #9399b2;
+  --color-dark-syntax-link: var(--color-dark-accent);
 
   /* Light: Catppuccin Latte — catppuccin.com */
-  --color-tn-light-bg: #eff1f5;
-  --color-tn-light-bg-alt: #e6e9ef;
-  --color-tn-light-surface: #ccd0da;
-  --color-tn-light-fg: #4c4f69;
-  --color-tn-light-fg-muted: #6c6f85;
-  --color-tn-light-accent: #1e66f5;
-  --color-tn-light-accent-hover: #04a5e5;
-  --color-tn-light-warm: #8839ef;
-  --color-tn-light-green: #40a02b;
-  --color-tn-light-red: #d20f39;
-  --color-tn-light-orange: #fe640b;
-  --color-tn-light-yellow: #df8e1d;
-  --color-tn-light-cyan: #179299;
+  --color-light-bg: #eff1f5;
+  --color-light-bg-alt: #e6e9ef;
+  --color-light-surface: #ccd0da;
+  --color-light-fg: #4c4f69;
+  --color-light-fg-muted: #6c6f85;
+  --color-light-accent: #1e66f5;
+  --color-light-accent-hover: #04a5e5;
+  --color-light-warm: #8839ef;
+  --color-light-green: #40a02b;
+  --color-light-red: #d20f39;
+  --color-light-orange: #fe640b;
+  --color-light-yellow: #df8e1d;
+  --color-light-cyan: #179299;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-green);
+  --color-light-syntax-comment: #9ca0b0;
+  --color-light-syntax-function: var(--color-light-accent);
+  --color-light-syntax-constant: var(--color-light-orange);
+  --color-light-syntax-parameter: #e64553;
+  --color-light-syntax-string-expr: #ea76cb;
+  --color-light-syntax-punctuation: #7c7f93;
+  --color-light-syntax-link: #7287fd;
 }
 
 html[data-color-scheme="kanagawa"] {
   /* Dark: Kanagawa Wave — github.com/rebelot/kanagawa.nvim */
-  --color-tn-dark-bg: #1f1f28;
-  --color-tn-dark-bg-alt: #16161d;
-  --color-tn-dark-surface: #2a2a37;
-  --color-tn-dark-fg: #dcd7ba;
-  --color-tn-dark-fg-muted: #727169;
-  --color-tn-dark-accent: #7e9cd8;
-  --color-tn-dark-accent-hover: #7fb4ca;
-  --color-tn-dark-warm: #957fb8;
-  --color-tn-dark-green: #98bb6c;
-  --color-tn-dark-red: #ff5d62;
-  --color-tn-dark-orange: #ffa066;
-  --color-tn-dark-yellow: #e6c384;
-  --color-tn-dark-cyan: #7aa89f;
+  --color-dark-bg: #1f1f28;
+  --color-dark-bg-alt: #16161d;
+  --color-dark-surface: #2a2a37;
+  --color-dark-fg: #dcd7ba;
+  --color-dark-fg-muted: #727169;
+  --color-dark-accent: #7e9cd8;
+  --color-dark-accent-hover: #7fb4ca;
+  --color-dark-warm: #957fb8;
+  --color-dark-green: #98bb6c;
+  --color-dark-red: #ff5d62;
+  --color-dark-orange: #ffa066;
+  --color-dark-yellow: #e6c384;
+  --color-dark-cyan: #7aa89f;
+  --color-dark-syntax-keyword: var(--color-dark-warm);
+  --color-dark-syntax-string: var(--color-dark-green);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-accent);
+  --color-dark-syntax-constant: #d27e99;
+  --color-dark-syntax-parameter: #b8b4d0;
+  --color-dark-syntax-string-expr: #c0a36e;
+  --color-dark-syntax-punctuation: #9cabca;
+  --color-dark-syntax-link: var(--color-dark-accent-hover);
 
   /* Light: Kanagawa Lotus — github.com/rebelot/kanagawa.nvim */
-  --color-tn-light-bg: #f2ecbc;
-  --color-tn-light-bg-alt: #e5ddb0;
-  --color-tn-light-surface: #d5cea3;
-  --color-tn-light-fg: #43436c;
-  --color-tn-light-fg-muted: #8a8980;
-  --color-tn-light-accent: #5d57a3;
-  --color-tn-light-accent-hover: #6693bf;
-  --color-tn-light-warm: #624c83;
-  --color-tn-light-green: #6f894e;
-  --color-tn-light-red: #c84053;
-  --color-tn-light-orange: #cc6d00;
-  --color-tn-light-yellow: #77713f;
-  --color-tn-light-cyan: #5a7785;
+  --color-light-bg: #f2ecbc;
+  --color-light-bg-alt: #e5ddb0;
+  --color-light-surface: #d5cea3;
+  --color-light-fg: #43436c;
+  --color-light-fg-muted: #8a8980;
+  --color-light-accent: #5d57a3;
+  --color-light-accent-hover: #6693bf;
+  --color-light-warm: #624c83;
+  --color-light-green: #6f894e;
+  --color-light-red: #c84053;
+  --color-light-orange: #cc6d00;
+  --color-light-yellow: #77713f;
+  --color-light-cyan: #5a7785;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-green);
+  --color-light-syntax-comment: #716e61;
+  --color-light-syntax-function: #4d699b;
+  --color-light-syntax-constant: #b35b79;
+  --color-light-syntax-parameter: var(--color-light-accent);
+  --color-light-syntax-string-expr: #836f4a;
+  --color-light-syntax-punctuation: #4e8ca2;
+  --color-light-syntax-link: var(--color-light-accent-hover);
 }
 
 html[data-color-scheme="everforest"] {
   /* Dark: Everforest Dark Medium — github.com/sainnhe/everforest */
-  --color-tn-dark-bg: #2d353b;
-  --color-tn-dark-bg-alt: #232a2e;
-  --color-tn-dark-surface: #343f44;
-  --color-tn-dark-fg: #d3c6aa;
-  --color-tn-dark-fg-muted: #859289;
-  --color-tn-dark-accent: #7fbbb3;
-  --color-tn-dark-accent-hover: #83c092;
-  --color-tn-dark-warm: #d699b6;
-  --color-tn-dark-green: #a7c080;
-  --color-tn-dark-red: #e67e80;
-  --color-tn-dark-orange: #e69875;
-  --color-tn-dark-yellow: #dbbc7f;
-  --color-tn-dark-cyan: #83c092;
+  --color-dark-bg: #2d353b;
+  --color-dark-bg-alt: #232a2e;
+  --color-dark-surface: #343f44;
+  --color-dark-fg: #d3c6aa;
+  --color-dark-fg-muted: #859289;
+  --color-dark-accent: #7fbbb3;
+  --color-dark-accent-hover: #83c092;
+  --color-dark-warm: #d699b6;
+  --color-dark-green: #a7c080;
+  --color-dark-red: #e67e80;
+  --color-dark-orange: #e69875;
+  --color-dark-yellow: #dbbc7f;
+  --color-dark-cyan: #83c092;
+  --color-dark-syntax-keyword: var(--color-dark-red);
+  --color-dark-syntax-string: var(--color-dark-yellow);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-green);
+  --color-dark-syntax-constant: var(--color-dark-warm);
+  --color-dark-syntax-parameter: var(--color-dark-fg);
+  --color-dark-syntax-string-expr: var(--color-dark-green);
+  --color-dark-syntax-punctuation: var(--color-dark-orange);
+  --color-dark-syntax-link: var(--color-dark-green);
 
   /* Light: Everforest Light Medium — github.com/sainnhe/everforest */
-  --color-tn-light-bg: #fdf6e3;
-  --color-tn-light-bg-alt: #f4f0d9;
-  --color-tn-light-surface: #efebd4;
-  --color-tn-light-fg: #5c6a72;
-  --color-tn-light-fg-muted: #829181;
-  --color-tn-light-accent: #3a94c5;
-  --color-tn-light-accent-hover: #35a77c;
-  --color-tn-light-warm: #df69ba;
-  --color-tn-light-green: #8da101;
-  --color-tn-light-red: #f85552;
-  --color-tn-light-orange: #f57d26;
-  --color-tn-light-yellow: #dfa000;
-  --color-tn-light-cyan: #35a77c;
+  --color-light-bg: #fdf6e3;
+  --color-light-bg-alt: #f4f0d9;
+  --color-light-surface: #efebd4;
+  --color-light-fg: #5c6a72;
+  --color-light-fg-muted: #829181;
+  --color-light-accent: #3a94c5;
+  --color-light-accent-hover: #35a77c;
+  --color-light-warm: #df69ba;
+  --color-light-green: #8da101;
+  --color-light-red: #f85552;
+  --color-light-orange: #f57d26;
+  --color-light-yellow: #dfa000;
+  --color-light-cyan: #35a77c;
+  --color-light-syntax-keyword: var(--color-light-red);
+  --color-light-syntax-string: var(--color-light-yellow);
+  --color-light-syntax-comment: #939f91;
+  --color-light-syntax-function: var(--color-light-green);
+  --color-light-syntax-constant: var(--color-light-warm);
+  --color-light-syntax-parameter: var(--color-light-fg);
+  --color-light-syntax-string-expr: var(--color-light-green);
+  --color-light-syntax-punctuation: var(--color-light-orange);
+  --color-light-syntax-link: var(--color-light-green);
 }
 
 html[data-color-scheme="dracula"] {
   /* Dark: Dracula — draculatheme.com */
-  --color-tn-dark-bg: #282a36;
-  --color-tn-dark-bg-alt: #21222c;
-  --color-tn-dark-surface: #44475a;
-  --color-tn-dark-fg: #f8f8f2;
-  --color-tn-dark-fg-muted: #6272a4;
-  --color-tn-dark-accent: #bd93f9;
-  --color-tn-dark-accent-hover: #8be9fd;
-  --color-tn-dark-warm: #ff79c6;
-  --color-tn-dark-green: #50fa7b;
-  --color-tn-dark-red: #ff5555;
-  --color-tn-dark-orange: #ffb86c;
-  --color-tn-dark-yellow: #f1fa8c;
-  --color-tn-dark-cyan: #8be9fd;
+  --color-dark-bg: #282a36;
+  --color-dark-bg-alt: #21222c;
+  --color-dark-surface: #44475a;
+  --color-dark-fg: #f8f8f2;
+  --color-dark-fg-muted: #6272a4;
+  --color-dark-accent: #bd93f9;
+  --color-dark-accent-hover: #8be9fd;
+  --color-dark-warm: #ff79c6;
+  --color-dark-green: #50fa7b;
+  --color-dark-red: #ff5555;
+  --color-dark-orange: #ffb86c;
+  --color-dark-yellow: #f1fa8c;
+  --color-dark-cyan: #8be9fd;
+  --color-dark-syntax-keyword: var(--color-dark-warm);
+  --color-dark-syntax-string: var(--color-dark-yellow);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-green);
+  --color-dark-syntax-constant: var(--color-dark-accent);
+  --color-dark-syntax-parameter: var(--color-dark-orange);
+  --color-dark-syntax-string-expr: var(--color-dark-yellow);
+  --color-dark-syntax-punctuation: var(--color-dark-fg);
+  --color-dark-syntax-link: var(--color-dark-cyan);
 
   /* Light: Dracula Alucard — draculatheme.com/pro */
-  --color-tn-light-bg: #fffbeb;
-  --color-tn-light-bg-alt: #f5f0dc;
-  --color-tn-light-surface: #cfcfde;
-  --color-tn-light-fg: #1f1f1f;
-  --color-tn-light-fg-muted: #6c664b;
-  --color-tn-light-accent: #644ac9;
-  --color-tn-light-accent-hover: #036a96;
-  --color-tn-light-warm: #a3144d;
-  --color-tn-light-green: #14710a;
-  --color-tn-light-red: #cb3a2a;
-  --color-tn-light-orange: #a34d14;
-  --color-tn-light-yellow: #846e15;
-  --color-tn-light-cyan: #036a96;
+  --color-light-bg: #fffbeb;
+  --color-light-bg-alt: #f5f0dc;
+  --color-light-surface: #cfcfde;
+  --color-light-fg: #1f1f1f;
+  --color-light-fg-muted: #6c664b;
+  --color-light-accent: #644ac9;
+  --color-light-accent-hover: #036a96;
+  --color-light-warm: #a3144d;
+  --color-light-green: #14710a;
+  --color-light-red: #cb3a2a;
+  --color-light-orange: #a34d14;
+  --color-light-yellow: #846e15;
+  --color-light-cyan: #036a96;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-yellow);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-green);
+  --color-light-syntax-constant: var(--color-light-accent);
+  --color-light-syntax-parameter: var(--color-light-orange);
+  --color-light-syntax-string-expr: var(--color-light-yellow);
+  --color-light-syntax-punctuation: var(--color-light-fg);
+  --color-light-syntax-link: var(--color-light-cyan);
 }
 
 html[data-color-scheme="solarized"] {
   /* Dark: Solarized Dark — ethanschoonover.com/solarized */
-  --color-tn-dark-bg: #002b36;
-  --color-tn-dark-bg-alt: #073642;
-  --color-tn-dark-surface: #073642;
-  --color-tn-dark-fg: #839496;
-  --color-tn-dark-fg-muted: #586e75;
-  --color-tn-dark-accent: #268bd2;
-  --color-tn-dark-accent-hover: #2aa198;
-  --color-tn-dark-warm: #6c71c4;
-  --color-tn-dark-green: #859900;
-  --color-tn-dark-red: #dc322f;
-  --color-tn-dark-orange: #cb4b16;
-  --color-tn-dark-yellow: #b58900;
-  --color-tn-dark-cyan: #2aa198;
+  --color-dark-bg: #002b36;
+  --color-dark-bg-alt: #073642;
+  --color-dark-surface: #073642;
+  --color-dark-fg: #839496;
+  --color-dark-fg-muted: #586e75;
+  --color-dark-accent: #268bd2;
+  --color-dark-accent-hover: #2aa198;
+  --color-dark-warm: #6c71c4;
+  --color-dark-green: #859900;
+  --color-dark-red: #dc322f;
+  --color-dark-orange: #cb4b16;
+  --color-dark-yellow: #b58900;
+  --color-dark-cyan: #2aa198;
+  --color-dark-syntax-keyword: var(--color-dark-green);
+  --color-dark-syntax-string: var(--color-dark-cyan);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-accent);
+  --color-dark-syntax-constant: #d33682;
+  --color-dark-syntax-parameter: var(--color-dark-fg);
+  --color-dark-syntax-string-expr: var(--color-dark-red);
+  --color-dark-syntax-punctuation: var(--color-dark-fg-muted);
+  --color-dark-syntax-link: var(--color-dark-accent);
 
   /* Light: Solarized Light — ethanschoonover.com/solarized */
-  --color-tn-light-bg: #fdf6e3;
-  --color-tn-light-bg-alt: #eee8d5;
-  --color-tn-light-surface: #eee8d5;
-  --color-tn-light-fg: #657b83;
-  --color-tn-light-fg-muted: #93a1a1;
-  --color-tn-light-accent: #268bd2;
-  --color-tn-light-accent-hover: #2aa198;
-  --color-tn-light-warm: #6c71c4;
-  --color-tn-light-green: #859900;
-  --color-tn-light-red: #dc322f;
-  --color-tn-light-orange: #cb4b16;
-  --color-tn-light-yellow: #b58900;
-  --color-tn-light-cyan: #2aa198;
+  --color-light-bg: #fdf6e3;
+  --color-light-bg-alt: #eee8d5;
+  --color-light-surface: #eee8d5;
+  --color-light-fg: #657b83;
+  --color-light-fg-muted: #93a1a1;
+  --color-light-accent: #268bd2;
+  --color-light-accent-hover: #2aa198;
+  --color-light-warm: #6c71c4;
+  --color-light-green: #859900;
+  --color-light-red: #dc322f;
+  --color-light-orange: #cb4b16;
+  --color-light-yellow: #b58900;
+  --color-light-cyan: #2aa198;
+  --color-light-syntax-keyword: var(--color-light-green);
+  --color-light-syntax-string: var(--color-light-cyan);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-accent);
+  --color-light-syntax-constant: #d33682;
+  --color-light-syntax-parameter: var(--color-light-fg);
+  --color-light-syntax-string-expr: var(--color-light-red);
+  --color-light-syntax-punctuation: var(--color-light-fg-muted);
+  --color-light-syntax-link: var(--color-light-accent);
 }
 
 html[data-color-scheme="monokai"] {
   /* Dark: Monokai Pro — monokai.pro */
-  --color-tn-dark-bg: #2d2a2e;
-  --color-tn-dark-bg-alt: #221f22;
-  --color-tn-dark-surface: #403e41;
-  --color-tn-dark-fg: #fcfcfa;
-  --color-tn-dark-fg-muted: #727072;
-  --color-tn-dark-accent: #78dce8;
-  --color-tn-dark-accent-hover: #ab9df2;
-  --color-tn-dark-warm: #ff6188;
-  --color-tn-dark-green: #a9dc76;
-  --color-tn-dark-red: #ff6188;
-  --color-tn-dark-orange: #fc9867;
-  --color-tn-dark-yellow: #ffd866;
-  --color-tn-dark-cyan: #78dce8;
+  --color-dark-bg: #2d2a2e;
+  --color-dark-bg-alt: #221f22;
+  --color-dark-surface: #403e41;
+  --color-dark-fg: #fcfcfa;
+  --color-dark-fg-muted: #727072;
+  --color-dark-accent: #ff6188;
+  --color-dark-accent-hover: #78dce8;
+  --color-dark-warm: #ab9df2;
+  --color-dark-green: #a9dc76;
+  --color-dark-red: #ff6188;
+  --color-dark-orange: #fc9867;
+  --color-dark-yellow: #ffd866;
+  --color-dark-cyan: #78dce8;
+  --color-dark-syntax-keyword: var(--color-dark-accent);
+  --color-dark-syntax-string: var(--color-dark-yellow);
+  --color-dark-syntax-comment: #939293;
+  --color-dark-syntax-function: var(--color-dark-green);
+  --color-dark-syntax-constant: var(--color-dark-warm);
+  --color-dark-syntax-parameter: var(--color-dark-orange);
+  --color-dark-syntax-string-expr: var(--color-dark-accent);
+  --color-dark-syntax-punctuation: #c1c0c0;
+  --color-dark-syntax-link: var(--color-dark-cyan);
 
   /* Light: Monokai Pro Light — monokai.pro */
-  --color-tn-light-bg: #faf4f2;
-  --color-tn-light-bg-alt: #f3efed;
-  --color-tn-light-surface: #d8d1d3;
-  --color-tn-light-fg: #3c353a;
-  --color-tn-light-fg-muted: #93888d;
-  --color-tn-light-accent: #1c8ca8;
-  --color-tn-light-accent-hover: #7058be;
-  --color-tn-light-warm: #e14775;
-  --color-tn-light-green: #269d69;
-  --color-tn-light-red: #e14775;
-  --color-tn-light-orange: #e16032;
-  --color-tn-light-yellow: #cc7a0a;
-  --color-tn-light-cyan: #1c8ca8;
+  --color-light-bg: #faf4f2;
+  --color-light-bg-alt: #f3efed;
+  --color-light-surface: #d8d1d3;
+  --color-light-fg: #3c353a;
+  --color-light-fg-muted: #93888d;
+  --color-light-accent: #e14775;
+  --color-light-accent-hover: #1c8ca8;
+  --color-light-warm: #7058be;
+  --color-light-green: #269d69;
+  --color-light-red: #e14775;
+  --color-light-orange: #e16032;
+  --color-light-yellow: #cc7a0a;
+  --color-light-cyan: #1c8ca8;
+  --color-light-syntax-keyword: var(--color-light-accent);
+  --color-light-syntax-string: var(--color-light-yellow);
+  --color-light-syntax-comment: #918c8e;
+  --color-light-syntax-function: var(--color-light-green);
+  --color-light-syntax-constant: var(--color-light-warm);
+  --color-light-syntax-parameter: var(--color-light-orange);
+  --color-light-syntax-string-expr: var(--color-light-accent);
+  --color-light-syntax-punctuation: #706b6e;
+  --color-light-syntax-link: var(--color-light-cyan);
 }
 
 html[data-color-scheme="horizon"] {
   /* Dark: Horizon — github.com/jolaleye/horizon-theme-vscode */
-  --color-tn-dark-bg: #1c1e26;
-  --color-tn-dark-bg-alt: #232530;
-  --color-tn-dark-surface: #2e303e;
-  --color-tn-dark-fg: #d5d8da;
-  --color-tn-dark-fg-muted: #6c6f93;
-  --color-tn-dark-accent: #e95678;
-  --color-tn-dark-accent-hover: #e9436d;
-  --color-tn-dark-warm: #fab795;
-  --color-tn-dark-green: #09f7a0;
-  --color-tn-dark-red: #f43e5c;
-  --color-tn-dark-orange: #f09483;
-  --color-tn-dark-yellow: #fac29a;
-  --color-tn-dark-cyan: #25b0bc;
+  --color-dark-bg: #1c1e26;
+  --color-dark-bg-alt: #232530;
+  --color-dark-surface: #2e303e;
+  --color-dark-fg: #d5d8da;
+  --color-dark-fg-muted: #6c6f93;
+  --color-dark-accent: #e95678;
+  --color-dark-accent-hover: #e9436d;
+  --color-dark-warm: #b877db;
+  --color-dark-green: #09f7a0;
+  --color-dark-red: #f43e5c;
+  --color-dark-orange: #f09483;
+  --color-dark-yellow: #fac29a;
+  --color-dark-cyan: #25b0bc;
+  --color-dark-syntax-keyword: var(--color-dark-warm);
+  --color-dark-syntax-string: #fab795;
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-cyan);
+  --color-dark-syntax-constant: var(--color-dark-orange);
+  --color-dark-syntax-parameter: var(--color-dark-fg);
+  --color-dark-syntax-string-expr: var(--color-dark-orange);
+  --color-dark-syntax-punctuation: #bbbbbb;
+  --color-dark-syntax-link: var(--color-dark-yellow);
 
   /* Light: Horizon Bright — github.com/jolaleye/horizon-theme-vscode */
-  --color-tn-light-bg: #fdf0ed;
-  --color-tn-light-bg-alt: #fadad1;
-  --color-tn-light-surface: #f9cbbe;
-  --color-tn-light-fg: #06060c;
-  --color-tn-light-fg-muted: #333333;
-  --color-tn-light-accent: #da103f;
-  --color-tn-light-accent-hover: #e84a72;
-  --color-tn-light-warm: #f77d26;
-  --color-tn-light-green: #07da8c;
-  --color-tn-light-red: #f43e5c;
-  --color-tn-light-orange: #dc3318;
-  --color-tn-light-yellow: #f6661e;
-  --color-tn-light-cyan: #1d8991;
+  --color-light-bg: #fdf0ed;
+  --color-light-bg-alt: #fadad1;
+  --color-light-surface: #f9cbbe;
+  --color-light-fg: #06060c;
+  --color-light-fg-muted: #333333;
+  --color-light-accent: #da103f;
+  --color-light-accent-hover: #e84a72;
+  --color-light-warm: #8a31b9;
+  --color-light-green: #07da8c;
+  --color-light-red: #f43e5c;
+  --color-light-orange: #dc3318;
+  --color-light-yellow: #f6661e;
+  --color-light-cyan: #1d8991;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-yellow);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-cyan);
+  --color-light-syntax-constant: var(--color-light-orange);
+  --color-light-syntax-parameter: var(--color-light-fg);
+  --color-light-syntax-string-expr: var(--color-light-orange);
+  --color-light-syntax-punctuation: var(--color-light-fg-muted);
+  --color-light-syntax-link: var(--color-light-yellow);
 }
 
 html[data-color-scheme="night-owl"] {
   /* Dark: Night Owl — github.com/sdras/night-owl-vscode-theme */
-  --color-tn-dark-bg: #011627;
-  --color-tn-dark-bg-alt: #01111d;
-  --color-tn-dark-surface: #1d3b53;
-  --color-tn-dark-fg: #d6deeb;
-  --color-tn-dark-fg-muted: #637777;
-  --color-tn-dark-accent: #82aaff;
-  --color-tn-dark-accent-hover: #80cbc4;
-  --color-tn-dark-warm: #c792ea;
-  --color-tn-dark-green: #c5e478;
-  --color-tn-dark-red: #ef5350;
-  --color-tn-dark-orange: #f78c6c;
-  --color-tn-dark-yellow: #ecc48d;
-  --color-tn-dark-cyan: #7fdbca;
+  --color-dark-bg: #011627;
+  --color-dark-bg-alt: #01111d;
+  --color-dark-surface: #1d3b53;
+  --color-dark-fg: #d6deeb;
+  --color-dark-fg-muted: #637777;
+  --color-dark-accent: #82aaff;
+  --color-dark-accent-hover: #80cbc4;
+  --color-dark-warm: #c792ea;
+  --color-dark-green: #c5e478;
+  --color-dark-red: #ef5350;
+  --color-dark-orange: #f78c6c;
+  --color-dark-yellow: #ecc48d;
+  --color-dark-cyan: #7fdbca;
+  --color-dark-syntax-keyword: var(--color-dark-warm);
+  --color-dark-syntax-string: var(--color-dark-yellow);
+  --color-dark-syntax-comment: var(--color-dark-fg-muted);
+  --color-dark-syntax-function: var(--color-dark-accent);
+  --color-dark-syntax-constant: var(--color-dark-orange);
+  --color-dark-syntax-parameter: var(--color-dark-cyan);
+  --color-dark-syntax-string-expr: #5ca7e4;
+  --color-dark-syntax-punctuation: var(--color-dark-fg);
+  --color-dark-syntax-link: #ff869a;
 
   /* Light: Light Owl — github.com/sdras/night-owl-vscode-theme */
-  --color-tn-light-bg: #fbfbfb;
-  --color-tn-light-bg-alt: #f0f0f0;
-  --color-tn-light-surface: #e0e0e0;
-  --color-tn-light-fg: #403f53;
-  --color-tn-light-fg-muted: #989fb1;
-  --color-tn-light-accent: #4876d6;
-  --color-tn-light-accent-hover: #2aa298;
-  --color-tn-light-warm: #994cc3;
-  --color-tn-light-green: #08916a;
-  --color-tn-light-red: #de3d3b;
-  --color-tn-light-orange: #aa0982;
-  --color-tn-light-yellow: #daaa01;
-  --color-tn-light-cyan: #0c969b;
+  --color-light-bg: #fbfbfb;
+  --color-light-bg-alt: #f0f0f0;
+  --color-light-surface: #e0e0e0;
+  --color-light-fg: #403f53;
+  --color-light-fg-muted: #989fb1;
+  --color-light-accent: #4876d6;
+  --color-light-accent-hover: #2aa298;
+  --color-light-warm: #994cc3;
+  --color-light-green: #08916a;
+  --color-light-red: #de3d3b;
+  --color-light-orange: #aa0982;
+  --color-light-yellow: #daaa01;
+  --color-light-cyan: #0c969b;
+  --color-light-syntax-keyword: var(--color-light-warm);
+  --color-light-syntax-string: var(--color-light-accent);
+  --color-light-syntax-comment: var(--color-light-fg-muted);
+  --color-light-syntax-function: var(--color-light-accent);
+  --color-light-syntax-constant: var(--color-light-orange);
+  --color-light-syntax-parameter: var(--color-light-cyan);
+  --color-light-syntax-string-expr: #5ca7e4;
+  --color-light-syntax-punctuation: var(--color-light-fg);
+  --color-light-syntax-link: #ff869a;
 }
 
 html {
@@ -404,23 +620,23 @@ html.dark {
 
 /* Theme-adaptive palette — used by typewriter gradients */
 :root {
-  --palette-0: var(--color-tn-light-accent);
-  --palette-1: var(--color-tn-light-warm);
-  --palette-2: var(--color-tn-light-green);
-  --palette-3: var(--color-tn-light-orange);
-  --palette-4: var(--color-tn-light-red);
-  --palette-5: var(--color-tn-light-cyan);
-  --palette-6: var(--color-tn-light-yellow);
+  --palette-0: var(--color-light-accent);
+  --palette-1: var(--color-light-warm);
+  --palette-2: var(--color-light-green);
+  --palette-3: var(--color-light-orange);
+  --palette-4: var(--color-light-red);
+  --palette-5: var(--color-light-cyan);
+  --palette-6: var(--color-light-yellow);
 }
 
 .dark {
-  --palette-0: var(--color-tn-dark-accent);
-  --palette-1: var(--color-tn-dark-warm);
-  --palette-2: var(--color-tn-dark-green);
-  --palette-3: var(--color-tn-dark-orange);
-  --palette-4: var(--color-tn-dark-red);
-  --palette-5: var(--color-tn-dark-cyan);
-  --palette-6: var(--color-tn-dark-yellow);
+  --palette-0: var(--color-dark-accent);
+  --palette-1: var(--color-dark-warm);
+  --palette-2: var(--color-dark-green);
+  --palette-3: var(--color-dark-orange);
+  --palette-4: var(--color-dark-red);
+  --palette-5: var(--color-dark-cyan);
+  --palette-6: var(--color-dark-yellow);
 }
 
 /* Gradient text effect — used by typewriter components */
@@ -446,80 +662,80 @@ html.dark {
 
 /* Greeting colors and gradients — theme-adaptive for typewriter */
 :root {
-  --greeting-color-0: var(--color-tn-light-warm);
-  --greeting-color-1: var(--color-tn-light-accent);
-  --greeting-color-2: var(--color-tn-light-green);
-  --greeting-color-3: var(--color-tn-light-orange);
-  --greeting-color-4: var(--color-tn-light-red);
-  --greeting-color-5: var(--color-tn-light-cyan);
+  --greeting-color-0: var(--color-light-warm);
+  --greeting-color-1: var(--color-light-accent);
+  --greeting-color-2: var(--color-light-green);
+  --greeting-color-3: var(--color-light-orange);
+  --greeting-color-4: var(--color-light-red);
+  --greeting-color-5: var(--color-light-cyan);
   --greeting-grad-0: linear-gradient(
     135deg,
-    var(--color-tn-light-warm),
-    var(--color-tn-light-green)
+    var(--color-light-warm),
+    var(--color-light-green)
   );
   --greeting-grad-1: linear-gradient(
     135deg,
-    var(--color-tn-light-accent),
-    var(--color-tn-light-orange)
+    var(--color-light-accent),
+    var(--color-light-orange)
   );
   --greeting-grad-2: linear-gradient(
     135deg,
-    var(--color-tn-light-green),
-    var(--color-tn-light-warm)
+    var(--color-light-green),
+    var(--color-light-warm)
   );
   --greeting-grad-3: linear-gradient(
     135deg,
-    var(--color-tn-light-orange),
-    var(--color-tn-light-cyan)
+    var(--color-light-orange),
+    var(--color-light-cyan)
   );
   --greeting-grad-4: linear-gradient(
     135deg,
-    var(--color-tn-light-red),
-    var(--color-tn-light-accent)
+    var(--color-light-red),
+    var(--color-light-accent)
   );
   --greeting-grad-5: linear-gradient(
     135deg,
-    var(--color-tn-light-cyan),
-    var(--color-tn-light-red)
+    var(--color-light-cyan),
+    var(--color-light-red)
   );
 }
 
 .dark {
-  --greeting-color-0: var(--color-tn-dark-warm);
-  --greeting-color-1: var(--color-tn-dark-accent);
-  --greeting-color-2: var(--color-tn-dark-green);
-  --greeting-color-3: var(--color-tn-dark-orange);
-  --greeting-color-4: var(--color-tn-dark-red);
-  --greeting-color-5: var(--color-tn-dark-cyan);
+  --greeting-color-0: var(--color-dark-warm);
+  --greeting-color-1: var(--color-dark-accent);
+  --greeting-color-2: var(--color-dark-green);
+  --greeting-color-3: var(--color-dark-orange);
+  --greeting-color-4: var(--color-dark-red);
+  --greeting-color-5: var(--color-dark-cyan);
   --greeting-grad-0: linear-gradient(
     135deg,
-    var(--color-tn-dark-warm),
-    var(--color-tn-dark-green)
+    var(--color-dark-warm),
+    var(--color-dark-green)
   );
   --greeting-grad-1: linear-gradient(
     135deg,
-    var(--color-tn-dark-accent),
-    var(--color-tn-dark-orange)
+    var(--color-dark-accent),
+    var(--color-dark-orange)
   );
   --greeting-grad-2: linear-gradient(
     135deg,
-    var(--color-tn-dark-green),
-    var(--color-tn-dark-warm)
+    var(--color-dark-green),
+    var(--color-dark-warm)
   );
   --greeting-grad-3: linear-gradient(
     135deg,
-    var(--color-tn-dark-orange),
-    var(--color-tn-dark-cyan)
+    var(--color-dark-orange),
+    var(--color-dark-cyan)
   );
   --greeting-grad-4: linear-gradient(
     135deg,
-    var(--color-tn-dark-red),
-    var(--color-tn-dark-accent)
+    var(--color-dark-red),
+    var(--color-dark-accent)
   );
   --greeting-grad-5: linear-gradient(
     135deg,
-    var(--color-tn-dark-cyan),
-    var(--color-tn-dark-red)
+    var(--color-dark-cyan),
+    var(--color-dark-red)
   );
 }
 
@@ -537,8 +753,8 @@ body {
 body {
   @apply font-sans antialiased;
   @apply flex flex-col;
-  @apply bg-tn-light-bg dark:bg-tn-dark-bg;
-  @apply text-tn-light-fg-muted dark:text-tn-dark-fg-muted;
+  @apply bg-light-bg dark:bg-dark-bg;
+  @apply text-light-fg-muted dark:text-dark-fg-muted;
 }
 
 /* Subtle film grain texture */
@@ -556,8 +772,8 @@ body::after {
 
 header {
   @apply fixed top-0 left-0 right-0 z-50 py-5;
-  @apply bg-tn-light-bg dark:bg-tn-dark-bg;
-  @apply border-b border-tn-light-surface/60 dark:border-tn-dark-surface/60;
+  @apply bg-light-bg dark:bg-dark-bg;
+  @apply border-b border-light-surface/60 dark:border-dark-surface/60;
 }
 
 main {
@@ -571,19 +787,54 @@ footer {
 article {
   @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
   @apply prose-headings:font-mono prose-headings:font-semibold;
-  @apply prose-headings:text-tn-light-fg prose-headings:dark:text-tn-dark-fg;
-  @apply text-tn-light-fg dark:text-tn-dark-fg;
+  @apply prose-headings:text-light-fg prose-headings:dark:text-dark-fg;
+  @apply text-light-fg dark:text-dark-fg;
+}
+
+/* Code block syntax highlighting — Shiki css-variables theme
+ * Maps Astro's code variables to scheme-defined syntax tokens.
+ * All colors are defined per scheme above — this mapping is scheme-agnostic. */
+:root {
+  --astro-code-color-text: var(--color-light-fg);
+  --astro-code-color-background: var(--color-light-bg-alt);
+  --astro-code-token-keyword: var(--color-light-syntax-keyword);
+  --astro-code-token-string: var(--color-light-syntax-string);
+  --astro-code-token-comment: var(--color-light-syntax-comment);
+  --astro-code-token-function: var(--color-light-syntax-function);
+  --astro-code-token-constant: var(--color-light-syntax-constant);
+  --astro-code-token-parameter: var(--color-light-syntax-parameter);
+  --astro-code-token-string-expression: var(--color-light-syntax-string-expr);
+  --astro-code-token-punctuation: var(--color-light-syntax-punctuation);
+  --astro-code-token-link: var(--color-light-syntax-link);
+}
+
+.dark {
+  --astro-code-color-text: var(--color-dark-fg);
+  --astro-code-color-background: var(--color-dark-bg-alt);
+  --astro-code-token-keyword: var(--color-dark-syntax-keyword);
+  --astro-code-token-string: var(--color-dark-syntax-string);
+  --astro-code-token-comment: var(--color-dark-syntax-comment);
+  --astro-code-token-function: var(--color-dark-syntax-function);
+  --astro-code-token-constant: var(--color-dark-syntax-constant);
+  --astro-code-token-parameter: var(--color-dark-syntax-parameter);
+  --astro-code-token-string-expression: var(--color-dark-syntax-string-expr);
+  --astro-code-token-punctuation: var(--color-dark-syntax-punctuation);
+  --astro-code-token-link: var(--color-dark-syntax-link);
+}
+
+article pre {
+  @apply border border-light-surface dark:border-dark-surface rounded-lg;
 }
 
 article :where(code):not(:where(pre *)) {
   @apply font-mono text-sm px-1.5 py-0.5 rounded;
-  @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+  @apply bg-light-surface/50 dark:bg-dark-surface/50;
 }
 
 /* Image captions — *italic text* immediately after an image renders as a visible caption */
 article p:has(> img, > picture) + p:has(> em:only-child) {
   @apply text-center text-sm;
-  @apply text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70;
+  @apply text-light-fg-muted/70 dark:text-dark-fg-muted/70;
   margin-top: 0.25rem;
 }
 
@@ -592,19 +843,19 @@ article p:has(> img, > picture) + p:has(> em:only-child) em {
 }
 
 article a {
-  @apply font-sans text-tn-light-accent dark:text-tn-dark-accent underline underline-offset-2;
-  @apply decoration-tn-light-accent/30 dark:decoration-tn-dark-accent/30;
+  @apply font-sans text-light-accent dark:text-dark-accent underline underline-offset-2;
+  @apply decoration-light-accent/30 dark:decoration-dark-accent/30;
   @apply transition-colors duration-300 ease-in-out;
 }
 
 article a:hover {
-  @apply text-tn-light-accent-hover dark:text-tn-dark-accent-hover;
-  @apply decoration-tn-light-accent/50 dark:decoration-tn-dark-accent/50;
+  @apply text-light-accent-hover dark:text-dark-accent-hover;
+  @apply decoration-light-accent/50 dark:decoration-dark-accent/50;
 }
 
 #footer-message a {
   @apply underline underline-offset-2 decoration-current/30;
-  @apply hover:text-tn-light-accent dark:hover:text-tn-dark-accent;
+  @apply hover:text-light-accent dark:hover:text-dark-accent;
   @apply transition-colors duration-300;
 }
 
@@ -619,7 +870,7 @@ article a:hover {
 
 /* Active nav state — overrides Link component accent color */
 .nav-active {
-  @apply text-tn-light-fg dark:text-tn-dark-fg;
+  @apply text-light-fg dark:text-dark-fg;
 }
 
 /* Abbreviation unfold — reveals full name on hover (desktop only) */
@@ -636,12 +887,12 @@ article a:hover {
 
 /* Theme picker active state */
 .theme-active {
-  @apply bg-tn-light-surface/50 dark:bg-tn-dark-surface/50;
+  @apply bg-light-surface/50 dark:bg-dark-surface/50;
 }
 
 /* Color scheme picker active state */
 .scheme-active {
-  @apply bg-tn-light-surface/40 dark:bg-tn-dark-surface/40;
+  @apply bg-light-surface/40 dark:bg-dark-surface/40;
 }
 
 /* Typewriter cursor — block cursor matching monospace character width */
@@ -651,12 +902,12 @@ article a:hover {
   width: 1ch;
   height: 1.15em;
   vertical-align: text-bottom;
-  background-color: var(--color-tn-light-fg-muted);
+  background-color: var(--color-light-fg-muted);
   animation: blink 1s step-end infinite;
 }
 
 .dark .cursor-blink::after {
-  background-color: var(--color-tn-dark-fg-muted);
+  background-color: var(--color-dark-fg-muted);
 }
 
 .cursor-typing::after {
@@ -677,8 +928,8 @@ article a:hover {
 /* Skip link — visible only on keyboard focus */
 .skip-link {
   @apply absolute -top-full left-4 z-[100] px-4 py-2 rounded-b-lg font-mono text-sm;
-  @apply bg-tn-light-accent dark:bg-tn-dark-accent;
-  @apply text-tn-light-bg dark:text-tn-dark-bg;
+  @apply bg-light-accent dark:bg-dark-accent;
+  @apply text-light-bg dark:text-dark-bg;
 }
 
 .skip-link:focus {
@@ -689,7 +940,7 @@ article a:hover {
 a:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible {
-  @apply outline-2 outline-offset-2 outline-tn-light-accent dark:outline-tn-dark-accent;
+  @apply outline-2 outline-offset-2 outline-light-accent dark:outline-dark-accent;
 }
 
 /* Reduced motion — respect user preferences for vestibular disorders */

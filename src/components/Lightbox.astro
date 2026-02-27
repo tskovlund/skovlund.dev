@@ -1,0 +1,75 @@
+---
+/**
+ * Lightbox — fullscreen image viewer with gallery navigation.
+ *
+ * Drop this component into any page with article images. It automatically
+ * finds all <img> elements inside <article>, makes them clickable, and opens
+ * PhotoSwipe with pinch zoom, keyboard navigation, and swipe between images.
+ */
+---
+
+<script>
+  import PhotoSwipe from "photoswipe";
+  import PhotoSwipeLightbox from "photoswipe/lightbox";
+  import "photoswipe/style.css";
+
+  let activeLightbox: PhotoSwipeLightbox | null = null;
+
+  function initializeLightbox(): void {
+    const article = document.querySelector("article");
+    if (!article) return;
+
+    // Clean up previous instance (View Transitions re-run this)
+    if (activeLightbox) {
+      activeLightbox.destroy();
+      activeLightbox = null;
+    }
+
+    const images = article.querySelectorAll("img");
+    if (images.length === 0) return;
+
+    // Wrap each image in an <a> for PhotoSwipe and add cursor hint
+    for (const image of images) {
+      if (image.closest("a")) continue; // already wrapped in a link
+
+      const link = document.createElement("a");
+      link.href = image.src;
+      link.dataset.pswpWidth = String(
+        image.naturalWidth || image.width || 1200,
+      );
+      link.dataset.pswpHeight = String(
+        image.naturalHeight || image.height || 800,
+      );
+      link.dataset.cropped = "true";
+      link.target = "_blank";
+      link.rel = "noreferrer";
+
+      image.style.cursor = "zoom-in";
+      image.parentNode?.insertBefore(link, image);
+      link.appendChild(image);
+    }
+
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: "article",
+      children: "a[data-pswp-width]",
+      pswpModule: PhotoSwipe,
+
+      // Zoom
+      initialZoomLevel: "fit",
+      secondaryZoomLevel: 2,
+      maxZoomLevel: 4,
+
+      // UI
+      bgOpacity: 0.92,
+      padding: { top: 20, bottom: 20, left: 20, right: 20 },
+
+      // Close on background click
+      clickToCloseNonZoomable: false,
+    });
+
+    lightbox.init();
+    activeLightbox = lightbox;
+  }
+
+  document.addEventListener("astro:page-load", initializeLightbox);
+</script>

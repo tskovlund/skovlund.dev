@@ -1,0 +1,34 @@
+---
+import { Icon } from "astro-icon/components";
+import { LUCIDE_ICONS, THEME_COLOR_CLASSES } from "@lib/icons";
+
+interface Props {
+  icon: string;
+  iconColor: string;
+  size?: number;
+}
+
+const { icon, iconColor, size = 28 } = Astro.props;
+
+const isSimpleIcon = icon.startsWith("simple-icons:");
+const LucideIcon = !isSimpleIcon ? LUCIDE_ICONS[icon] : null;
+
+const isThemeColor = iconColor in THEME_COLOR_CLASSES;
+const themeClass = isThemeColor ? THEME_COLOR_CLASSES[iconColor] : "";
+const inlineStyle = !isThemeColor ? `color: ${iconColor}` : undefined;
+
+const simpleIconSize = `${size / 16}rem`;
+---
+
+<span class:list={[themeClass]} style={inlineStyle}>
+  {
+    isSimpleIcon ? (
+      <Icon
+        name={icon}
+        style={`width: ${simpleIconSize}; height: ${simpleIconSize}`}
+      />
+    ) : LucideIcon ? (
+      <LucideIcon size={size} />
+    ) : null
+  }
+</span>

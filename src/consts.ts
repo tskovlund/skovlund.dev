@@ -12,7 +12,7 @@ export const SITE: Site = {
   NAME: site.name,
   EMAIL: site.email,
   NUMBER_OF_POSTS_ON_HOMEPAGE: 3,
-  NUMBER_OF_PROJECTS_ON_HOMEPAGE: 3,
+  HOMEPAGE_PROJECT_SLUGS: ["skovlund-dev", "nix-config", "eliza"],
   AVERAGE_WORDS_PER_MINUTE: 200,
 };
 
@@ -45,12 +45,13 @@ export const SOCIALS: Socials = socials.map((social) => ({
   NAME: social.name,
   ICON: social.icon,
   HREF: social.href,
+  COLOR: social.color,
 }));
 
 export const CARD_COLOR_CLASSES: string[] = [
-  "border-l-tn-light-accent dark:border-l-tn-dark-accent hover:bg-tn-light-accent/5 dark:hover:bg-tn-dark-accent/5",
-  "border-l-tn-light-warm dark:border-l-tn-dark-warm hover:bg-tn-light-warm/5 dark:hover:bg-tn-dark-warm/5",
-  "border-l-tn-light-green dark:border-l-tn-dark-green hover:bg-tn-light-green/5 dark:hover:bg-tn-dark-green/5",
-  "border-l-tn-light-orange dark:border-l-tn-dark-orange hover:bg-tn-light-orange/5 dark:hover:bg-tn-dark-orange/5",
-  "border-l-tn-light-cyan dark:border-l-tn-dark-cyan hover:bg-tn-light-cyan/5 dark:hover:bg-tn-dark-cyan/5",
+  "border-l-light-accent dark:border-l-dark-accent hover:bg-light-accent/5 dark:hover:bg-dark-accent/5",
+  "border-l-light-warm dark:border-l-dark-warm hover:bg-light-warm/5 dark:hover:bg-dark-warm/5",
+  "border-l-light-green dark:border-l-dark-green hover:bg-light-green/5 dark:hover:bg-dark-green/5",
+  "border-l-light-orange dark:border-l-dark-orange hover:bg-light-orange/5 dark:hover:bg-dark-orange/5",
+  "border-l-light-cyan dark:border-l-dark-cyan hover:bg-light-cyan/5 dark:hover:bg-dark-cyan/5",
 ];

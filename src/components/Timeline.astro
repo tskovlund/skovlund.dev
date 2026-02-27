@@ -31,10 +31,10 @@ for (const entry of entries) {
     <span></span>
     <div class="flex flex-col items-center">
       <div
-        class="border-l-[4px] border-r-[4px] border-b-[6px] border-l-transparent border-r-transparent border-b-tn-light-fg-muted/30 dark:border-b-tn-dark-fg-muted/30 mb-0"
+        class="border-l-[4px] border-r-[4px] border-b-[6px] border-l-transparent border-r-transparent border-b-light-fg-muted/30 dark:border-b-dark-fg-muted/30 mb-0"
       >
       </div>
-      <div class="w-px h-2 bg-tn-light-surface dark:bg-tn-dark-surface"></div>
+      <div class="w-px h-2 bg-light-surface dark:bg-dark-surface"></div>
     </div>
     <span></span>
   </div>
@@ -60,7 +60,7 @@ for (const entry of entries) {
                   class:list={[
                     "font-mono text-sm text-right pr-2 self-start",
                     isFirstInGroup
-                      ? "text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
+                      ? "text-light-fg-muted dark:text-dark-fg-muted"
                       : "invisible",
                   ]}
                 >
@@ -71,13 +71,13 @@ for (const entry of entries) {
                     class:list={[
                       "w-px h-1.5 shrink-0",
                       showTopLine
-                        ? "bg-tn-light-surface dark:bg-tn-dark-surface"
+                        ? "bg-light-surface dark:bg-dark-surface"
                         : "",
                     ]}
                   />
-                  <div class="size-2.5 rounded-full bg-tn-light-fg-muted/30 dark:bg-tn-dark-fg-muted/30 shrink-0" />
+                  <div class="size-2.5 rounded-full bg-light-fg-muted/30 dark:bg-dark-fg-muted/30 shrink-0" />
                   {showBottomLine ? (
-                    <div class="w-px flex-1 bg-tn-light-surface dark:bg-tn-dark-surface min-h-4" />
+                    <div class="w-px flex-1 bg-light-surface dark:bg-dark-surface min-h-4" />
                   ) : !isLastOverall ? (
                     <div class="w-px flex-1 min-h-4" />
                   ) : null}

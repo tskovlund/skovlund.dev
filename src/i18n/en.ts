@@ -18,7 +18,12 @@ export type RichTextLink = {
   external?: boolean;
 };
 
-export type RichTextSegment = string | RichTextLink;
+export type RichTextEmphasis = {
+  label: string;
+  emphasis: true;
+};
+
+type RichTextSegment = string | RichTextLink | RichTextEmphasis;
 export type RichText = RichTextSegment[];
 
 // ---------------------------------------------------------------------------
@@ -154,7 +159,7 @@ export type TimelineEntry = {
   segments: RichText;
 };
 
-export type ReleaseEntry = TimelineEntry & {
+type ReleaseEntry = TimelineEntry & {
   cover: string;
 };
 
@@ -229,7 +234,7 @@ export const about = {
   ] satisfies RichText[],
   experience: [
     {
-      year: "2025",
+      year: "2026",
       segments: [
         { label: "skovlund.dev", href: "/projects/skovlund-dev" },
         " + ",
@@ -343,7 +348,9 @@ export const about = {
           href: "https://nordkraftbigband.lnk.to/SilentCourse",
           external: true,
         },
-        ' — modern jazz with Remy Le Boeuf and Danielle Wertz. "First Snow" won a Grammy® for Best Instrumental Composition in 2026.',
+        ' — modern jazz with Remy Le Boeuf and Danielle Wertz. The track "First Snow" ',
+        { label: "won a Grammy\u00AE", emphasis: true },
+        " for Best Instrumental Composition in 2026.",
       ],
     },
     {
@@ -450,7 +457,7 @@ export const about = {
 // Color schemes
 // ---------------------------------------------------------------------------
 
-export type ColorScheme = {
+type ColorScheme = {
   readonly id: string;
   readonly label: string;
   readonly selectorColor: string;
@@ -532,26 +539,31 @@ export const socials = [
     name: "GitHub",
     icon: "simple-icons:github",
     href: "https://github.com/tskovlund",
+    color: "#8b949e",
   },
   {
     name: "LinkedIn",
     icon: "simple-icons:linkedin",
     href: "https://www.linkedin.com/in/tskovlund",
+    color: "#0A66C2",
   },
   {
     name: "X",
     icon: "simple-icons:x",
     href: "https://x.com/thomasskovlund",
+    color: "#71767B",
   },
   {
     name: "Instagram",
     icon: "simple-icons:instagram",
     href: "https://instagram.com/tskovlund",
+    color: "#E4405F",
   },
   {
     name: "Bluesky",
     icon: "simple-icons:bluesky",
     href: "https://bsky.app/profile/tskovlund.bsky.social",
+    color: "#0085FF",
   },
 ] as const;
 
@@ -559,13 +571,13 @@ export const socials = [
 // Shelf items
 // ---------------------------------------------------------------------------
 
-export type ShelfLink = {
+type ShelfLink = {
   title: string;
   href: string;
   description: RichText;
 };
 
-export type ShelfMedia = {
+type ShelfMedia = {
   title: string;
   href?: string;
   author?: string;
@@ -573,8 +585,11 @@ export type ShelfMedia = {
 };
 
 export const shelf = {
-  intro:
-    "A semi-structured, non-exhaustive list of things I enjoy and recommend. I hope you discover something new here — and if you think I'm missing something, I'd love to hear about it.",
+  intro: [
+    "A semi-structured, non-exhaustive list of things I enjoy and recommend. I hope you discover something new here — and if you think I'm missing something, ",
+    { label: "I'd love to hear about it", href: "#socials" },
+    ".",
+  ] satisfies RichText,
   sections: {
     reading: "Reading",
     music: "Music",
@@ -582,9 +597,10 @@ export const shelf = {
     tv: "TV",
     videoGames: "Video Games",
     boardGames: "Board Games",
+    creators: "Creators",
+    competitiveProgramming: "Competitive Programming",
     tools: "Tools",
-    communities: "Projects & Communities",
-    everything: "Everything Else",
+    everythingElse: "Everything Else",
   },
   reading: [
     {
@@ -949,8 +965,7 @@ export const shelf = {
     {
       title: "Baldur's Gate 3",
       href: "https://baldursgate3.game",
-      description:
-        "Currently playing. D&D brought to life with an absurd level of polish.",
+      description: "D&D brought to life with an absurd level of polish.",
     },
     {
       title: "Rocket League",
@@ -1116,8 +1131,6 @@ export const shelf = {
         " and it's promising.",
       ],
     },
-  ] satisfies ShelfLink[],
-  communities: [
     {
       title: "NixOS",
       href: "https://nixos.org",
@@ -1127,6 +1140,75 @@ export const shelf = {
         " for how I manage everything.",
       ],
     },
+    {
+      title: "Homebrew",
+      href: "https://brew.sh",
+      description: [
+        "The missing package manager for macOS. Even as a Nix user, I still rely on it for GUI apps via casks.",
+      ],
+    },
+    {
+      title: "Proton",
+      href: "https://proton.me",
+      description: [
+        "Privacy-first email, calendar, drive, VPN, and password manager. My default for everything personal.",
+      ],
+    },
+    {
+      title: "Signal",
+      href: "https://signal.org",
+      description: [
+        "End-to-end encrypted messaging done right. The gold standard for private communication.",
+      ],
+    },
+    {
+      title: "Linear",
+      href: "https://linear.app",
+      description: [
+        "The best project tracker I've used. Fast, opinionated, keyboard-driven. I run my entire personal backlog on it.",
+      ],
+    },
+    {
+      title: "direnv",
+      href: "https://direnv.net",
+      description: [
+        "Auto-loads environment variables when you cd into a directory. Pairs perfectly with Nix and ",
+        {
+          label: "Devbox",
+          href: "https://www.jetify.com/devbox",
+          external: true,
+        },
+        ".",
+      ],
+    },
+  ] satisfies ShelfLink[],
+  creators: [
+    {
+      title: "3Blue1Brown",
+      href: "https://www.3blue1brown.com",
+      description:
+        "Math visualizations that make complex ideas feel intuitive. Genuinely worth your time.",
+    },
+    {
+      title: "Adam Neely",
+      href: "https://www.youtube.com/@AdamNeely",
+      description:
+        "Music theory deep dives from a bass player's perspective. Jazz-heavy, endlessly interesting.",
+    },
+    {
+      title: "Charles Cornell",
+      href: "https://www.youtube.com/@CharlesCornell",
+      description:
+        "Jazz musician breaking down music theory and reacting to everything from pop to classical. Infectious enthusiasm.",
+    },
+    {
+      title: "The Pragmatic Engineer",
+      href: "https://blog.pragmaticengineer.com",
+      description:
+        "Gergely Orosz's newsletter on software engineering, tech industry, and engineering management. Consistently excellent.",
+    },
+  ] satisfies ShelfMedia[],
+  competitiveProgramming: [
     {
       title: "Advent of Code",
       href: "https://adventofcode.com",
@@ -1163,24 +1245,14 @@ export const shelf = {
         " in Bath and Eindhoven.",
       ],
     },
-    {
-      title: "Homebrew",
-      href: "https://brew.sh",
-      description: [
-        "The missing package manager for macOS. Even as a Nix user, I still rely on it for GUI apps via casks.",
-      ],
-    },
+  ] satisfies ShelfLink[],
+  everythingElse: [
     {
       title: "TÅGEKAMMERET",
       href: "https://tket.dk",
-      description: [
-        "The science student society at ",
-        links.au,
-        ". I was chairman. Great people, questionable amounts of beer.",
-      ],
+      description:
+        "The science student society at Aarhus University. I was chairman. Great people, questionable amounts of beer.",
     },
-  ] satisfies ShelfLink[],
-  everythingElse: [
     {
       title: "LEGO",
       href: "https://www.lego.com",
@@ -1195,12 +1267,6 @@ export const shelf = {
     {
       title: "Running and cycling",
       description: "Outside when the weather allows, on Zwift when it doesn't.",
-    },
-    {
-      title: "3Blue1Brown",
-      href: "https://www.3blue1brown.com",
-      description:
-        "Math visualizations that make complex ideas feel intuitive. Genuinely worth your time.",
     },
     {
       title: "Flat whites, Danish pastries, and smørrebrød",

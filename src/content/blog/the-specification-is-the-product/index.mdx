@@ -1,0 +1,81 @@
+---
+title: "The Specification Is the Product"
+description: "What building my entire website with AI agents taught me about where the real engineering happens."
+date: "Feb 27 2026"
+---
+
+import InlineThemeControls from "@components/InlineThemeControls.astro";
+
+I built [this website](https://github.com/tskovlund/skovlund.dev) without writing a single line of code. [Claude Code](https://github.com/anthropics/claude-code) agents wrote every line — I never opened nvim once. I described what I wanted, reviewed what they produced, rejected plenty, and iterated until it matched my taste. The site has twelve color schemes (a bit excessive, sure, but try it out below — it's a buffet), perfect accessibility scores, and a hidden trombone you can play if you find it. All specified, nothing typed.
+
+<InlineThemeControls />
+
+Most engineers define themselves by their ability to write code. That's the part agents are about to eat. The value isn't in knowing _how_ to build something — it's in knowing _what_ should exist, _why_ it matters, and _what "good" looks like._ Taste, judgment, opinions. The stuff senior engineers supposedly develop over years but rarely write down. If your identity is "I write code," you're about to have an identity crisis.
+
+## The workflow
+
+1. **Describe intent.** "I want a hidden easter egg — if you click my portrait enough times, play The Lick on trombone with confetti." Or simply: "Review the shelf page. I'll do the same." Not implementation details — the desired outcome.
+
+2. **Agent proposes.** Claude Code decides on the component structure, the types, the layout. It makes choices I haven't specified — and that's the point.
+
+3. **I review.** Not for correctness — for taste. Does the spacing feel right? Does the hover state feel natural? Should featured projects link to their own page?
+
+4. **Iterate.** "The gap is too tight. Make the cover image aspect ratio consistent." Back and forth, 2-4 rounds per component.
+
+That's it. That's the job now. Describe what you want, evaluate what you get, steer.
+
+And it's not just building. The agent is a sparring partner. When I was putting together my [shelf page](/shelf) — a page listing things I enjoy — I asked the agent what might be missing. It pointed out I had YouTube channels scattered across sections instead of grouped, suggested creators I'd forgotten to include, and proposed splitting a vague "Projects & Communities" section into something more focused. All good calls. This post went through the same process — we iterated on the argument, not just the markup. The describe-review-iterate loop works for ideas, not just code.
+
+For larger features I ran agent teams in parallel — one on the color theme system, another on content collections, another on RSS. Work that would take a full day of context-switching done in an hour. Agents are infinitely patient and never get tired.
+
+## The guardrails
+
+Every conversation starts from a shared baseline: [AGENTS.md](https://github.com/tskovlund/skovlund.dev/blob/main/AGENTS.md) for project-specific context and [CONVENTIONS.md](https://github.com/tskovlund/skovlund.dev/blob/main/CONVENTIONS.md) for coding standards reused across all my repos. Together, 270+ lines of opinions that every agent session inherits automatically. Here's a taste:
+
+```markdown
+- **Full variable names** — `measure_index` not `m`, `connection`
+  not `conn`. Intent should be readable, not inferred from abbreviations.
+- **No shorthand** — `exception` not `exc`, `message` not `msg`,
+  `response` not `resp`.
+- **Explicit types whenever possible** — full type annotations in
+  Python, no `var` in C#, no `auto` where the type isn't obvious.
+  The reader should never have to guess a type.
+```
+
+With a human team, rules like these have a cost. People push back, lobby for shortcuts, call it overhead. Agents don't. They'll write `measureIndex` instead of `m` every single time without complaining. Verbosity is free — so every rule I've ever wanted to enforce but couldn't justify the overhead? It's in the guardrails now.
+
+And the payoff compounds in both directions. Every rule I add after catching drift on the blog page automatically applies to every page that comes after. But more importantly, the more explicit your code is, the more context future agent sessions can extract from the codebase without you having to re-explain it. Abbreviated, clever code is a tax on every future conversation. Boring, explicit code is documentation that writes itself.
+
+The guardrails are the static foundation, but I also build [skills](https://github.com/tskovlund/nix-config-personal/tree/main/skills) — reusable agent workflows for recurring tasks like automated PR review loops, issue triage, and deployment pipelines. Each captures a process I've refined through repetition. Every friction point becomes a better guardrail or a new skill. The infrastructure grows with every project.
+
+## What I learned
+
+**We're at the very beginning.** Claude Code launched in early 2025. I built this entire site — twelve themes, full accessibility, interactive easter eggs, the works — with tooling that didn't exist twelve months ago. And it's improving _fast_. Every month the agents get better at understanding context, maintaining consistency, and executing complex multi-step tasks. If this is what's possible now, imagine where we'll be in a year. The engineers who are building the muscle memory and infrastructure today are going to have an absurd head start.
+
+**Taste is the bottleneck, not expertise.** Most of my career has been backend and infrastructure — I've barely written front-end code professionally. Didn't matter. I could write "200ms fade transition" and get exactly that. I couldn't write "make it feel good" and get anything useful. View Transitions were the clearest example — the agent understood the API perfectly, but the _feel_ was wrong. Too fast: jarring. Too slow: sluggish. Getting it right took several rounds of "no, faster... no, not that fast... things should _appear_, not slide in." I'd written detailed rules about naming and types but nothing about animation feel. Guess which needed more iteration.
+
+**Invest in structure ruthlessly.** Extract constants. Centralize configuration. Refactor shared logic into reusable components the moment you spot duplication. An agent building the blog page doesn't know what decisions were made on the projects page — each conversation is independent. But if those decisions live in shared code rather than scattered across files, the next agent picks them up automatically. Every hour spent on structure saves ten hours of re-explaining context. Project two was faster than project one. Project three was faster still. You're not just building software — you're building the infrastructure to build software.
+
+**The boring stuff just happens.** Accessibility is important — but let's be honest, manually adding ARIA attributes, focus indicators, and reduced motion support to every component is tedious. I never asked for any of it. The agents just did it because the guardrails said WCAG 2.1 AA. That's the real unlock: the things you know you _should_ do but tend to skip under deadline pressure? Agents don't skip them.
+
+**The trombone was the hardest feature.** Hidden easter egg — click the right element enough times for a trombone riff and confetti. Sample preloading, first-note latency, rhythmic scheduling, mobile audio context — more iteration rounds than any "serious" component. But it's also the feature that makes the site _mine_, and that's the whole point.
+
+## The shift
+
+But without opinions? Without taste? The agents produce generic code. Competent, functional, unremarkable. The bottleneck was never "can the agent write this?" It was always "do I have something worth specifying?"
+
+"But it's just a personal website." Fair. A portfolio site is not distributed systems or real-time trading. But the workflow scales. I use the same approach professionally, and on personal projects like [Cambr](/projects/cambr) — an evolutionary trading framework where AI agents mutate entire strategy codebases — and [mcp-score](/projects/mcp-score), a bridge between AI agents and professional music notation software. Different domains, same principle: specify, don't type. More on those soon.
+
+That's what people miss about AI replacing developers. The engineering didn't disappear — it moved. From implementation to specification. From typing to taste. From writing code to knowing what code should exist. The engineers who get this will build at a pace that was previously impossible. The ones who keep thinking of AI as fancy autocomplete will wonder why they're falling behind.
+
+The specification is the product now. Everything else is execution.
+
+## Try it yourself
+
+The site is [open source](https://github.com/tskovlund/skovlund.dev). AGENTS.md, CONVENTIONS.md, the git history, every AI-authored commit — all there.
+
+Don't start with code. Start with the guardrails — write down everything you believe about how code should be written. Be specific, be opinionated, be uncompromising. Then specify interactively: describe, review, iterate.
+
+The gap between engineers who work this way and engineers who don't is going to get very wide, very fast. Start now.
+
+The agents will take it from there.

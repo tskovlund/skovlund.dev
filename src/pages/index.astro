@@ -10,6 +10,7 @@ import Preamble from "@components/Preamble.astro";
 import RichText from "@components/RichText.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import TromboneEasterEgg from "@components/TromboneEasterEgg.astro";
+import { Rss } from "@lucide/astro";
 import { SITE, HOME } from "@consts";
 import { home } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
@@ -21,12 +22,16 @@ const recentPosts = (await getCollection("blog"))
   )
   .slice(0, SITE.NUMBER_OF_POSTS_ON_HOMEPAGE);
 
-const recentProjects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft)
-  .sort(
-    (first, second) => second.data.date.valueOf() - first.data.date.valueOf(),
-  )
-  .slice(0, SITE.NUMBER_OF_PROJECTS_ON_HOMEPAGE);
+const allProjects = await getCollection("projects");
+const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
+  const project = allProjects.find(
+    (project) => project.slug === slug && !project.data.draft,
+  );
+  if (!project) {
+    throw new Error(`Homepage project not found: ${slug}`);
+  }
+  return project;
+});
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
@@ -56,17 +61,17 @@ const recentProjects = (await getCollection("projects"))
               >
             </p>
             <h1
-              class="mt-2 font-semibold text-lg text-tn-light-fg dark:text-tn-dark-fg"
+              class="mt-2 font-semibold text-lg text-light-fg dark:text-dark-fg"
             >
               I'm {home.intro.nameFirst}
               <span
-                class="font-normal text-tn-light-fg-muted dark:text-tn-dark-fg-muted"
+                class="font-normal text-light-fg-muted dark:text-dark-fg-muted"
                 >{home.intro.nameLast}</span
               >.
             </h1>
             <div class="space-y-1 mt-2">
               <p
-                class="text-sm whitespace-nowrap text-tn-light-fg dark:text-tn-dark-fg"
+                class="text-sm whitespace-nowrap text-light-fg dark:text-dark-fg"
               >
                 I'm a {home.intro.role} at <Link
                   href={home.intro.employer.href}
@@ -85,7 +90,7 @@ const recentProjects = (await getCollection("projects"))
                 >
               </p>
               <p
-                class="text-sm whitespace-nowrap text-tn-light-fg dark:text-tn-dark-fg"
+                class="text-sm whitespace-nowrap text-light-fg dark:text-dark-fg"
               >
                 with an {home.intro.university.degreeLabel} from <Link
                   href={home.intro.university.href}
@@ -121,7 +126,18 @@ const recentProjects = (await getCollection("projects"))
               <SectionHeading color="accent">
                 {home.sections.latestPosts}
               </SectionHeading>
-              <Link href="/blog">{home.sections.seeAllPosts}</Link>
+              <div class="flex items-center gap-2">
+                <Link href="/blog">{home.sections.seeAllPosts}</Link>
+                <a
+                  href="/rss.xml"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="RSS feed"
+                  class="opacity-40 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
+                >
+                  <Rss size={14} />
+                </a>
+              </div>
             </div>
             <ul class="flex flex-col gap-3">
               {recentPosts.map((post, index) => (
@@ -142,9 +158,9 @@ const recentProjects = (await getCollection("projects"))
         </div>
         <ul class="flex flex-col gap-3">
           {
-            recentProjects.map((project, index) => (
+            homepageProjects.map((project) => (
               <li>
-                <ProjectCard entry={project} index={index} />
+                <ProjectCard entry={project} />
               </li>
             ))
           }

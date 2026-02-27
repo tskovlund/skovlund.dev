@@ -1,13 +1,19 @@
 ---
 title: "Cambr"
 description: "Algorithmic trading framework built on evolutionary computation — strategies evolve through AI-driven mutation, crossover, and selection."
-date: "Feb 22 2026"
+sortOrder: 6
 featured: true
+icon: "dna"
+iconColor: "green"
 ---
 
-**C**ompetitive **A**lgorithmic **M**utation **B**ot **R**eactor — named after the [Cambrian explosion](https://en.wikipedia.org/wiki/Cambrian_explosion), the moment in evolutionary history when biological diversity detonated. Cambr applies the same principle to trading strategies: AI agents write strategy code (the genome), a custom backtest engine evaluates fitness, and natural selection keeps the best performers.
-
 Unlike traditional genetic algorithms that optimize parameter vectors, Cambr evolves entire strategy codebases. Code is the genome. An AI agent "tunes" a strategy by writing _different code_, not by tweaking numbers. This means the search space includes entirely novel approaches — not just variations of a predefined template.
+
+The name — **C**ompetitive **A**lgorithmic **M**utation **B**ot **R**eactor — is a nod to the [Cambrian explosion](https://en.wikipedia.org/wiki/Cambrian_explosion), the moment in evolutionary history when biological diversity detonated. Cambr applies the same principle to trading strategies.
+
+## Why
+
+Part curiosity, part stress-test. Algorithmic trading is an interesting domain because the feedback loop is merciless — overfitting is easy, edge is fragile, and the market doesn't care about elegant code. I wanted to see how far generative AI could push the envelope when given a well-defined contract and a fitness function, and what breaks first.
 
 ## How it works
 
@@ -22,12 +28,8 @@ The evolution loop:
 
 Strategies implement a minimal contract: pure functions from market data to entry/exit signals. No internal state, no side effects, deterministic. This keeps the search space tractable for AI generation while making overfitting easy to detect.
 
-## Stack
-
-Python 3.13, [Claude](https://docs.anthropic.com/en/docs/about-claude/models) via Anthropic API / [OpenRouter](https://openrouter.ai) for strategy generation, [pandas](https://pandas.pydata.org)/[numpy](https://numpy.org) for the backtest engine, [ccxt](https://github.com/ccxt/ccxt) for exchange data, [Nix](https://nixos.org) + [uv](https://docs.astral.sh/uv/) for the dev environment.
-
 ## Status
 
 Active development. The full pipeline works end-to-end: population initialization, fitness evaluation, selection, and multi-strategy evolution — all automated.
 
-Cambr is a private project. The competitive nature of algorithmic trading means publishing the full system would undermine its edge. That said, the framework contains components — the backtest engine, strategy contract, fitness evaluation — that aren't inherently competitive on their own. I plan to selectively open-source those pieces in the future, once the boundaries are well-defined.
+Cambr is a private project. The competitive nature of algorithmic trading means publishing the full system would undermine its edge. That said, the framework contains components — the backtest engine, strategy contract, fitness evaluation — that aren't competitive on their own. I plan to open-source those pieces selectively once the boundaries are well-defined.

@@ -83,7 +83,10 @@ Link to services/tools naturally — not mechanically "first occurrence only." T
 ## Styling
 
 - All theme colors defined as CSS custom properties in `src/styles/global.css` `@theme` block
-- Color tokens: `tn-{light,dark}-{bg,bg-alt,surface,fg,fg-muted,accent,accent-hover,warm,green,red,orange,yellow,cyan}`
+- UI color tokens: `{light,dark}-{bg,bg-alt,surface,fg,fg-muted,accent,accent-hover,warm,green,red,orange,yellow,cyan}`
+- Syntax highlighting tokens: `{light,dark}-syntax-{keyword,string,comment,function,constant,parameter,string-expr,punctuation,link}`
+- Each scheme block defines **all** its colors (UI + syntax) — single source of truth per scheme
+- Code block mapping (`--astro-code-*`) references syntax tokens and is scheme-agnostic
 - Dark mode is the default fallback (no system preference → dark)
 - Typography plugin registered via `@plugin "@tailwindcss/typography"` in CSS
 

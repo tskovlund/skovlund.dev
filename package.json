@@ -12,9 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "screenshots": "node scripts/screenshots.mjs",
-    "thumbnails": "node scripts/thumbnails.mjs"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -30,6 +28,7 @@
     "astro-icon": "^1.1.5",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "photoswipe": "^5.4.4",
     "rehype-external-links": "^3.0.0",
     "sharp": "^0.34.5",
     "smplr": "^0.17.0",
@@ -40,12 +39,10 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@iconify-json/simple-icons": "^1.2.71",
-    "@playwright/test": "^1.58.2",
     "@types/canvas-confetti": "^1.9.0",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
-    "playwright": "^1.58.2",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "typescript-eslint": "^8.56.0"

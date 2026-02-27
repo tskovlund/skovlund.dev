@@ -1,0 +1,34 @@
+---
+title: "skovlund.dev"
+description: "This website. Built with Astro, Tailwind, and TypeScript. Deployed to Cloudflare Pages via GitHub Actions."
+sortOrder: 1
+featured: true
+icon: "code-xml"
+iconColor: "warm"
+demoURL: "https://skovlund.dev"
+repoURL: "https://github.com/tskovlund/skovlund.dev"
+---
+
+import InlineThemeControls from "@components/InlineThemeControls.astro";
+
+My personal website and blog — and an experiment in AI-augmented development. The entire site was built using [Claude Code](https://github.com/anthropics/claude-code) without writing a single line of code myself. Every component, every style, every accessibility feature was authored by an AI coding agent, directed by human intent.
+
+## Why build it this way
+
+I wanted to understand what it feels like to direct an AI agent through a real project — not a toy demo, but something I'd actually publish and maintain. A personal site is a good test: it has design opinions, accessibility requirements, performance constraints, and enough surface area to expose where AI-assisted development shines and where it breaks down.
+
+The answer, briefly: the agent handles structure and implementation remarkably well. The hard parts are taste, consistency, and knowing when to stop. Those are still human jobs. I wrote about the full experience in the [blog post](/blog/the-specification-is-the-product).
+
+## Design
+
+The default theme is [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme), but the site ships with 12 switchable color schemes — all built on CSS custom properties. Light, dark, and system theme modes with instant transitions.
+
+But wait — you're reading this on the website right now. Try it:
+
+<InlineThemeControls />
+
+Page navigations use Astro's [View Transitions API](https://docs.astro.build/en/guides/view-transitions/) for a seamless, app-like feel. The header and footer persist across navigations — they never re-render. Content fades in with a subtle 200ms transition.
+
+## Quality
+
+It's a portfolio piece, so I hold it to a high standard: strict ESLint rules with explicit return types and naming conventions, WCAG 2.1 AA accessibility throughout, high Lighthouse scores, and git hooks that lint on commit and build on push.

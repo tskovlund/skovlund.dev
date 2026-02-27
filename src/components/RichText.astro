@@ -13,6 +13,10 @@ const { segments } = Astro.props;
   segments.map((segment) =>
     typeof segment === "string" ? (
       segment
+    ) : "emphasis" in segment ? (
+      <em class="not-italic text-light-accent dark:text-dark-accent">
+        {segment.label}
+      </em>
     ) : (
       <Link href={segment.href} external={segment.external}>
         {segment.label}

@@ -1,0 +1,46 @@
+---
+/**
+ * Renders a list of shelf items — handles both plain-text and RichText descriptions,
+ * optional links, and optional author credits.
+ */
+import Link from "@components/Link.astro";
+import RichText from "@components/RichText.astro";
+import type { RichText as RichTextType } from "@i18n/en";
+
+interface ShelfItem {
+  title: string;
+  href?: string;
+  author?: string;
+  description: string | RichTextType;
+}
+
+interface Props {
+  items: ShelfItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="space-y-3">
+  {
+    items.map((item) => (
+      <li>
+        {item.href ? (
+          <Link href={item.href} external>
+            {item.title}
+          </Link>
+        ) : (
+          <span class="text-light-fg dark:text-dark-fg">{item.title}</span>
+        )}
+        {item.author && <span class="text-sm"> — {item.author}</span>}
+        <p class="text-sm text-light-fg-muted/70 dark:text-dark-fg-muted/70">
+          {Array.isArray(item.description) ? (
+            <RichText segments={item.description} />
+          ) : (
+            item.description
+          )}
+        </p>
+      </li>
+    ))
+  }
+</ul>

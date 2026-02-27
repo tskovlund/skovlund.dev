@@ -6,6 +6,7 @@ import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
+import Lightbox from "@components/Lightbox.astro";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const posts = (await getCollection("blog"))
@@ -40,7 +41,7 @@ const { Content } = await post.render();
         </div>
       </div>
       <h1
-        class="animate text-2xl font-mono font-semibold text-tn-light-fg dark:text-tn-dark-fg"
+        class="animate text-2xl font-mono font-semibold text-light-fg dark:text-dark-fg"
       >
         {post.data.title}
       </h1>
@@ -48,5 +49,6 @@ const { Content } = await post.render();
     <article class="animate">
       <Content />
     </article>
+    <Lightbox />
   </Container>
 </PageLayout>

@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
+import { Rss } from "@lucide/astro";
 import { BLOG } from "@consts";
 
 const allPosts = (await getCollection("blog"))
@@ -31,13 +32,24 @@ const years = Object.keys(postsByYear).sort(
 
 <PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
   <Container>
-    <h1 class="sr-only">{BLOG.TITLE}</h1>
+    <div class="flex items-center justify-between">
+      <h1 class="sr-only">{BLOG.TITLE}</h1>
+      <a
+        href="/rss.xml"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="RSS feed"
+        class="animate ml-auto opacity-40 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
+      >
+        <Rss size={16} />
+      </a>
+    </div>
     <div class="space-y-10">
       <div class="space-y-4">
         {
           years.map((year) => (
             <section class="animate space-y-4">
-              <div class="font-semibold text-tn-light-fg dark:text-tn-dark-fg">
+              <div class="font-semibold text-light-fg dark:text-dark-fg">
                 {year}
               </div>
               <div>

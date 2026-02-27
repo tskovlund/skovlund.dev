@@ -1,24 +1,54 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
-import Link from "@components/Link.astro";
 import RichText from "@components/RichText.astro";
 import SectionHeading from "@components/SectionHeading.astro";
+import ShelfList from "@components/ShelfList.astro";
 import { SHELF } from "@consts";
 import { shelf } from "@i18n/en";
 
-const sectionKeys = Object.keys(
-  shelf.sections,
-) as (keyof typeof shelf.sections)[];
+type ThemeColor =
+  | "accent"
+  | "warm"
+  | "cyan"
+  | "green"
+  | "red"
+  | "orange"
+  | "yellow";
+
+const SECTION_COLORS: ThemeColor[] = [
+  "accent",
+  "warm",
+  "cyan",
+  "green",
+  "red",
+  "orange",
+  "yellow",
+];
+
+const sections = [
+  { key: "reading", items: shelf.reading },
+  { key: "music", items: shelf.music },
+  { key: "film", items: shelf.film },
+  { key: "tv", items: shelf.tv },
+  { key: "videoGames", items: shelf.videoGames },
+  { key: "boardGames", items: shelf.boardGames },
+  { key: "creators", items: shelf.creators },
+  { key: "competitiveProgramming", items: shelf.competitiveProgramming },
+  { key: "tools", items: shelf.tools },
+  { key: "everythingElse", items: shelf.everythingElse },
+] as const;
+
+const sectionKeys = sections.map(({ key }) => key);
 ---
 
 <PageLayout title={SHELF.TITLE} description={SHELF.DESCRIPTION}>
   <Container>
     <h1 class="sr-only">{SHELF.TITLE}</h1>
     <p
-      class="animate text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70 text-center mb-6"
+      class="animate text-sm text-light-fg-muted/70 dark:text-dark-fg-muted/70 text-center mb-6"
     >
-      {shelf.intro}
+      <RichText segments={shelf.intro} />
     </p>
 
     <nav
@@ -29,12 +59,12 @@ const sectionKeys = Object.keys(
           <>
             <a
               href={`#${key}`}
-              class="text-tn-light-fg-muted dark:text-tn-dark-fg-muted hover:text-tn-light-accent dark:hover:text-tn-dark-accent transition-colors"
+              class="text-light-fg-muted dark:text-dark-fg-muted hover:text-light-accent dark:hover:text-dark-accent transition-colors"
             >
               {shelf.sections[key]}
             </a>
             {index < sectionKeys.length - 1 && (
-              <span class="text-tn-light-fg-muted/30 dark:text-tn-dark-fg-muted/30">
+              <span class="text-light-fg-muted/30 dark:text-dark-fg-muted/30">
                 /
               </span>
             )}
@@ -44,217 +74,18 @@ const sectionKeys = Object.keys(
     </nav>
 
     <div class="space-y-10">
-      <section id="reading" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="cyan">{shelf.sections.reading}</SectionHeading>
-        <ul class="space-y-3">
-          {
-            shelf.reading.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                {item.author && <span class="text-sm"> — {item.author}</span>}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="music" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="red">{shelf.sections.music}</SectionHeading>
-        <ul class="space-y-3">
-          {
-            shelf.music.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="film" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="yellow">{shelf.sections.film}</SectionHeading>
-        <ul class="space-y-3">
-          {
-            shelf.film.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                {item.author && <span class="text-sm"> — {item.author}</span>}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="tv" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="warm">{shelf.sections.tv}</SectionHeading>
-        <ul class="space-y-3">
-          {
-            shelf.tv.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="videoGames" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="green"
-          >{shelf.sections.videoGames}</SectionHeading
-        >
-        <ul class="space-y-3">
-          {
-            shelf.videoGames.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="boardGames" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="cyan">{shelf.sections.boardGames}</SectionHeading
-        >
-        <ul class="space-y-3">
-          {
-            shelf.boardGames.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="tools" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="accent">{shelf.sections.tools}</SectionHeading>
-        <ul class="space-y-3">
-          {
-            shelf.tools.map((item) => (
-              <li>
-                <Link href={item.href} external>
-                  {item.title}
-                </Link>
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  <RichText segments={item.description} />
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="communities" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="orange"
-          >{shelf.sections.communities}</SectionHeading
-        >
-        <ul class="space-y-3">
-          {
-            shelf.communities.map((item) => (
-              <li>
-                <Link href={item.href} external>
-                  {item.title}
-                </Link>
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  <RichText segments={item.description} />
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="everything" class="animate space-y-4 scroll-mt-32">
-        <SectionHeading color="cyan">{shelf.sections.everything}</SectionHeading
-        >
-        <ul class="space-y-3">
-          {
-            shelf.everythingElse.map((item) => (
-              <li>
-                {item.href ? (
-                  <Link href={item.href} external>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <span class="text-tn-light-fg dark:text-tn-dark-fg">
-                    {item.title}
-                  </span>
-                )}
-                <p class="text-sm text-tn-light-fg-muted/70 dark:text-tn-dark-fg-muted/70">
-                  {item.description}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+      {
+        sections.map(({ key, items }, index) => (
+          <section id={key} class="animate space-y-4 scroll-mt-32">
+            <SectionHeading
+              color={SECTION_COLORS[index % SECTION_COLORS.length]}
+            >
+              {shelf.sections[key]}
+            </SectionHeading>
+            <ShelfList items={[...items]} />
+          </section>
+        ))
+      }
     </div>
   </Container>
 </PageLayout>

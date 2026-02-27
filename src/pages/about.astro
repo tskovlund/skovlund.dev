@@ -8,7 +8,7 @@ import SectionHeading from "@components/SectionHeading.astro";
 import Timeline from "@components/Timeline.astro";
 import { ABOUT } from "@consts";
 import { about } from "@i18n/en";
-import type { RichTextLink } from "@i18n/en";
+import type { RichTextLink, RichText as RichTextType } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
 
 const coverImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -20,11 +20,10 @@ function getCover(slug: string): ImageMetadata | undefined {
   return coverImages[`/src/assets/releases/${slug}.jpg`]?.default;
 }
 
-function getStreamingUrl(
-  segments: (string | RichTextLink)[],
-): string | undefined {
+function getStreamingUrl(segments: RichTextType): string | undefined {
   const link = segments.find(
-    (segment): segment is RichTextLink => typeof segment !== "string",
+    (segment): segment is RichTextLink =>
+      typeof segment !== "string" && "href" in segment,
   );
   return link?.href;
 }
@@ -49,10 +48,10 @@ function getStreamingUrl(
             class="w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover"
           />
         </div>
-        <p class="text-tn-light-fg dark:text-tn-dark-fg">
+        <p class="text-light-fg dark:text-dark-fg">
           <RichText segments={about.intro} />
         </p>
-        <p class="mt-4 text-tn-light-fg dark:text-tn-dark-fg">
+        <p class="mt-4 text-light-fg dark:text-dark-fg">
           <RichText segments={about.currentWork} />
         </p>
       </section>
@@ -63,7 +62,7 @@ function getStreamingUrl(
         >
         {
           about.experienceProse.map((paragraph) => (
-            <p class="text-tn-light-fg dark:text-tn-dark-fg">
+            <p class="text-light-fg dark:text-dark-fg">
               <RichText segments={paragraph} />
             </p>
           ))
@@ -73,7 +72,7 @@ function getStreamingUrl(
 
       <section class="animate space-y-4">
         <SectionHeading color="warm">{about.sections.music}</SectionHeading>
-        <p class="text-tn-light-fg dark:text-tn-dark-fg">
+        <p class="text-light-fg dark:text-dark-fg">
           <RichText segments={about.music} />
         </p>
         <ul class="space-y-3">
@@ -88,7 +87,7 @@ function getStreamingUrl(
                   : entry.cover;
               return (
                 <li class="flex items-start gap-3">
-                  <span class="font-mono text-sm text-tn-light-fg-muted/50 dark:text-tn-dark-fg-muted/50 shrink-0 w-10 text-right pt-1">
+                  <span class="font-mono text-sm text-light-fg-muted/50 dark:text-dark-fg-muted/50 shrink-0 w-10 text-right pt-1">
                     {entry.year}
                   </span>
                   {cover && streamingUrl ? (

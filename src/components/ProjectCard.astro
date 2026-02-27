@@ -1,50 +1,40 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Link from "@components/Link.astro";
-import ThemeImage from "@components/ThemeImage.astro";
-import { CARD_COLOR_CLASSES } from "@consts";
+import ProjectIcon from "@components/ProjectIcon.astro";
 
 interface Props {
   entry: CollectionEntry<"projects">;
-  index?: number;
 }
 
-const { entry, index = 0 } = Astro.props;
+const { entry } = Astro.props;
 
-const color = CARD_COLOR_CLASSES[index % CARD_COLOR_CLASSES.length];
 const hasExternalLinks = entry.data.repoURL || entry.data.demoURL;
 const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
 ---
 
 <div
   class:list={[
-    "relative rounded-lg border border-tn-light-surface/60 dark:border-tn-dark-surface/60 border-l-[3px] transition-all duration-300 ease-in-out overflow-hidden",
-    entry.data.cover ? "flex items-stretch" : "py-3 px-4",
+    "relative flex items-center rounded-lg border border-light-surface dark:border-dark-surface transition-all duration-300 ease-in-out overflow-hidden",
     projectUrl
-      ? "hover:border-tn-light-accent/40 dark:hover:border-tn-dark-accent/40"
+      ? "hover:border-light-accent/40 dark:hover:border-dark-accent/40"
       : "",
-    color,
   ]}
 >
-  {
-    entry.data.cover && (
-      <ThemeImage
-        dark={entry.data.cover}
-        light={entry.data.coverLight}
-        alt={`${entry.data.title} preview`}
-        width={96}
-        height={96}
-        class="object-cover w-24 shrink-0"
-      />
-    )
-  }
-  <div class:list={["min-w-0", entry.data.cover ? "py-3 px-4" : ""]}>
+  <div class="flex items-center justify-center w-18 shrink-0">
+    <ProjectIcon
+      icon={entry.data.icon}
+      iconColor={entry.data.iconColor}
+      size={28}
+    />
+  </div>
+  <div class="min-w-0 py-3 pr-4">
     <div class="font-semibold">
       {
         projectUrl ? (
           <a
             href={projectUrl}
-            class="stretched-link hover:text-tn-light-accent dark:hover:text-tn-dark-accent transition-colors"
+            class="stretched-link hover:text-light-accent dark:hover:text-dark-accent transition-colors"
           >
             {entry.data.title}
           </a>

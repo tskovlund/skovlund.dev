@@ -7,9 +7,7 @@ import { PROJECTS } from "@consts";
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
-  .sort(
-    (first, second) => second.data.date.valueOf() - first.data.date.valueOf(),
-  );
+  .sort((first, second) => first.data.sortOrder - second.data.sortOrder);
 ---
 
 <PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION}>
@@ -18,9 +16,9 @@ const projects = (await getCollection("projects"))
     <div class="space-y-10">
       <ul class="animate flex flex-col gap-4">
         {
-          projects.map((project, index) => (
+          projects.map((project) => (
             <li>
-              <ProjectCard entry={project} index={index} />
+              <ProjectCard entry={project} />
             </li>
           ))
         }

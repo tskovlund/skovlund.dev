@@ -8,6 +8,11 @@
   import type { Soundfont } from "smplr";
   import type confettiType from "canvas-confetti";
 
+  // Soundfont CDN URL — prefetched on idle so samples are in browser cache
+  // before the first interaction (critical for mobile where there's no hover)
+  const TROMBONE_SOUNDFONT_URL =
+    "https://gleitz.github.io/midi-js-soundfonts/MusyngKite/trombone-mp3.js";
+
   // Constants
   const CLICK_RESET_TIMEOUT_MS = 5000;
   const SINGLE_NOTE_DURATION_S = 0.3;
@@ -90,7 +95,7 @@
   let resetTimer: number | null = null;
   let audioContext: AudioContext | null = null;
   let tromboneInstrument: Soundfont | null = null;
-  let isLoadingInstrument = false;
+  let loadingPromise: Promise<Soundfont | null> | null = null;
   let isRiffPlaying = false;
   let activeRiffTimeouts: number[] = [];
   let confettiFunction: typeof confettiType | null = null;
@@ -105,23 +110,26 @@
 
   async function loadTromboneIfNeeded(): Promise<Soundfont | null> {
     if (tromboneInstrument !== null) return tromboneInstrument;
-    if (isLoadingInstrument) return null;
+    if (loadingPromise !== null) return loadingPromise;
 
-    isLoadingInstrument = true;
-    try {
-      const { Soundfont } = await import("smplr");
-      const instrument = new Soundfont(getAudioContext(), {
-        instrument: "trombone",
-      });
-      await instrument.load;
-      tromboneInstrument = instrument;
-      return tromboneInstrument;
-    } catch {
-      // Silently fail — the easter egg just won't play sound
-      return null;
-    } finally {
-      isLoadingInstrument = false;
-    }
+    loadingPromise = (async (): Promise<Soundfont | null> => {
+      try {
+        const { Soundfont } = await import("smplr");
+        const instrument = new Soundfont(getAudioContext(), {
+          instrument: "trombone",
+        });
+        await instrument.load;
+        tromboneInstrument = instrument;
+        return tromboneInstrument;
+      } catch {
+        // Silently fail — the easter egg just won't play sound
+        return null;
+      } finally {
+        loadingPromise = null;
+      }
+    })();
+
+    return loadingPromise;
   }
 
   async function playTromboneNote(noteName: string): Promise<void> {
@@ -313,10 +321,12 @@
     );
     if (!target) return;
 
-    // Resume AudioContext if suspended (browser autoplay policy requires
-    // a user gesture before audio can play)
-    if (audioContext !== null && audioContext.state === "suspended") {
-      void audioContext.resume();
+    // Create and resume AudioContext synchronously in the user gesture
+    // context — mobile browsers require this to happen before any async
+    // work, otherwise the gesture is considered "stale" and audio is blocked.
+    const context = getAudioContext();
+    if (context.state === "suspended") {
+      void context.resume();
     }
 
     clickCount++;
@@ -369,6 +379,16 @@
     }
   }
 
+  let isHoverListenerRegistered = false;
+
+  function handlePortraitHover(): void {
+    // On hover, eagerly create AudioContext and start loading the soundfont
+    // so the samples are cached by the time the user clicks. Most desktop
+    // browsers allow AudioContext creation on pointerenter; on mobile it
+    // will be suspended and resumed on the first click — no harm done.
+    void loadTromboneIfNeeded();
+  }
+
   function initialize(): void {
     const portraitElement = document.querySelector("[data-easter-egg-target]");
     if (!portraitElement) return;
@@ -376,20 +396,32 @@
     // Reset state on each navigation
     resetState();
 
-    // Preload the smplr JS module after the browser is idle so parsing
-    // doesn't affect TBT. Don't create AudioContext or Soundfont here —
-    // mobile browsers require a user gesture for AudioContext to work.
+    // Preload after the browser is idle so parsing doesn't affect TBT:
+    // 1. smplr JS module (so import() is instant on first interaction)
+    // 2. Trombone soundfont data (so Soundfont.load uses browser cache)
+    // No AudioContext needed — just warming the HTTP and module caches.
     const idleCallback =
       typeof requestIdleCallback === "function"
         ? requestIdleCallback
         : (callback: () => void): number =>
             window.setTimeout(callback, IDLE_CALLBACK_FALLBACK_MS);
-    idleCallback(() => void import("smplr"));
+    idleCallback(() => {
+      void import("smplr");
+      void fetch(TROMBONE_SOUNDFONT_URL);
+    });
 
-    // Register click listener only once
+    // Register listeners only once
     if (!isClickListenerRegistered) {
       document.addEventListener("click", handlePortraitClick);
       isClickListenerRegistered = true;
+    }
+
+    // Preload soundfont on hover so the first click plays instantly
+    if (!isHoverListenerRegistered) {
+      portraitElement.addEventListener("pointerenter", handlePortraitHover, {
+        once: true,
+      });
+      isHoverListenerRegistered = true;
     }
   }
 

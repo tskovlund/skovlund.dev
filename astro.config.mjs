@@ -10,6 +10,9 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://skovlund.dev",
   markdown: {
+    shikiConfig: {
+      theme: "css-variables",
+    },
     rehypePlugins: [
       [
         rehypeExternalLinks,
@@ -22,7 +25,15 @@ export default defineConfig({
     sitemap(),
     icon({
       include: {
-        "simple-icons": ["github", "linkedin", "x", "instagram", "bluesky"],
+        "simple-icons": [
+          "github",
+          "linkedin",
+          "x",
+          "instagram",
+          "bluesky",
+          "nixos",
+          "adventofcode",
+        ],
       },
     }),
   ],
