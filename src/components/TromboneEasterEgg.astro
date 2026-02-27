@@ -8,11 +8,6 @@
   import type { Soundfont } from "smplr";
   import type confettiType from "canvas-confetti";
 
-  // Soundfont CDN URL — prefetched on idle so samples are in browser cache
-  // before the first interaction (critical for mobile where there's no hover)
-  const TROMBONE_SOUNDFONT_URL =
-    "https://gleitz.github.io/midi-js-soundfonts/MusyngKite/trombone-mp3.js";
-
   // Constants
   const CLICK_RESET_TIMEOUT_MS = 5000;
   const SINGLE_NOTE_DURATION_S = 0.3;
@@ -100,12 +95,27 @@
   let activeRiffTimeouts: number[] = [];
   let confettiFunction: typeof confettiType | null = null;
   let isClickListenerRegistered = false;
+  let isFirstInteractionListenerRegistered = false;
 
   function getAudioContext(): AudioContext {
     if (audioContext === null) {
       audioContext = new AudioContext();
     }
     return audioContext;
+  }
+
+  /**
+   * Resume the AudioContext on the very first user interaction (any click or
+   * tap anywhere on the page). The context and instrument are already created
+   * and decoded during idle time — this just unblocks playback on mobile
+   * browsers that require a user gesture to transition from "suspended" to
+   * "running".
+   */
+  function handleFirstInteraction(): void {
+    const context = getAudioContext();
+    if (context.state === "suspended") {
+      void context.resume();
+    }
   }
 
   async function loadTromboneIfNeeded(): Promise<Soundfont | null> {
@@ -143,6 +153,8 @@
     });
   }
 
+  // The riff spans 4 quarter-note beats (8 eighth notes)
+  const LICK_RIFF_BEATS = 4;
   // Number of extra beats to keep pulsing after the riff ends
   const PULSE_EXTRA_BEATS = 3;
 
@@ -170,8 +182,7 @@
     // continue for PULSE_EXTRA_BEATS more beats at the same tempo.
     // The riff spans 4 beats (8 eighth notes); total pulse count is 4 + extra.
     if (portraitElement !== null) {
-      const riffBeats = 4;
-      const totalPulseBeats = riffBeats + PULSE_EXTRA_BEATS;
+      const totalPulseBeats = LICK_RIFF_BEATS + PULSE_EXTRA_BEATS;
       for (let beatIndex = 0; beatIndex < totalPulseBeats; beatIndex++) {
         const pulseTimeoutId = window.setTimeout(() => {
           pulsePortraitGlow(portraitElement);
@@ -321,9 +332,9 @@
     );
     if (!target) return;
 
-    // Create and resume AudioContext synchronously in the user gesture
-    // context — mobile browsers require this to happen before any async
-    // work, otherwise the gesture is considered "stale" and audio is blocked.
+    // Ensure AudioContext is resumed (may already be primed by
+    // handleFirstInteraction, but belt-and-suspenders for the edge case
+    // where the portrait IS the first interaction on the page).
     const context = getAudioContext();
     if (context.state === "suspended") {
       void context.resume();
@@ -382,10 +393,13 @@
   let isHoverListenerRegistered = false;
 
   function handlePortraitHover(): void {
-    // On hover, eagerly create AudioContext and start loading the soundfont
-    // so the samples are cached by the time the user clicks. Most desktop
-    // browsers allow AudioContext creation on pointerenter; on mobile it
-    // will be suspended and resumed on the first click — no harm done.
+    // Redundant safety net: if idle loading hasn't completed yet, start it
+    // on hover. Also resumes the AudioContext on desktop browsers that allow
+    // AudioContext.resume() from pointerenter events.
+    const context = getAudioContext();
+    if (context.state === "suspended") {
+      void context.resume();
+    }
     void loadTromboneIfNeeded();
   }
 
@@ -396,24 +410,34 @@
     // Reset state on each navigation
     resetState();
 
-    // Preload after the browser is idle so parsing doesn't affect TBT:
-    // 1. smplr JS module (so import() is instant on first interaction)
-    // 2. Trombone soundfont data (so Soundfont.load uses browser cache)
-    // No AudioContext needed — just warming the HTTP and module caches.
+    // Eagerly load the full Soundfont during idle time. A suspended
+    // AudioContext (the default on mobile before a user gesture) can still
+    // fetch and decode audio samples — suspension only blocks playback.
+    // By the time the user discovers and clicks the portrait, the instrument
+    // is fully decoded and only needs context.resume() to play instantly.
     const idleCallback =
       typeof requestIdleCallback === "function"
         ? requestIdleCallback
         : (callback: () => void): number =>
             window.setTimeout(callback, IDLE_CALLBACK_FALLBACK_MS);
     idleCallback(() => {
-      void import("smplr");
-      void fetch(TROMBONE_SOUNDFONT_URL);
+      void loadTromboneIfNeeded();
     });
 
     // Register listeners only once
     if (!isClickListenerRegistered) {
       document.addEventListener("click", handlePortraitClick);
       isClickListenerRegistered = true;
+    }
+
+    // Prime AudioContext on the very first user interaction anywhere on the
+    // page. This lets us start decoding samples long before the user finds
+    // the portrait — eliminating first-click audio delay on mobile.
+    if (!isFirstInteractionListenerRegistered) {
+      document.addEventListener("pointerdown", handleFirstInteraction, {
+        once: true,
+      });
+      isFirstInteractionListenerRegistered = true;
     }
 
     // Preload soundfont on hover so the first click plays instantly
