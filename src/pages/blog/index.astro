@@ -5,6 +5,7 @@ import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import { Rss } from "@lucide/astro";
 import { BLOG } from "@consts";
+import { aria } from "@i18n/en";
 
 const allPosts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -38,10 +39,10 @@ const years = Object.keys(postsByYear).sort(
         href="/rss.xml"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="RSS feed"
+        aria-label={aria.rssFeed}
         class="animate ml-auto opacity-40 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
       >
-        <Rss size={16} />
+        <Rss size={16} aria-hidden="true" />
       </a>
     </div>
     <div class="space-y-10">

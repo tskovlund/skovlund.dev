@@ -1,10 +1,11 @@
 ---
 import { ChevronUp } from "@lucide/astro";
+import { aria } from "@i18n/en";
 ---
 
 <button
   id="back-to-top"
-  aria-label="Back to top"
+  aria-label={aria.backToTop}
   class="fixed bottom-6 right-6 z-40 size-10 flex items-center justify-center rounded-full border border-light-surface/60 dark:border-dark-surface/60 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-sm text-light-fg-muted dark:text-dark-fg-muted hover:text-light-fg dark:hover:text-dark-fg hover:border-light-surface dark:hover:border-dark-surface opacity-0 pointer-events-none transition-all duration-300"
 >
   <ChevronUp size={18} aria-hidden="true" />

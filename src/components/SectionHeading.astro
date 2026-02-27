@@ -1,14 +1,7 @@
 ---
+import type { ThemeColor } from "@types";
 import { classNames } from "@lib/utils";
-
-type ThemeColor =
-  | "accent"
-  | "warm"
-  | "green"
-  | "orange"
-  | "red"
-  | "cyan"
-  | "yellow";
+import { THEME_COLOR_CLASSES } from "@lib/icons";
 
 interface Props {
   color: ThemeColor;
@@ -16,18 +9,10 @@ interface Props {
 }
 
 const { color, level: Element = "h2" } = Astro.props;
-
-const colorClasses: Record<ThemeColor, string> = {
-  accent: "text-light-accent dark:text-dark-accent",
-  warm: "text-light-warm dark:text-dark-warm",
-  green: "text-light-green dark:text-dark-green",
-  orange: "text-light-orange dark:text-dark-orange",
-  red: "text-light-red dark:text-dark-red",
-  cyan: "text-light-cyan dark:text-dark-cyan",
-  yellow: "text-light-yellow dark:text-dark-yellow",
-};
 ---
 
-<Element class={classNames("font-mono font-semibold", colorClasses[color])}>
+<Element
+  class={classNames("font-mono font-semibold", THEME_COLOR_CLASSES[color])}
+>
   <slot />
 </Element>

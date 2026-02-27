@@ -8,6 +8,7 @@ import BackToPrev from "@components/BackToPrev.astro";
 import Link from "@components/Link.astro";
 import Lightbox from "@components/Lightbox.astro";
 import ProjectIcon from "@components/ProjectIcon.astro";
+import { backLinks, projectLinks } from "@i18n/en";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const projects = (await getCollection("projects"))
@@ -27,7 +28,7 @@ const { Content } = await project.render();
 <PageLayout title={project.data.title} description={project.data.description}>
   <Container>
     <div class="animate">
-      <BackToPrev href="/projects"> Back to projects </BackToPrev>
+      <BackToPrev href="/projects"> {backLinks.projects} </BackToPrev>
     </div>
     <div class="space-y-1 my-10">
       <div class="animate font-base text-sm">
@@ -48,13 +49,13 @@ const { Content } = await project.render();
           <nav class="animate flex gap-1">
             {project.data.demoURL && (
               <Link href={project.data.demoURL} external>
-                demo
+                {projectLinks.demo}
               </Link>
             )}
             {project.data.demoURL && project.data.repoURL && <span>/</span>}
             {project.data.repoURL && (
               <Link href={project.data.repoURL} external>
-                source
+                {projectLinks.source}
               </Link>
             )}
           </nav>

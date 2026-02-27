@@ -12,7 +12,7 @@ import SectionHeading from "@components/SectionHeading.astro";
 import TromboneEasterEgg from "@components/TromboneEasterEgg.astro";
 import { Rss } from "@lucide/astro";
 import { SITE, HOME } from "@consts";
-import { home } from "@i18n/en";
+import { home, aria } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
 
 const recentPosts = (await getCollection("blog"))
@@ -132,10 +132,10 @@ const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
                   href="/rss.xml"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="RSS feed"
+                  aria-label={aria.rssFeed}
                   class="opacity-40 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
                 >
-                  <Rss size={14} />
+                  <Rss size={14} aria-hidden="true" />
                 </a>
               </div>
             </div>

@@ -2,7 +2,13 @@
 import Container from "@components/Container.astro";
 import Typewriter from "@components/Typewriter.astro";
 import { SITE, SOCIALS } from "@consts";
-import { site, footer, footerMessages, paletteColorCount } from "@i18n/en";
+import {
+  site,
+  footer,
+  footerMessages,
+  paletteColorCount,
+  aria,
+} from "@i18n/en";
 import { Icon } from "astro-icon/components";
 import { Code, Mail, Rss } from "@lucide/astro";
 
@@ -19,6 +25,10 @@ const sourceLabel: string = commitSha
 // Brand colors for non-social links
 const EMAIL_COLOR: string = "#D4A017";
 const RSS_COLOR: string = "#F26522";
+
+// Shared class string for social/email/RSS link buttons in the footer
+const socialLinkClass: string =
+  "group flex items-center gap-1 px-2 py-1.5 rounded-lg border border-light-surface/40 dark:border-dark-surface/40 hover:border-light-surface dark:hover:border-dark-surface hover:bg-light-surface/30 dark:hover:bg-dark-surface/30 text-xs font-mono transition-all duration-300";
 
 // Typewriter timing constants for footer messages
 const FOOTER_TYPEWRITER_TYPE_SPEED_MS: number = 40;
@@ -39,7 +49,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${SITE.NAME} on ${social.NAME}`}
-                class="group flex items-center gap-1 px-2 py-1.5 rounded-lg border border-light-surface/40 dark:border-dark-surface/40 hover:border-light-surface dark:hover:border-dark-surface hover:bg-light-surface/30 dark:hover:bg-dark-surface/30 text-xs transition-all duration-300"
+                class={socialLinkClass}
               >
                 <Icon
                   name={social.ICON}
@@ -56,15 +66,16 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
         <li>
           <a
             href={`mailto:${SITE.EMAIL}`}
-            aria-label={`Email ${SITE.NAME}`}
-            class="group flex items-center gap-1 px-2 py-1.5 rounded-lg border border-light-surface/40 dark:border-dark-surface/40 hover:border-light-surface dark:hover:border-dark-surface hover:bg-light-surface/30 dark:hover:bg-dark-surface/30 text-xs font-mono transition-all duration-300"
+            aria-label={footer.emailAriaLabel(SITE.NAME)}
+            class={socialLinkClass}
           >
             <Mail
               size={14}
               class="opacity-60 group-hover:opacity-100 transition-all duration-300"
               style={`color: ${EMAIL_COLOR}`}
+              aria-hidden="true"
             />
-            Email
+            {footer.emailLabel}
           </a>
         </li>
         <li>
@@ -72,13 +83,14 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
             href="/rss.xml"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="RSS feed"
-            class="group flex items-center gap-1 px-2 py-1.5 rounded-lg border border-light-surface/40 dark:border-dark-surface/40 hover:border-light-surface dark:hover:border-dark-surface hover:bg-light-surface/30 dark:hover:bg-dark-surface/30 text-xs font-mono transition-all duration-300"
+            aria-label={aria.rssFeed}
+            class={socialLinkClass}
           >
             <Rss
               size={14}
               class="opacity-60 group-hover:opacity-100 transition-all duration-300"
               style={`color: ${RSS_COLOR}`}
+              aria-hidden="true"
             />
             RSS
           </a>
@@ -96,9 +108,10 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
           href={sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={footer.sourceAriaLabel}
           class="flex items-center gap-1.5 text-sm opacity-60 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
         >
-          <Code size={14} />
+          <Code size={14} aria-hidden="true" />
           {sourceLabel}
         </a>
       </div>

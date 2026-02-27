@@ -17,3 +17,12 @@ export type Socials = {
   HREF: string;
   COLOR: string;
 }[];
+
+export type ThemeColor =
+  | "accent"
+  | "warm"
+  | "green"
+  | "orange"
+  | "red"
+  | "cyan"
+  | "yellow";

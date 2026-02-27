@@ -2,11 +2,12 @@
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
+import { pages } from "@i18n/en";
 ---
 
 <PageLayout
-  title="Not found"
-  description="The page you're looking for doesn't exist."
+  title={pages.notFound.title}
+  description={pages.notFound.description}
 >
   <Container>
     <div class="animate space-y-4 text-center py-16">
@@ -15,9 +16,9 @@ import Link from "@components/Link.astro";
       >
         404
       </h1>
-      <p>The page you're looking for doesn't exist.</p>
+      <p>{pages.notFound.description}</p>
       <p>
-        <Link href="/">Go home</Link>
+        <Link href="/">{pages.notFound.goHome}</Link>
       </p>
     </div>
   </Container>

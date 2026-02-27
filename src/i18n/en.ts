@@ -78,6 +78,7 @@ export const nav = {
   blog: "Blog",
   projects: "Projects",
   shelf: "Shelf",
+  toggleMenu: "Toggle navigation menu",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -108,6 +109,11 @@ export const pages = {
     title: "Shelf",
     description:
       "A collection of articles, tools, and things I think are worth your time.",
+  },
+  notFound: {
+    title: "Not found",
+    description: "The page you're looking for doesn't exist.",
+    goHome: "Go home",
   },
 } as const;
 
@@ -492,11 +498,38 @@ export const settings = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Shared aria labels and UI strings
+// ---------------------------------------------------------------------------
+
+export const aria = {
+  rssFeed: "RSS feed",
+  backToTop: "Back to top",
+  colorSchemeSuffix: "color scheme",
+} as const;
+
+export const backLinks = {
+  blog: "Back to blog",
+  projects: "Back to projects",
+} as const;
+
+export const projectLinks = {
+  source: "source",
+  demo: "demo",
+  readMore: "read more",
+} as const;
+
+export const readingTimeTemplate = (minutes: string): string =>
+  `${minutes} min read`;
+
+// ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
 export const footer = {
   sourceLabel: "source",
+  emailLabel: "Email",
+  emailAriaLabel: (name: string): string => `Email ${name}`,
+  sourceAriaLabel: "View source on GitHub",
 } as const;
 
 // ---------------------------------------------------------------------------

@@ -115,6 +115,7 @@ const fontFaceCss = `
     document.documentElement.classList.toggle("dark", shouldBeDark);
 
     const savedScheme = localStorage.getItem("colorScheme");
+    // Must match DEFAULT_COLOR_SCHEME in src/scripts/theme.ts
     document.documentElement.setAttribute(
       "data-color-scheme",
       savedScheme || "tokyo-night",

@@ -1,4 +1,5 @@
 ---
+import type { ThemeColor } from "@types";
 import { Icon } from "astro-icon/components";
 import { LUCIDE_ICONS, THEME_COLOR_CLASSES } from "@lib/icons";
 
@@ -14,13 +15,15 @@ const isSimpleIcon = icon.startsWith("simple-icons:");
 const LucideIcon = !isSimpleIcon ? LUCIDE_ICONS[icon] : null;
 
 const isThemeColor = iconColor in THEME_COLOR_CLASSES;
-const themeClass = isThemeColor ? THEME_COLOR_CLASSES[iconColor] : "";
+const themeClass = isThemeColor
+  ? THEME_COLOR_CLASSES[iconColor as ThemeColor]
+  : "";
 const inlineStyle = !isThemeColor ? `color: ${iconColor}` : undefined;
 
 const simpleIconSize = `${size / 16}rem`;
 ---
 
-<span class:list={[themeClass]} style={inlineStyle}>
+<span class:list={[themeClass]} style={inlineStyle} aria-hidden="true">
   {
     isSimpleIcon ? (
       <Icon

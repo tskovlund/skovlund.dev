@@ -12,7 +12,7 @@
  * - "inline"  — embeddable in content (wrapped in a card, 3-column scheme grid)
  */
 import { Sun, Moon, Monitor } from "@lucide/astro";
-import { settings, colorSchemes } from "@i18n/en";
+import { settings, colorSchemes, aria } from "@i18n/en";
 
 interface Props {
   variant?: "compact" | "touch" | "inline";
@@ -79,7 +79,7 @@ const labelClass =
         colorSchemes.map((scheme) => (
           <button
             data-scheme-button={scheme.id}
-            aria-label={`${scheme.label} color scheme`}
+            aria-label={`${scheme.label} ${aria.colorSchemeSuffix}`}
             aria-pressed="false"
             class={schemeButtonClass}
           >

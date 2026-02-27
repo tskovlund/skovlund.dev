@@ -7,6 +7,7 @@ import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 import Lightbox from "@components/Lightbox.astro";
+import { backLinks } from "@i18n/en";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const posts = (await getCollection("blog"))
@@ -28,7 +29,7 @@ const { Content } = await post.render();
 <PageLayout title={post.data.title} description={post.data.description}>
   <Container>
     <div class="animate">
-      <BackToPrev href="/blog"> Back to blog </BackToPrev>
+      <BackToPrev href="/blog"> {backLinks.blog} </BackToPrev>
     </div>
     <div class="space-y-1 my-10">
       <div class="animate flex items-center gap-1.5">

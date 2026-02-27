@@ -41,6 +41,11 @@ export const SHELF: Metadata = {
   DESCRIPTION: pages.shelf.description,
 };
 
+export const NOT_FOUND: Metadata = {
+  TITLE: pages.notFound.title,
+  DESCRIPTION: pages.notFound.description,
+};
+
 export const SOCIALS: Socials = socials.map((social) => ({
   NAME: social.name,
   ICON: social.icon,
