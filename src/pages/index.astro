@@ -92,6 +92,7 @@ const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
               <p
                 class="text-sm whitespace-nowrap text-light-fg dark:text-dark-fg"
               >
+                <!-- prettier-ignore -->
                 with an {home.intro.university.degreeLabel} from <Link
                   href={home.intro.university.href}
                   external
@@ -106,7 +107,7 @@ const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
                       >{home.intro.university.name.split(" ")[1].slice(1)}</span
                     ></span
                   ></Link
-                ><Fragment set:html="." />
+                >.
               </p>
             </div>
           </div>
