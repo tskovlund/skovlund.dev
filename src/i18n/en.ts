@@ -985,7 +985,8 @@ export const shelf = {
     {
       title: "The Office",
       href: "https://www.imdb.com/title/tt0386676/",
-      description: "Somehow still the benchmark for workplace comedy. Rewatchable forever.",
+      description:
+        "Somehow still the benchmark for workplace comedy. Rewatchable forever.",
     },
     {
       title: "Silicon Valley",
