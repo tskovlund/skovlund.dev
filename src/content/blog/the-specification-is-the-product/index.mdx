@@ -1,13 +1,13 @@
 ---
 title: "The Specification Is the Product"
 description: "What building my entire website with AI agents taught me about where the real engineering happens."
-date: "Feb 27 2026"
+date: "Mar 3 2026"
 image: "/og/the-specification-is-the-product.png"
 ---
 
 import InlineThemeControls from "@components/InlineThemeControls.astro";
 
-I built [this website](https://github.com/tskovlund/skovlund.dev) without writing a single line of code. [Claude Code](https://github.com/anthropics/claude-code) agents wrote every line — I never opened nvim once. I described what I wanted, reviewed what they produced, rejected plenty, and iterated until it matched my taste. The site has twelve color schemes (a bit excessive, sure, but try it out below — it's a buffet), perfect accessibility scores, and a hidden trombone you can play if you find it. All specified, nothing typed.
+I built [this website](https://github.com/tskovlund/skovlund.dev) without writing a single line of code. I know — you've heard that sentence before. It's becoming a cliché. But stop for a second and think about how insane the underlying fact still is. [Claude Code](https://github.com/anthropics/claude-code) agents wrote every line — I never opened nvim once. Claude Code celebrated its first birthday last week. The tool that built this entire site didn't exist thirteen months ago. I described what I wanted, reviewed what the agents produced, rejected plenty, and iterated until it matched my taste. The site has twelve color schemes (a bit excessive, sure, but try it out below — it's a buffet), perfect accessibility scores, and a hidden trombone you can play if you find it. All specified, nothing typed.
 
 <InlineThemeControls />
 
@@ -16,20 +16,21 @@ Most engineers define themselves by their ability to write code. That's the part
 ## The workflow
 
 1. **Describe intent.** "I want a hidden easter egg — if you click my portrait enough times, play The Lick on trombone with confetti." Or simply: "Review the shelf page. I'll do the same." Not implementation details — the desired outcome.
-
 2. **Agent proposes.** Claude Code decides on the component structure, the types, the layout. It makes choices I haven't specified — and that's the point.
-
 3. **I review.** Not for correctness — for taste. Does the spacing feel right? Does the hover state feel natural? Should featured projects link to their own page?
-
 4. **Iterate.** "The gap is too tight. Make the cover image aspect ratio consistent." Back and forth, 2-4 rounds per component.
 
 That's it. That's the job now. Describe what you want, evaluate what you get, steer.
 
-And it's not just building. The agent is a sparring partner. When I was putting together my [shelf page](/shelf) — a page listing things I enjoy — I asked the agent what might be missing. It pointed out I had YouTube channels scattered across sections instead of grouped, suggested creators I'd forgotten to include, and proposed splitting a vague "Projects & Communities" section into something more focused. All good calls. This post went through the same process — we iterated on the argument, not just the markup. The describe-review-iterate loop works for ideas, not just code.
+And it's not just building. The agent is a genuine sparring partner. When I was putting together my [shelf page](/shelf) — a page listing things I enjoy — I asked the agent what might be missing. It pointed out I had YouTube channels scattered across sections instead of grouped, suggested creators I'd genuinely forgotten about, and proposed splitting a vague "Projects & Communities" section into something more focused. Better calls than I'd have made alone. This post went through the same process — we iterated on the argument, not just the markup. The describe-review-iterate loop works for ideas, not just code.
 
-For larger features I ran agent teams in parallel — one on the color theme system, another on content collections, another on RSS. Work that would take a full day of context-switching done in an hour. Agents are infinitely patient and never get tired.
+I know the objection: "It's just pattern matching. It's not actually thinking." Yes. LLMs are pattern matchers. But they're the best pattern matchers that have ever existed, operating across a knowledge base no single human can match. And the patterns they match have shifted. Early models matched syntax — they could autocomplete code but couldn't reason about whether the code _should exist_. That's changed dramatically.
 
-"But it's a personal website." Fair. A portfolio site is not distributed systems or real-time trading. But the workflow is identical. I use the same approach professionally, and on personal projects like [Cambr](/projects/cambr) — an evolutionary trading framework where AI agents mutate entire strategy codebases, with an AGENTS.md full of position sizing constraints and risk limits — and [mcp-score](/projects/mcp-score), a bridge between AI agents and professional music notation software. The specification for a trading strategy is harder to write than for a blog layout, but the loop is the same: describe intent, review output, iterate on feel. The domain changes. The workflow doesn't. More on those soon.
+Current models understand semantics. They generate perspectives I wouldn't have reached on my own — not because they're conscious, but because they've compressed more relevant experience than any individual could accumulate in a lifetime. The agent reminded me of content I'd forgotten. It surfaced arguments I hadn't considered. It took my half-formed thoughts, structured them, and handed back sharper versions. I'm still the filter — I assess everything, discard what doesn't fit, keep what resonates. But the space of ideas I get to choose from is vastly larger than what my own head produces. That's not autocomplete. That's collaboration.
+
+For larger features I ran agents in parallel — sometimes as independent sessions working on isolated tasks, sometimes as full agent teams on git worktrees, each with their own branch and working directory. One on the color theme system, another on content collections, another on RSS. Three streams of work converging into the same codebase. Conflicts were rare because the architecture was modular enough that agents rarely touched the same files. Work that would take a full day of context-switching done in an hour. Agents are infinitely patient and never get tired.
+
+"But it's a personal website." Fair. A portfolio site is not distributed systems or real-time trading. But the workflow is identical. I use the same approach professionally, and on personal projects like [Cambr](/projects/cambr) — an evolutionary trading framework where AI agents mutate entire strategy codebases, guided by guardrails full of position sizing constraints and risk limits — and [mcp-score](/projects/mcp-score), a bridge between AI agents and professional music notation software that lets me arrange big band charts through natural language. The specification for a trading strategy is harder to write than for a blog layout, but the loop is the same: describe intent, review output, iterate on feel. The domain changes. The workflow doesn't.
 
 ## The guardrails
 
@@ -53,13 +54,13 @@ The guardrails are the static foundation, but I also build [skills](https://gith
 
 ## What I learned
 
-**We're at the very beginning.** Claude Code launched in early 2025. I built this entire site — twelve themes, full accessibility, interactive easter eggs, the works — with tooling that didn't exist twelve months ago. And it's improving _fast_. Every month the agents get better at understanding context, maintaining consistency, and executing complex multi-step tasks. If this is what's possible now, imagine where we'll be in a year. The engineers who are building the muscle memory and infrastructure today are going to have an absurd head start.
+**We're at the very beginning.** I built this entire site — twelve themes, full accessibility, interactive easter eggs, the works — with tooling that's barely a year old. And it's improving _fast_. Every month the agents get better at understanding context, maintaining consistency, and executing complex multi-step tasks. If this is what's possible now, imagine where we'll be in a year. The engineers who are building the muscle memory and infrastructure today are going to have an absurd head start.
 
-**Taste is the bottleneck, not expertise.** Most of my career has been backend and infrastructure — I've barely written front-end code professionally. Didn't matter. I could write "200ms fade transition" and get exactly that. I couldn't write "make it feel good" and get anything useful. View Transitions were the clearest example — the agent understood the API perfectly, but the _feel_ was wrong. Too fast: jarring. Too slow: sluggish. Getting it right took several rounds of "no, faster... no, not that fast... things should _appear_, not slide in." I'd written detailed rules about naming and types but nothing about animation feel. Guess which needed more iteration.
+**Taste is the bottleneck, not expertise.** Most of my career has been backend and infrastructure — I've barely written front-end code professionally. Didn't matter. I could write "200ms fade transition" and get exactly that. I couldn't write "make it feel good" and get anything useful. View Transitions were the clearest example — the agent understood the API perfectly, but the _feel_ was wrong. Too fast: jarring. Too slow: sluggish. Getting it right took several rounds of "no, faster… no, not that fast… things should _appear_, not slide in." I'd written detailed rules about naming and types but nothing about animation feel. Guess which needed more iteration.
 
 **Invest in structure ruthlessly.** Extract constants. Centralize configuration. Refactor shared logic into reusable components the moment you spot duplication. An agent building the blog page doesn't know what decisions were made on the projects page — each conversation is independent. But if those decisions live in shared code rather than scattered across files, the next agent picks them up automatically. Every hour spent on structure saves ten hours of re-explaining context. Project two was faster than project one. Project three was faster still. You're not just building software — you're building the infrastructure to build software.
 
-**The boring stuff just happens.** Accessibility is important — but let's be honest, manually adding ARIA attributes, focus indicators, and reduced motion support to every component is tedious. I never asked for any of it. The agents just did it because the guardrails said WCAG 2.1 AA. That's the real unlock: the things you know you _should_ do but tend to skip under deadline pressure? Agents don't skip them.
+**The boring stuff just happens.** Accessibility is important — but let's be honest, manually adding ARIA attributes, focus indicators, and reduced motion support to every component is tedious. I never asked for any of it. The agents just did it because the specification said WCAG 2.1 AA. That's the real unlock: the things you know you _should_ do but tend to skip under deadline pressure? Agents don't skip them.
 
 **The trombone was the hardest feature.** Hidden easter egg — click the right element enough times for a trombone riff and confetti. Sample preloading, first-note latency, rhythmic scheduling, mobile audio context — more iteration rounds than any "serious" component. But it's also the feature that makes the site _mine_, and that's the whole point.
 
@@ -67,8 +68,28 @@ The guardrails are the static foundation, but I also build [skills](https://gith
 
 But without opinions? Without taste? The agents produce generic code. Competent, functional, unremarkable. The bottleneck was never "can the agent write this?" It was always "do I have something worth specifying?"
 
-That's what people miss about AI replacing developers. The engineering didn't disappear — it moved. From implementation to specification. From typing to taste. From writing code to knowing what code should exist. The engineers who get this will build at a pace that was previously impossible. The ones who keep thinking of AI as fancy autocomplete will wonder why they're falling behind.
+That's what people miss about AI replacing developers. The engineering didn't disappear — it moved. From implementation to specification. From typing to taste. From writing code to knowing what code should exist.
 
-The specification is the product now. Everything else is execution.
+## Where this goes
 
-The site is [open source](https://github.com/tskovlund/skovlund.dev). AGENTS.md, CONVENTIONS.md, the git history, every AI-authored commit — all there. Don't start with code. Start with the guardrails — write down everything you believe about how code should be written. Be specific, be opinionated, be uncompromising. Then specify, review, iterate. The gap is going to get very wide, very fast.
+Here's what I think happens next, and I don't think it takes long.
+
+Codebases become ephemeral. The specification — the guardrails, the constraints, the architectural intent — becomes the durable artifact. Code is regenerated, not maintained. You don't refactor. You re-specify, and the agents rebuild. The codebase is a compilation target, not a source of truth. We've spent fifty years treating code as the artifact that matters. That era is ending.
+
+Hiring shifts. Implementation skill doesn't disappear from the evaluation — but it stops being the primary signal. The engineers who stand out will be the ones with the strongest opinions about what _should_ exist and the most precise language for describing it. Taste, judgment, and the ability to specify intent become the differentiators. The code still matters. It's just no longer the thing that separates good from great.
+
+Education splits. CS programs will fork into two tracks: practitioners and researchers. The practitioner track — software engineering — reorganizes around specification: decomposing problems, articulating constraints, defining what "good" looks like in a way that's precise enough for an agent to execute and flexible enough to iterate on. Taste, constraint design, systems thinking, domain expertise. Implementation becomes a foundation you understand, not the skill you spend four years perfecting. The research track stays deep in theory, algorithms, and the science underneath — because someone still needs to build the models, push the boundaries, and understand _why_ things work. Both tracks are essential. But for most working engineers, the daily craft shifts from writing code to specifying intent.
+
+The gap between engineers who understand this and engineers who don't is going to get very wide, very fast. Not because the tools are hard to use — they're not. But because the skill being rewarded changes. Writing code is a craft that takes years to master. Specifying intent is a different craft entirely, and almost nobody has been practicing it deliberately. The people who start now — who encode their opinions into guardrails, refine their taste through iteration, and build reusable infrastructure that makes every project faster than the last — will compound that advantage with every project. The people who keep measuring their value in lines of code will find that metric worth less every quarter.
+
+I don't think this is a decade away. The tooling is barely a year old and already this good. Twelve months from now it'll be dramatically better. The engineers who dismiss this as hype will be the same ones wondering, three years from now, why the junior developer with strong opinions and a well-crafted specification is shipping faster than the entire team.
+
+## Start now
+
+So start.
+
+The site is [open source](https://github.com/tskovlund/skovlund.dev). The guardrails, the conventions, the git history, every AI-authored commit — all there.
+
+Don't start with code. Start with the guardrails — write down everything you believe about how code should be written. Be specific, be opinionated, be uncompromising. Then specify, review, iterate. Build the infrastructure to build software. The returns compound from day one.
+
+The specification is the product. Everything else is execution.
