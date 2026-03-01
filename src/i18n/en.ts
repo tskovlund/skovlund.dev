@@ -755,6 +755,12 @@ export const shelf = {
         "My big band. 17-piece jazz orchestra from Aalborg, Denmark. I'm biased but we sound great.",
     },
     {
+      title: "Hans Zimmer",
+      href: "https://www.hanszimmer.com",
+      description:
+        "Film composer responsible for Interstellar, Inception, The Dark Knight, and about fifty other soundtracks that live in your head rent-free. Saw him live — it's an experience.",
+    },
+    {
       title: "Joe Hisaishi",
       href: "https://joehisaishi.com",
       description:
@@ -979,7 +985,7 @@ export const shelf = {
     {
       title: "The Office",
       href: "https://www.imdb.com/title/tt0386676/",
-      description: "That's what she said.",
+      description: "Somehow still the benchmark for workplace comedy. Rewatchable forever.",
     },
     {
       title: "Silicon Valley",
