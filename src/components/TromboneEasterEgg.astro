@@ -208,7 +208,7 @@
 
     const colors = colorKeys
       .map((key) => {
-        const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-${key}`;
+        const cssVarName = `--color-${isDark ? "dark" : "light"}-${key}`;
         return style.getPropertyValue(cssVarName).trim();
       })
       .filter((color) => color !== "");
@@ -262,7 +262,7 @@
   function getAccentColor(): string {
     const style = getComputedStyle(document.documentElement);
     const isDark = document.documentElement.classList.contains("dark");
-    const cssVarName = `--color-tn-${isDark ? "dark" : "light"}-accent`;
+    const cssVarName = `--color-${isDark ? "dark" : "light"}-accent`;
     return style.getPropertyValue(cssVarName).trim() || "#7aa2f7";
   }
 
