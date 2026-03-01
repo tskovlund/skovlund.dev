@@ -19,7 +19,5 @@ const { href, external, underline = true, ...rest } = Astro.props;
     underline &&
       "underline underline-offset-2 decoration-light-accent/30 dark:decoration-dark-accent/30 hover:decoration-light-accent/60 hover:dark:decoration-dark-accent/60",
   )}
-  {...rest}
+  {...rest}><slot /></a
 >
-  <slot />
-</a>
