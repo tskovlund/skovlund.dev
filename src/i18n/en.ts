@@ -986,7 +986,7 @@ export const shelf = {
       title: "The Office",
       href: "https://www.imdb.com/title/tt0386676/",
       description:
-        "Somehow still the benchmark for workplace comedy. Rewatchable forever.",
+        "The funniest show about how much we need each other. 'Would I rather be feared or loved? Easy. Both. I want people to be afraid of how much they love me.'",
     },
     {
       title: "Silicon Valley",
