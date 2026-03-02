@@ -740,13 +740,13 @@ export const shelf = {
       title: "Danielle Wertz",
       href: "https://www.daniellewertz.com",
       description:
-        "Jazz vocalist and arranger. Featured on Nordkraft Big Band's Silent Course.",
+        "Jazz vocalist and arranger with a warmth that holds an entire big band together. Her work on Nordkraft Big Band's Silent Course is a highlight.",
     },
     {
       title: "Remy Le Boeuf's Assembly of Shadows",
       href: "https://www.remyleboeuf.com",
       description:
-        "Modern jazz with orchestral depth. Remy is also Nordkraft Big Band's chief conductor.",
+        "Modern jazz with orchestral depth. Brilliant composer and Nordkraft Big Band's chief conductor — we're lucky to have him.",
     },
     {
       title: "Nordkraft Big Band",
@@ -758,7 +758,7 @@ export const shelf = {
       title: "Hans Zimmer",
       href: "https://www.hanszimmer.com",
       description:
-        "Film composer responsible for Interstellar, Inception, The Dark Knight, and about fifty other soundtracks that live in your head rent-free. Saw him live — it's an experience.",
+        "The reason half the films on this page sound as good as they look.",
     },
     {
       title: "Joe Hisaishi",
@@ -838,7 +838,7 @@ export const shelf = {
       href: "https://www.imdb.com/title/tt0381061/",
       author: "Martin Campbell",
       description:
-        "The greatest Bond movie. Daniel Craig's debut is perfect from start to finish.",
+        "The greatest Bond movie. Reinvented the franchise in a single film.",
     },
     {
       title: "Gone Girl",
@@ -1124,7 +1124,7 @@ export const shelf = {
       title: "Git",
       href: "https://git-scm.com",
       description: [
-        "The version control system. Hard to imagine building anything without it.",
+        "The foundation everything else is built on. Also the source of my most creative profanity when a rebase goes sideways.",
       ],
     },
     {
@@ -1159,7 +1159,7 @@ export const shelf = {
       title: "LaTeX",
       href: "https://www.latex-project.org",
       description: [
-        "The gold standard for academic typesetting. Steep learning curve, beautiful output. Typst is catching up fast.",
+        "Steep learning curve, beautiful output. Typst complements it, but LaTeX was my trusty companion throughout my studies — including my thesis.",
       ],
     },
     {
@@ -1198,7 +1198,7 @@ export const shelf = {
       title: "Signal",
       href: "https://signal.org",
       description: [
-        "End-to-end encrypted messaging done right. The gold standard for private communication.",
+        "Data privacy matters. Signal makes it easy to actually practice that.",
       ],
     },
     {
@@ -1266,7 +1266,7 @@ export const shelf = {
       title: "Kattis",
       href: "https://open.kattis.com",
       description: [
-        "Competitive programming problems from contests around the world.",
+        "Competitive programming problems from contests around the world. Everything from gentle warm-ups to problems that haunt you.",
       ],
     },
     {
