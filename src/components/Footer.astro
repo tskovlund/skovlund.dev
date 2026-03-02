@@ -48,7 +48,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
                 href={social.HREF}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${SITE.NAME} on ${social.NAME}`}
+                aria-label={social.NAME}
                 class={socialLinkClass}
               >
                 <Icon
@@ -66,7 +66,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
         <li>
           <a
             href={`mailto:${SITE.EMAIL}`}
-            aria-label={footer.emailAriaLabel(SITE.NAME)}
+            aria-label={footer.emailLabel}
             class={socialLinkClass}
           >
             <Mail
@@ -108,7 +108,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
           href={sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={footer.sourceAriaLabel}
+          aria-label={sourceLabel}
           class="flex items-center gap-1.5 text-sm opacity-60 hover:opacity-100 hover:text-light-accent dark:hover:text-dark-accent transition-all duration-300"
         >
           <Code size={14} aria-hidden="true" />

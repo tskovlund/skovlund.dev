@@ -504,7 +504,6 @@ export const settings = {
 export const aria = {
   rssFeed: "RSS feed",
   backToTop: "Back to top",
-  colorSchemeSuffix: "color scheme",
 } as const;
 
 export const backLinks = {
@@ -528,8 +527,6 @@ export const readingTimeTemplate = (minutes: string): string =>
 export const footer = {
   sourceLabel: "source",
   emailLabel: "Email",
-  emailAriaLabel: (name: string): string => `Email ${name}`,
-  sourceAriaLabel: "View source on GitHub",
 } as const;
 
 // ---------------------------------------------------------------------------
