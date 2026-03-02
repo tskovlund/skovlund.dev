@@ -1,17 +1,10 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
   <style>
-    text { fill: #2e3c64; }
+    path { fill: #2e3c64; }
     @media (prefers-color-scheme: dark) {
-      text { fill: #7aa2f7; }
+      path { fill: #7aa2f7; }
     }
   </style>
-  <text
-    x="64"
-    y="72"
-    text-anchor="middle"
-    dominant-baseline="central"
-    font-family="ui-monospace, 'Fira Code', 'Cascadia Code', monospace"
-    font-weight="600"
-    font-size="108"
-  >T</text>
+  <!-- "T" glyph from Monaspace Neon (weight 600), converted to path -->
+  <path transform="translate(25.26, 8) scale(0.07671, -0.07671) translate(-115, -1460)" d="M751 0V1243H1125V1460H115V1243H490V0Z"/>
 </svg>

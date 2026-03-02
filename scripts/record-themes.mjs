@@ -58,6 +58,7 @@ async function main() {
   });
 
   const page = await context.newPage();
+  const recordingStartMs = Date.now();
 
   // Start in dark mode with Tokyo Night
   await page.addInitScript(() => {
@@ -79,6 +80,10 @@ async function main() {
   await page.click("[data-settings-trigger]");
   await page.waitForTimeout(500);
 
+  // Trim point: everything before this is setup (page load, settle, panel open)
+  const trimSeconds = (Date.now() - recordingStartMs) / 1000;
+  console.log(`  Trim point: ${trimSeconds.toFixed(1)}s\n`);
+
   // Cycle through all schemes in dark mode by clicking the real buttons
   for (const scheme of SCHEMES) {
     console.log(`  dark: ${scheme}`);
@@ -91,17 +96,8 @@ async function main() {
   await page.click('[data-theme-button="light"]');
   await page.waitForTimeout(SETTLE_MS);
 
-  // Show a selection of light schemes
-  const lightSchemes = [
-    "tokyo-night",
-    "gruvbox",
-    "catppuccin",
-    "rose-pine",
-    "everforest",
-    "solarized",
-  ];
-
-  for (const scheme of lightSchemes) {
+  // Cycle through all schemes in light mode too
+  for (const scheme of SCHEMES) {
     console.log(`  light: ${scheme}`);
     await page.click(`[data-scheme-button="${scheme}"]`);
     await page.waitForTimeout(DWELL_MS);
@@ -130,11 +126,13 @@ async function main() {
   const webmPath = join(OUTPUT_DIR, webmFile);
   const mp4Path = join(OUTPUT_DIR, "theme-cycle.mp4");
 
-  // Convert to MP4 for Twitter/X compatibility
-  console.log("\nConverting to MP4...");
+  // Convert to MP4, trimming the setup portion (page load, settle, panel open)
+  console.log(
+    `\nConverting to MP4 (trimming first ${trimSeconds.toFixed(1)}s)...`,
+  );
   try {
     execSync(
-      `ffmpeg -y -i "${webmPath}" -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -movflags +faststart "${mp4Path}"`,
+      `ffmpeg -y -ss ${trimSeconds.toFixed(2)} -i "${webmPath}" -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -movflags +faststart "${mp4Path}"`,
       { stdio: "inherit" },
     );
     unlinkSync(webmPath);
