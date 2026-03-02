@@ -2,12 +2,18 @@
 /**
  * Typewriter — types, deletes, and retypes strings with a blinking cursor.
  *
- * Supports two modes:
+ * Supports two ordering modes:
  *   - "cycle": ordered rotation through the texts array
  *   - "shuffle": random order, never the same text twice in a row
  *
- * Rainbow gradients are generated at runtime by randomly picking 3 palette
- * colors from the theme-adaptive --palette-* CSS variables.
+ * Supports two color modes:
+ *   - "random-gradient": generates 3-color gradients from --palette-* CSS vars
+ *   - "indexed": uses pre-defined --greeting-color-N / --greeting-grad-N pairs
+ *     and also sets the wrapper's text color (for cursor color matching)
+ *
+ * Supports two deletion modes:
+ *   - "character": deletes one character at a time
+ *   - "word": deletes one word at a time (back to previous space or start)
  *
  * Config is passed via a data attribute and initialized by a bundled script
  * that listens for astro:page-load — this avoids the re-execution issues
@@ -18,7 +24,11 @@ interface Props {
   id: string;
   texts: string[];
   mode: "cycle" | "shuffle";
-  paletteColorCount: number;
+  colorCount: number;
+  colorMode?: "random-gradient" | "indexed";
+  deleteMode?: "character" | "word";
+  startFilled?: boolean;
+  gradientClass?: string;
   typeSpeedMs?: number;
   deleteSpeedMs?: number;
   pauseBeforeDeleteMs?: number;
@@ -29,7 +39,11 @@ const {
   id,
   texts,
   mode,
-  paletteColorCount,
+  colorCount,
+  colorMode = "random-gradient",
+  deleteMode = "character",
+  startFilled = false,
+  gradientClass = "typewriter-gradient",
   typeSpeedMs = 100,
   deleteSpeedMs = 60,
   pauseBeforeDeleteMs = 2500,
@@ -39,24 +53,45 @@ const {
 const config = JSON.stringify({
   texts,
   mode,
-  paletteColorCount,
+  colorCount,
+  colorMode,
+  deleteMode,
+  startFilled,
   typeSpeedMs,
   deleteSpeedMs,
   pauseBeforeDeleteMs,
   pauseAfterDeleteMs,
 });
+
+const initialText = startFilled ? texts[0] : "";
+
+// For indexed color mode, set initial inline styles so the first color
+// is correct before JS runs (prevents a flash of default text color).
+const initialWrapperStyle =
+  colorMode === "indexed" ? `color: var(--greeting-color-0)` : undefined;
+const initialTextStyle =
+  colorMode === "indexed"
+    ? `background-image: var(--greeting-grad-0)`
+    : undefined;
 ---
 
-<span id={`${id}-wrapper`} class="font-mono">
-  <span id={id} class="typewriter-gradient" data-typewriter={config}
-  ></span><span id={`${id}-cursor`} class="cursor-blink"></span>
+<span id={`${id}-wrapper`} class="font-mono" style={initialWrapperStyle}>
+  <span
+    id={id}
+    class={gradientClass}
+    data-typewriter={config}
+    style={initialTextStyle}>{initialText}</span
+  ><span id={`${id}-cursor`} class="cursor-blink"></span>
 </span>
 
 <script>
   interface TypewriterConfig {
     texts: string[];
     mode: "cycle" | "shuffle";
-    paletteColorCount: number;
+    colorCount: number;
+    colorMode: "random-gradient" | "indexed";
+    deleteMode: "character" | "word";
+    startFilled: boolean;
     typeSpeedMs: number;
     deleteSpeedMs: number;
     pauseBeforeDeleteMs: number;
@@ -84,6 +119,45 @@ const config = JSON.stringify({
     );
   }
 
+  function applyColor(
+    config: TypewriterConfig,
+    textElement: HTMLElement,
+    wrapperElement: HTMLElement,
+    colorIndex: number,
+  ): void {
+    if (config.colorMode === "indexed") {
+      wrapperElement.style.color = `var(--greeting-color-${colorIndex})`;
+      textElement.style.backgroundImage = `var(--greeting-grad-${colorIndex})`;
+    } else {
+      textElement.style.backgroundImage = randomGradient(config.colorCount);
+    }
+  }
+
+  function pickNextColorIndex(
+    currentColorIndex: number,
+    colorCount: number,
+  ): number {
+    let nextColorIndex: number;
+    do {
+      nextColorIndex = Math.floor(Math.random() * colorCount);
+    } while (nextColorIndex === currentColorIndex);
+    return nextColorIndex;
+  }
+
+  /** Find the character index of the previous word boundary (space or 0). */
+  function previousWordBoundary(text: string, position: number): number {
+    // Skip any trailing space at the current position
+    let index = position - 1;
+    while (index > 0 && text[index - 1] === " ") {
+      index--;
+    }
+    // Move back to the previous space
+    while (index > 0 && text[index - 1] !== " ") {
+      index--;
+    }
+    return index;
+  }
+
   function initializeTypewriter(textElement: TypewriterElement): void {
     if (textElement._typewriterActive) return;
     textElement._typewriterActive = true;
@@ -95,20 +169,20 @@ const config = JSON.stringify({
       textElement.nextElementSibling as HTMLElement | null;
     if (!maybeCursorElement) return;
     const cursorElement: HTMLElement = maybeCursorElement;
+    const wrapperElement = textElement.parentElement as HTMLElement;
 
     // Skip animation for users who prefer reduced motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       textElement.textContent = config.texts[0];
-      textElement.style.backgroundImage = randomGradient(
-        config.paletteColorCount,
-      );
+      applyColor(config, textElement, wrapperElement, 0);
       cursorElement.classList.remove("cursor-blink");
       return;
     }
 
     let currentIndex = 0;
-    let characterIndex = 0;
+    let characterIndex = config.startFilled ? config.texts[0].length : 0;
     let isDeleting = false;
+    let activeColorIndex = 0;
 
     function pickNextIndex(): number {
       if (config.mode === "cycle") {
@@ -128,15 +202,21 @@ const config = JSON.stringify({
       cursorElement.classList.add("cursor-typing");
 
       if (isDeleting) {
-        characterIndex--;
+        if (config.deleteMode === "word") {
+          characterIndex = previousWordBoundary(currentText, characterIndex);
+        } else {
+          characterIndex--;
+        }
         textElement.textContent = currentText.substring(0, characterIndex);
 
         if (characterIndex === 0) {
           isDeleting = false;
           currentIndex = pickNextIndex();
-          textElement.style.backgroundImage = randomGradient(
-            config.paletteColorCount,
+          activeColorIndex = pickNextColorIndex(
+            activeColorIndex,
+            config.colorCount,
           );
+          applyColor(config, textElement, wrapperElement, activeColorIndex);
           setTimeout(tick, config.pauseAfterDeleteMs);
         } else {
           setTimeout(tick, config.deleteSpeedMs);
@@ -160,14 +240,23 @@ const config = JSON.stringify({
       }
     }
 
-    // Start: pick a random first message and color, then begin typing
-    if (config.mode === "shuffle") {
+    // For shuffle mode, pick a random first message
+    if (config.mode === "shuffle" && !config.startFilled) {
       currentIndex = Math.floor(Math.random() * config.texts.length);
     }
-    textElement.style.backgroundImage = randomGradient(
-      config.paletteColorCount,
-    );
-    tick();
+
+    // Apply initial color
+    applyColor(config, textElement, wrapperElement, activeColorIndex);
+
+    if (config.startFilled) {
+      // Start with text visible, pause, then begin deleting
+      setTimeout((): void => {
+        isDeleting = true;
+        tick();
+      }, config.pauseBeforeDeleteMs);
+    } else {
+      tick();
+    }
   }
 
   function initializeAllTypewriters(): void {

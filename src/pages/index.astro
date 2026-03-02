@@ -11,8 +11,9 @@ import RichText from "@components/RichText.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import TromboneEasterEgg from "@components/TromboneEasterEgg.astro";
 import { Rss } from "@lucide/astro";
+import Typewriter from "@components/Typewriter.astro";
 import { SITE, HOME } from "@consts";
-import { home, aria } from "@i18n/en";
+import { home, aria, greetings, greetingColorCount } from "@i18n/en";
 import portrait from "@assets/portrait.jpeg";
 
 const recentPosts = (await getCollection("blog"))
@@ -52,13 +53,15 @@ const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
           />
           <div class="text-center sm:text-left min-w-0 font-mono">
             <p class="font-semibold text-lg">
-              <span id="greeting-wrapper" style="color: var(--greeting-color-0)"
-                ><span
-                  id="greeting"
-                  class="greeting-gradient"
-                  style="background-image: var(--greeting-grad-0)">Hej!</span
-                ><span id="typewriter-cursor" class="cursor-blink"></span></span
-              >
+              <Typewriter
+                id="greeting"
+                texts={greetings}
+                mode="cycle"
+                colorCount={greetingColorCount}
+                colorMode="indexed"
+                startFilled
+                gradientClass="greeting-gradient"
+              />
             </p>
             <h1
               class="mt-2 font-semibold text-lg text-light-fg dark:text-dark-fg"

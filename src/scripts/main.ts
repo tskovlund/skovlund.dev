@@ -3,8 +3,8 @@
 //
 // Bundled module that runs once and never re-executes on navigation. Registers
 // event listeners via delegation on document for persistent chrome, and uses
-// astro:page-load for per-navigation setup. Imports domain modules for theme,
-// navigation, and typewriter logic.
+// astro:page-load for per-navigation setup. Imports domain modules for theme
+// and navigation logic. Typewriter is handled by the Typewriter component.
 // ---------------------------------------------------------------------------
 
 import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
@@ -18,7 +18,6 @@ import {
   closeAllSettingsPanels,
 } from "./theme";
 import { updateActiveNavLink, resetMobileMenu } from "./navigation";
-import { setupTypewriter } from "./typewriter";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -189,7 +188,6 @@ function onPageLoad(): void {
   closeAllSettingsPanels();
   resetMobileMenu();
   updateActiveNavLink();
-  setupTypewriter();
   setupFooter();
 }
 
