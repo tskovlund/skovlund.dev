@@ -146,13 +146,13 @@ const initialTextStyle =
 
   /** Find the character index of the previous word boundary (space or 0). */
   function previousWordBoundary(text: string, position: number): number {
-    // Skip any trailing space at the current position
-    let index = position - 1;
-    while (index > 0 && text[index - 1] === " ") {
+    let index = position;
+    // Remove the word's characters
+    while (index > 0 && text[index - 1] !== " ") {
       index--;
     }
-    // Move back to the previous space
-    while (index > 0 && text[index - 1] !== " ") {
+    // Also remove spaces before the word (so no trailing space remains)
+    while (index > 0 && text[index - 1] === " ") {
       index--;
     }
     return index;
