@@ -33,7 +33,7 @@ const { items } = Astro.props;
           <span class="text-light-fg dark:text-dark-fg">{item.title}</span>
         )}
         {item.author && <span class="text-sm"> — {item.author}</span>}
-        <p class="text-sm text-light-fg-muted/70 dark:text-dark-fg-muted/70">
+        <p class="text-sm text-light-fg-subtle dark:text-dark-fg-subtle">
           {Array.isArray(item.description) ? (
             <RichText segments={item.description} />
           ) : (
