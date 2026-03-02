@@ -5,6 +5,9 @@
       path { fill: #7aa2f7; }
     }
   </style>
-  <!-- "T" glyph from Monaspace Neon (weight 600), converted to path -->
-  <path transform="translate(25.26, 8) scale(0.07671, -0.07671) translate(-115, -1460)" d="M751 0V1243H1125V1460H115V1243H490V0Z"/>
+  <!--
+    Circle with T-shaped cutout open at the bottom.
+    T glyph from Monaspace Neon weight 800, stem merges with circle edge.
+  -->
+  <path d="M73.6 123.2V47.7H93.5V32H34.5V47.7H54.5V123.2A60 60 0 1 1 73.6 123.2Z"/>
 </svg>
