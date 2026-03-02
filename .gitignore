@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # Working notes (not committed)
 .notes.md
+
+# Script output (recordings, generated images)
+scripts/output/
