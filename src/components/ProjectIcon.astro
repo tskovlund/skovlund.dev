@@ -21,7 +21,8 @@ const themeClass = isThemeColor
   : "";
 const inlineStyle = !isThemeColor ? `color: ${iconColor}` : undefined;
 
-const simpleIconSize = `${size / 16}rem`;
+const PIXELS_PER_REM: number = 16;
+const simpleIconSize: string = `${size / PIXELS_PER_REM}rem`;
 ---
 
 <span class:list={[themeClass]} style={inlineStyle} aria-hidden="true">

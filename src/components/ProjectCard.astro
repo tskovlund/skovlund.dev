@@ -11,7 +11,7 @@ interface Props {
 
 const { entry } = Astro.props;
 
-const hasExternalLinks = entry.data.repoURL || entry.data.demoURL;
+const hasExternalLinks: boolean = !!(entry.data.repoURL || entry.data.demoURL);
 const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
 ---
 
@@ -48,7 +48,7 @@ const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
     <div class="text-sm">{entry.data.description}</div>
     {
       (hasExternalLinks || projectUrl) && (
-        <nav class="relative z-10 flex gap-1 mt-1.5 text-sm">
+        <div class="relative z-10 flex gap-1 mt-1.5 text-sm">
           {entry.data.repoURL && (
             <Link href={entry.data.repoURL} external>
               {projectLinks.source}
@@ -62,7 +62,7 @@ const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
           )}
           {projectUrl && hasExternalLinks && <span>/</span>}
           {projectUrl && <Link href={projectUrl}>{projectLinks.readMore}</Link>}
-        </nav>
+        </div>
       )
     }
   </div>

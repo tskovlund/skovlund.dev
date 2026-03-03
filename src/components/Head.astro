@@ -3,7 +3,7 @@ import "../styles/global.css";
 
 import { ClientRouter } from "astro:transitions";
 
-import { SITE } from "@consts";
+import { DEFAULT_COLOR_SCHEME, SITE } from "@consts";
 import sans400 from "@fontsource/inter/files/inter-latin-400-normal.woff2";
 import sans600 from "@fontsource/inter/files/inter-latin-600-normal.woff2";
 import mono400 from "@fontsource/monaspace-neon/files/monaspace-neon-latin-400-normal.woff2";
@@ -105,7 +105,7 @@ const fontFaceCss = `
 />
 
 <!-- Theme + color scheme preload — must run synchronously before body renders to prevent flash -->
-<script is:inline>
+<script is:inline data-default-scheme={DEFAULT_COLOR_SCHEME}>
   (function () {
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -116,10 +116,10 @@ const fontFaceCss = `
     document.documentElement.classList.toggle("dark", shouldBeDark);
 
     const savedScheme = localStorage.getItem("colorScheme");
-    // Must match DEFAULT_COLOR_SCHEME in src/scripts/theme.ts
+    const defaultScheme = document.currentScript.dataset.defaultScheme;
     document.documentElement.setAttribute(
       "data-color-scheme",
-      savedScheme || "tokyo-night",
+      savedScheme || defaultScheme,
     );
   })();
 </script>

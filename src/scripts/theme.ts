@@ -2,7 +2,9 @@
 // Theme, color scheme, and settings panel management
 // ---------------------------------------------------------------------------
 
-export const DEFAULT_COLOR_SCHEME = "tokyo-night";
+import { DEFAULT_COLOR_SCHEME } from "@consts";
+
+export { DEFAULT_COLOR_SCHEME };
 
 // ---------------------------------------------------------------------------
 // Theme

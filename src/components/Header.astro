@@ -21,16 +21,19 @@ import { Menu, Settings, X } from "@lucide/astro";
       <div class="hidden sm:flex items-center gap-3">
         <nav class="flex gap-1.5 text-base">
           <Link href="/about" underline={false}>{nav.about}</Link>
-          <span class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
-            >/</span
+          <span
+            class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
+            aria-hidden="true">/</span
           >
           <Link href="/blog" underline={false}>{nav.blog}</Link>
-          <span class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
-            >/</span
+          <span
+            class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
+            aria-hidden="true">/</span
           >
           <Link href="/projects" underline={false}>{nav.projects}</Link>
-          <span class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
-            >/</span
+          <span
+            class="text-light-fg-muted/30 dark:text-dark-fg-muted/30"
+            aria-hidden="true">/</span
           >
           <Link href="/shelf" underline={false}>{nav.shelf}</Link>
         </nav>
@@ -47,6 +50,7 @@ import { Menu, Settings, X } from "@lucide/astro";
               <Settings
                 size={15}
                 class="stroke-current group-hover:stroke-light-fg group-hover:dark:stroke-dark-fg transition-colors duration-300"
+                aria-hidden="true"
               />
             </button>
 

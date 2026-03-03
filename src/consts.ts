@@ -54,6 +54,8 @@ export const SOCIALS: Socials = socials.map((social) => ({
   COLOR: social.color,
 }));
 
+export const DEFAULT_COLOR_SCHEME: string = "tokyo-night";
+
 export const CARD_COLOR_CLASSES: string[] = [
   "border-l-light-accent dark:border-l-dark-accent hover:bg-light-accent/5 dark:hover:bg-dark-accent/5",
   "border-l-light-warm dark:border-l-dark-warm hover:bg-light-warm/5 dark:hover:bg-dark-warm/5",

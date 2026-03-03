@@ -14,6 +14,13 @@
 
   import "photoswipe/style.css";
 
+  const FALLBACK_IMAGE_WIDTH: number = 1200;
+  const FALLBACK_IMAGE_HEIGHT: number = 800;
+  const SECONDARY_ZOOM_LEVEL: number = 2;
+  const MAX_ZOOM_LEVEL: number = 4;
+  const BACKGROUND_OPACITY: number = 0.92;
+  const LIGHTBOX_PADDING: number = 20;
+
   let activeLightbox: PhotoSwipeLightbox | null = null;
 
   function initializeLightbox(): void {
@@ -36,14 +43,14 @@
       const link = document.createElement("a");
       link.href = image.src;
       link.dataset.pswpWidth = String(
-        image.naturalWidth || image.width || 1200,
+        image.naturalWidth || image.width || FALLBACK_IMAGE_WIDTH,
       );
       link.dataset.pswpHeight = String(
-        image.naturalHeight || image.height || 800,
+        image.naturalHeight || image.height || FALLBACK_IMAGE_HEIGHT,
       );
       link.dataset.cropped = "true";
       link.target = "_blank";
-      link.rel = "noreferrer";
+      link.rel = "noopener noreferrer";
 
       image.style.cursor = "zoom-in";
       image.parentNode?.insertBefore(link, image);
@@ -57,12 +64,17 @@
 
       // Zoom
       initialZoomLevel: "fit",
-      secondaryZoomLevel: 2,
-      maxZoomLevel: 4,
+      secondaryZoomLevel: SECONDARY_ZOOM_LEVEL,
+      maxZoomLevel: MAX_ZOOM_LEVEL,
 
       // UI
-      bgOpacity: 0.92,
-      padding: { top: 20, bottom: 20, left: 20, right: 20 },
+      bgOpacity: BACKGROUND_OPACITY,
+      padding: {
+        top: LIGHTBOX_PADDING,
+        bottom: LIGHTBOX_PADDING,
+        left: LIGHTBOX_PADDING,
+        right: LIGHTBOX_PADDING,
+      },
 
       // Close on background click
       clickToCloseNonZoomable: false,

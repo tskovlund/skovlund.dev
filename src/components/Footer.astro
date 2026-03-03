@@ -27,6 +27,10 @@ const sourceLabel: string = commitSha
 const EMAIL_COLOR: string = "#D4A017";
 const RSS_COLOR: string = "#F26522";
 
+// Shared tooltip class for hover labels on social/utility icons
+const TOOLTIP_CLASS: string =
+  "hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1";
+
 // Typewriter timing constants for footer messages
 const FOOTER_TYPEWRITER_TYPE_SPEED_MS: number = 40;
 const FOOTER_TYPEWRITER_DELETE_SPEED_MS: number = 120;
@@ -56,9 +60,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
                     style={`color: ${social.COLOR}`}
                     aria-hidden="true"
                   />
-                  <span class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1">
-                    {social.NAME}
-                  </span>
+                  <span class={TOOLTIP_CLASS}>{social.NAME}</span>
                 </a>
               </li>
             ))
@@ -77,9 +79,7 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
                 style={`color: ${EMAIL_COLOR}`}
                 aria-hidden="true"
               />
-              <span
-                class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1"
-              >
+              <span class={TOOLTIP_CLASS}>
                 {footer.emailLabel}
               </span>
             </a>
@@ -98,10 +98,8 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
                 style={`color: ${RSS_COLOR}`}
                 aria-hidden="true"
               />
-              <span
-                class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1"
-              >
-                RSS
+              <span class={TOOLTIP_CLASS}>
+                {footer.rssLabel}
               </span>
             </a>
           </li>

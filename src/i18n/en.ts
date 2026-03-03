@@ -527,6 +527,7 @@ export const readingTimeTemplate = (minutes: string): string =>
 export const footer = {
   sourceLabel: "source",
   emailLabel: "Email",
+  rssLabel: "RSS",
 } as const;
 
 // ---------------------------------------------------------------------------
