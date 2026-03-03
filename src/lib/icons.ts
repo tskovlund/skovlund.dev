@@ -1,5 +1,5 @@
+import { Bot, CodeXml, Dna, Music, Server } from "@lucide/astro";
 import type { ThemeColor } from "@types";
-import { CodeXml, Bot, Server, Music, Dna } from "@lucide/astro";
 
 export const LUCIDE_ICONS: Record<string, typeof CodeXml> = {
   "code-xml": CodeXml,

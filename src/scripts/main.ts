@@ -8,16 +8,17 @@
 // ---------------------------------------------------------------------------
 
 import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+
+import { resetMobileMenu, updateActiveNavLink } from "./navigation";
 import {
+  applyColorScheme,
+  applyTheme,
+  closeAllSettingsPanels,
   DEFAULT_COLOR_SCHEME,
   shouldBeDark,
-  applyTheme,
-  updateThemeButtons,
-  applyColorScheme,
   updateColorSchemeButtons,
-  closeAllSettingsPanels,
+  updateThemeButtons,
 } from "./theme";
-import { updateActiveNavLink, resetMobileMenu } from "./navigation";
 
 // ---------------------------------------------------------------------------
 // Constants

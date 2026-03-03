@@ -1,14 +1,15 @@
 ---
 import type { GetStaticPathsResult } from "astro";
-import { type CollectionEntry, getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import Container from "@components/Container.astro";
-import { readingTime } from "@lib/utils";
+import { getCollection, type CollectionEntry } from "astro:content";
+
 import BackToPrev from "@components/BackToPrev.astro";
-import Link from "@components/Link.astro";
+import Container from "@components/Container.astro";
 import Lightbox from "@components/Lightbox.astro";
+import Link from "@components/Link.astro";
 import ProjectIcon from "@components/ProjectIcon.astro";
 import { backLinks, projectLinks } from "@i18n/en";
+import PageLayout from "@layouts/PageLayout.astro";
+import { readingTime } from "@lib/utils";
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const projects = (await getCollection("projects"))

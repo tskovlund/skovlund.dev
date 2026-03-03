@@ -7,10 +7,12 @@
  * Embeds Monaspace Neon for consistent branding with the site.
  */
 
-import sharp from "sharp";
-import { readFileSync, mkdirSync, readdirSync } from "fs";
+import { mkdirSync, readdirSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+
+import sharp from "sharp";
+
 /** Parse YAML frontmatter from a markdown file (avoids gray-matter dependency). */
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);

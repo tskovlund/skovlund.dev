@@ -5,8 +5,8 @@
  * from @i18n/en (lowercase, more granular). Both reference the same data.
  */
 
-import type { Site, Metadata, Socials } from "@types";
-import { site, pages, socials } from "@i18n/en";
+import { pages, site, socials } from "@i18n/en";
+import type { Metadata, Site, Socials } from "@types";
 
 export const SITE: Site = {
   NAME: site.name,

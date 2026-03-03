@@ -1,11 +1,12 @@
 import process from "node:process";
+
+import icon from "astro-icon";
 import { defineConfig } from "astro/config";
+import rehypeExternalLinks from "rehype-external-links";
+
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-
-import rehypeExternalLinks from "rehype-external-links";
-import icon from "astro-icon";
 
 export default defineConfig({
   site: "https://skovlund.dev",
