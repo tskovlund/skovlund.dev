@@ -1,8 +1,9 @@
-import eslint from "@eslint/js";
-import { defineConfig, globalIgnores } from "eslint/config";
-import eslintPluginAstro from "eslint-plugin-astro";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import eslintPluginAstro from "eslint-plugin-astro";
+import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
+
+import eslint from "@eslint/js";
 
 export default defineConfig([
   globalIgnores(["dist/", ".astro/", ".wrangler/", "scripts/"]),
@@ -17,6 +18,7 @@ export default defineConfig([
     files: ["**/*.ts"],
     ignores: ["**/*.astro/*.ts"],
     rules: {
+      "no-console": "error",
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {

@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@iconify-json/simple-icons": "^1.2.71",
     "@types/canvas-confetti": "^1.9.0",
     "eslint": "^10.0.2",

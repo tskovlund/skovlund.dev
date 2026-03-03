@@ -3,7 +3,17 @@
   "singleQuote": false,
   "trailingComma": "all",
   "tabWidth": 2,
-  "plugins": ["prettier-plugin-astro"],
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-astro"],
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@(.*)$",
+    "",
+    "^[.]"
+  ],
+  "importOrderTypeScriptVersion": "5.0.0",
   "overrides": [
     {
       "files": "*.astro",

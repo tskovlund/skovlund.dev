@@ -50,6 +50,11 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 - Example: `TYPEWRITER_TYPE_SPEED_MS = 100`, not bare `100`.
 - Exception: 0, 1, and values in Tailwind classes.
 
+### Imports
+
+- Sorted automatically by Prettier (`@ianvs/prettier-plugin-sort-imports`): built-ins → third-party → `@` aliases → relative imports, with blank lines between groups.
+- No `console.*` calls (`no-console: error`).
+
 ### Structure
 
 - Keep components focused on layout. Copy lives in `src/i18n/en.ts`.

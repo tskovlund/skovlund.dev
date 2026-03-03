@@ -25,6 +25,12 @@ first, then propagate to all repos.
   not `resp`
 - **Idempotency** — scripts, migrations, and deployments must be safe to run
   twice
+- **Sorted imports** — enforce automatically via tooling (Prettier plugin,
+  Ruff `isort`, etc.). Order: built-in → third-party → internal aliases →
+  relative, with blank lines between groups
+- **No debug logging in production code** — no `console.log`, `print()`,
+  `Debug.Log`, etc. Use proper logging frameworks or remove before commit.
+  Enforce via linter (`no-console`, Ruff `T20`)
 
 ## Configuration
 
@@ -126,3 +132,14 @@ first, then propagate to all repos.
 - **Conventions belong in the repo** — each repo includes the relevant subset
   of these conventions in its own docs. Redundancy across repos is intentional
   so that every contributor picks them up
+
+## TypeScript / JavaScript
+
+- **Strict typescript-eslint** — `tseslint.configs.strict` as baseline
+- **Explicit return types** — `explicit-function-return-type` and
+  `explicit-module-boundary-types` on all `.ts` files
+- **Naming convention** — enforced via `@typescript-eslint/naming-convention`:
+  `camelCase` variables/functions, `PascalCase` types, `UPPER_CASE` constants
+- **Import sorting** — `@ianvs/prettier-plugin-sort-imports` in Prettier
+- **Prettier** for formatting — with `eslint-config-prettier` to avoid
+  conflicts
