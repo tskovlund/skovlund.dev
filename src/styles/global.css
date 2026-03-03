@@ -812,6 +812,7 @@ article {
   @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
   @apply prose-headings:font-mono prose-headings:font-semibold;
   @apply prose-headings:text-light-fg prose-headings:dark:text-dark-fg;
+  @apply prose-strong:text-light-fg prose-strong:dark:text-dark-fg;
   @apply text-light-fg dark:text-dark-fg;
 }
 
@@ -820,7 +821,7 @@ article {
  * All colors are defined per scheme above — this mapping is scheme-agnostic. */
 :root {
   --astro-code-color-text: var(--color-light-fg);
-  --astro-code-color-background: var(--color-light-bg-alt);
+  --astro-code-color-background: var(--color-light-bg);
   --astro-code-token-keyword: var(--color-light-syntax-keyword);
   --astro-code-token-string: var(--color-light-syntax-string);
   --astro-code-token-comment: var(--color-light-syntax-comment);
@@ -834,7 +835,7 @@ article {
 
 .dark {
   --astro-code-color-text: var(--color-dark-fg);
-  --astro-code-color-background: var(--color-dark-bg-alt);
+  --astro-code-color-background: var(--color-dark-bg);
   --astro-code-token-keyword: var(--color-dark-syntax-keyword);
   --astro-code-token-string: var(--color-dark-syntax-string);
   --astro-code-token-comment: var(--color-dark-syntax-comment);
@@ -846,13 +847,28 @@ article {
   --astro-code-token-link: var(--color-dark-syntax-link);
 }
 
+article :where(ol, ul) ::marker {
+  @apply text-light-fg-muted dark:text-dark-fg-muted;
+}
+
+article :where(blockquote) {
+  @apply text-light-fg-muted dark:text-dark-fg-muted;
+  @apply border-light-accent dark:border-dark-accent;
+}
+
+article :where(hr) {
+  @apply border-light-surface dark:border-dark-surface;
+}
+
 article pre {
   @apply border border-light-surface dark:border-dark-surface rounded-lg;
 }
 
 article :where(code):not(:where(pre *)) {
   @apply font-mono text-sm px-1.5 py-0.5 rounded;
-  @apply bg-light-surface/50 dark:bg-dark-surface/50;
+  @apply text-light-fg dark:text-dark-fg;
+  @apply bg-light-bg dark:bg-dark-bg;
+  @apply border border-light-surface dark:border-dark-surface;
 }
 
 /* Image captions — *italic text* immediately after an image renders as a visible caption */
