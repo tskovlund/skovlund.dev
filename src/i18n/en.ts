@@ -584,16 +584,22 @@ export const socials = [
     color: "#71767B",
   },
   {
-    name: "Instagram",
-    icon: "simple-icons:instagram",
-    href: "https://instagram.com/tskovlund",
-    color: "#E4405F",
+    name: "Substack",
+    icon: "simple-icons:substack",
+    href: "https://substack.com/@tskovlund",
+    color: "#FF6719",
   },
   {
     name: "Bluesky",
     icon: "simple-icons:bluesky",
     href: "https://bsky.app/profile/tskovlund.bsky.social",
     color: "#0085FF",
+  },
+  {
+    name: "Instagram",
+    icon: "simple-icons:instagram",
+    href: "https://instagram.com/tskovlund",
+    color: "#E4405F",
   },
 ] as const;
 

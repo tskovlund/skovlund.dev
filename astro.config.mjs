@@ -31,6 +31,7 @@ export default defineConfig({
           "x",
           "instagram",
           "bluesky",
+          "substack",
           "nixos",
           "adventofcode",
         ],
