@@ -26,3 +26,4 @@ pnpm-debug.log*
 
 # Script output (recordings, generated images)
 scripts/output/
+test-results/

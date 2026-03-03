@@ -12,6 +12,7 @@ import { Menu, Settings, X } from "@lucide/astro";
       <a
         href="/"
         id="nav-home"
+        aria-current={Astro.url.pathname === "/" ? "page" : undefined}
         class="font-semibold text-light-accent dark:text-dark-accent hover:text-light-accent-hover dark:hover:text-dark-accent-hover transition-colors duration-300"
       >
         {site.brandName}

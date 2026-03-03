@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "playwright test",
+    "test:a11y": "playwright test tests/a11y.spec.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -37,9 +39,11 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@eslint/js": "^10.0.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@iconify-json/simple-icons": "^1.2.71",
+    "@playwright/test": "^1.58.2",
     "@types/canvas-confetti": "^1.9.0",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",

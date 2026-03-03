@@ -28,6 +28,7 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 - `pnpm build` — production build (runs `astro check` first)
 - `pnpm lint` / `pnpm lint:fix` — ESLint (v9 flat config with strict typescript-eslint)
 - `pnpm format:check` / `pnpm format` — Prettier
+- `pnpm test` / `pnpm test:a11y` — Playwright a11y tests (axe-core, WCAG 2.1 AA)
 - Devbox: `devbox shell` or `direnv allow` to enter dev environment (Node.js 22, pnpm)
 
 ## Project Rules
