@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "playwright test",
-    "test:a11y": "playwright test tests/a11y.spec.ts"
+    "test:a11y": "playwright test tests/a11y.spec.ts",
+    "test:contrast": "playwright test tests/contrast.spec.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
