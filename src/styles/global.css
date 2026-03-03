@@ -404,6 +404,12 @@ article a:hover {
   @apply top-0;
 }
 
+/* Pointer cursor on interactive elements (Tailwind v4 removed this from preflight) */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
 /* Keyboard focus indicators */
 a:focus-visible,
 button:focus-visible,
