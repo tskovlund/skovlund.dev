@@ -48,6 +48,7 @@ export const NOT_FOUND: Metadata = {
 
 export const SOCIALS: Socials = socials.map((social) => ({
   NAME: social.name,
+  HANDLE: social.handle,
   ICON: social.icon,
   HREF: social.href,
   COLOR: social.color,

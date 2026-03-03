@@ -26,10 +26,6 @@ const sourceLabel: string = commitSha
 const EMAIL_COLOR: string = "#D4A017";
 const RSS_COLOR: string = "#F26522";
 
-// Shared class string for social/email/RSS link buttons in the footer
-const socialLinkClass: string =
-  "group flex items-center gap-1 px-2 py-1.5 rounded-lg border border-light-surface/40 dark:border-dark-surface/40 hover:border-light-surface dark:hover:border-dark-surface hover:bg-light-surface/30 dark:hover:bg-dark-surface/30 text-xs font-mono transition-all duration-300";
-
 // Typewriter timing constants for footer messages
 const FOOTER_TYPEWRITER_TYPE_SPEED_MS: number = 40;
 const FOOTER_TYPEWRITER_DELETE_SPEED_MS: number = 120;
@@ -39,63 +35,77 @@ const FOOTER_TYPEWRITER_PAUSE_AFTER_DELETE_MS: number = 200;
 
 <footer class="animate">
   <Container>
-    <div class="flex flex-col gap-3">
-      <ul id="socials" class="flex flex-wrap justify-center gap-2 font-mono">
-        {
-          SOCIALS.map((social) => (
-            <li>
-              <a
-                href={social.HREF}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.NAME}
-                class={socialLinkClass}
+    <div class="flex flex-col gap-5">
+      <div id="socials" class="flex items-center justify-between font-mono">
+        <ul class="flex flex-wrap gap-3">
+          {
+            SOCIALS.map((social) => (
+              <li>
+                <a
+                  href={social.HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.NAME}
+                  class="group relative flex items-center justify-center"
+                >
+                  <Icon
+                    name={social.ICON}
+                    size={20}
+                    class="fill-current opacity-50 group-hover:opacity-100 transition-all duration-300"
+                    style={`color: ${social.COLOR}`}
+                    aria-hidden="true"
+                  />
+                  <span class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1">
+                    {social.NAME}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <ul class="flex gap-3">
+          <li>
+            <a
+              href={`mailto:${SITE.EMAIL}`}
+              aria-label={footer.emailLabel}
+              class="group relative flex items-center justify-center"
+            >
+              <Mail
+                size={20}
+                class="opacity-50 group-hover:opacity-100 transition-all duration-300"
+                style={`color: ${EMAIL_COLOR}`}
+                aria-hidden="true"
+              />
+              <span
+                class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1"
               >
-                <Icon
-                  name={social.ICON}
-                  size={14}
-                  class="fill-current opacity-60 group-hover:opacity-100 transition-all duration-300"
-                  style={`color: ${social.COLOR}`}
-                  aria-hidden="true"
-                />
-                {social.NAME}
-              </a>
-            </li>
-          ))
-        }
-        <li>
-          <a
-            href={`mailto:${SITE.EMAIL}`}
-            aria-label={footer.emailLabel}
-            class={socialLinkClass}
-          >
-            <Mail
-              size={14}
-              class="opacity-60 group-hover:opacity-100 transition-all duration-300"
-              style={`color: ${EMAIL_COLOR}`}
-              aria-hidden="true"
-            />
-            {footer.emailLabel}
-          </a>
-        </li>
-        <li>
-          <a
-            href="/rss.xml"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={aria.rssFeed}
-            class={socialLinkClass}
-          >
-            <Rss
-              size={14}
-              class="opacity-60 group-hover:opacity-100 transition-all duration-300"
-              style={`color: ${RSS_COLOR}`}
-              aria-hidden="true"
-            />
-            RSS
-          </a>
-        </li>
-      </ul>
+                {footer.emailLabel}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/rss.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={aria.rssFeed}
+              class="group relative flex items-center justify-center"
+            >
+              <Rss
+                size={20}
+                class="opacity-50 group-hover:opacity-100 transition-all duration-300"
+                style={`color: ${RSS_COLOR}`}
+                aria-hidden="true"
+              />
+              <span
+                class="hidden sm:block absolute top-full mt-5 -translate-y-1/2 text-xs font-mono text-light-fg-muted dark:text-dark-fg-muted opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none bg-light-bg dark:bg-dark-bg px-1"
+              >
+                RSS
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
       <hr class="border-light-surface/40 dark:border-dark-surface/40" />
       <div class="flex justify-between items-center">
         <div

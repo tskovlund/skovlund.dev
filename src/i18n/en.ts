@@ -567,36 +567,42 @@ export const footerMessages = [
 export const socials = [
   {
     name: "GitHub",
+    handle: "tskovlund",
     icon: "simple-icons:github",
     href: "https://github.com/tskovlund",
     color: "#8b949e",
   },
   {
     name: "LinkedIn",
+    handle: "tskovlund",
     icon: "simple-icons:linkedin",
     href: "https://www.linkedin.com/in/tskovlund",
     color: "#0A66C2",
   },
   {
     name: "X",
+    handle: "@thomasskovlund",
     icon: "simple-icons:x",
     href: "https://x.com/thomasskovlund",
     color: "#71767B",
   },
   {
     name: "Substack",
+    handle: "@tskovlund",
     icon: "simple-icons:substack",
     href: "https://substack.com/@tskovlund",
     color: "#FF6719",
   },
   {
     name: "Bluesky",
+    handle: "@tskovlund",
     icon: "simple-icons:bluesky",
     href: "https://bsky.app/profile/tskovlund.bsky.social",
     color: "#0085FF",
   },
   {
     name: "Instagram",
+    handle: "@tskovlund",
     icon: "simple-icons:instagram",
     href: "https://instagram.com/tskovlund",
     color: "#E4405F",
