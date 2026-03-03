@@ -206,7 +206,7 @@ body {
   @apply font-sans antialiased;
   @apply flex flex-col;
   @apply bg-light-bg dark:bg-dark-bg;
-  @apply text-light-fg-muted dark:text-dark-fg-muted;
+  @apply text-light-fg dark:text-dark-fg;
 }
 
 /* Subtle film grain texture */
@@ -234,6 +234,7 @@ main {
 
 footer {
   @apply py-8 text-sm;
+  @apply text-light-fg-muted dark:text-dark-fg-muted;
 }
 
 article {
