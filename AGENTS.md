@@ -6,7 +6,7 @@ Follow the code standards in [CONVENTIONS.md](CONVENTIONS.md).
 
 Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Deployed to Cloudflare Pages via GitHub Actions. Based on Astro Nano.
 
-**This repo is a portfolio piece.** Code quality, readability, and polish are first-class concerns. Every file should look like it was written by someone who cares deeply about their craft.
+**This repo is a portfolio piece.** Code quality, readability, and polish are first-class concerns.
 
 ## Architecture
 
@@ -30,9 +30,7 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 - `pnpm format:check` / `pnpm format` — Prettier
 - Devbox: `devbox shell` or `direnv allow` to enter dev environment (Node.js 22, pnpm)
 
-## Code Quality Policy
-
-This is non-negotiable. Enforced via ESLint rules and git hooks where possible, code review otherwise.
+## Project Rules
 
 ### Naming
 
@@ -56,7 +54,7 @@ This is non-negotiable. Enforced via ESLint rules and git hooks where possible, 
 
 - Keep components focused on layout. Copy lives in `src/i18n/en.ts`.
 - Prefer editing existing files over creating new ones.
-- No dead code. If it's unused, delete it.
+- No dead code.
 
 ## Content
 
@@ -92,7 +90,6 @@ Link to services/tools naturally — not mechanically "first occurrence only." T
 - Each scheme block defines **all** its colors (UI + syntax) — single source of truth per scheme
 - Code block mapping (`--astro-code-*`) references syntax tokens and is scheme-agnostic
 - System preference is honored by default (no saved preference → follows `prefers-color-scheme`)
-- Typography plugin registered via `@plugin "@tailwindcss/typography"` in CSS
 
 ## Transitions & Animation
 
@@ -140,14 +137,8 @@ WCAG 2.1 AA compliance. Every change must maintain these standards.
 - **Pre-commit**: lints + format-checks staged files only (fast feedback)
 - **Commit-msg**: enforces conventional commit format (`type(scope): description`)
 - **Pre-push**: full `pnpm build` (includes `astro check` for type checking)
-- Plain shell scripts in `.githooks/` — zero dependencies, activated via `git config core.hooksPath .githooks`
 - **Devbox gotcha**: `devbox run -- git commit -m "$(cat <<'EOF'...)"` produces literal `\n` instead of newlines. For multi-line commit messages, write to a temp file and use `git commit -F /tmp/msg.txt`.
 
 ## Git workflow
 
 - GitHub Actions: lint + format-check + build on push to main and PRs; deploy to Cloudflare Pages on push to main (preview deployments on PRs). CodeQL scanning via separate workflow.
-
-## Style
-
-- Prettier for formatting (double quotes, semicolons, trailing commas)
-- ESLint for linting (strict typescript-eslint + astro plugin + prettier compat)
