@@ -21,7 +21,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<ul class="space-y-3">
+<ul class="space-y-3 text-sm">
   {
     items.map((item) => (
       <li>
@@ -32,8 +32,8 @@ const { items } = Astro.props;
         ) : (
           <span>{item.title}</span>
         )}
-        {item.author && <span class="text-sm"> — {item.author}</span>}
-        <p class="text-sm text-light-fg-muted dark:text-dark-fg-muted">
+        {item.author && <span> — {item.author}</span>}
+        <p class="text-light-fg-muted dark:text-dark-fg-muted">
           {Array.isArray(item.description) ? (
             <RichText segments={item.description} />
           ) : (
