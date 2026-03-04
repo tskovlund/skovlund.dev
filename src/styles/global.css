@@ -303,7 +303,7 @@ article :where(code):not(:where(pre *)) {
 /* Image captions — *italic text* immediately after an image renders as a visible caption */
 article p:has(> img, > picture) + p:has(> em:only-child) {
   @apply text-center text-sm;
-  @apply text-light-fg-subtle dark:text-dark-fg-subtle;
+  @apply text-light-fg-muted dark:text-dark-fg-muted;
   margin-top: 0.25rem;
 }
 
