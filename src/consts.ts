@@ -12,7 +12,7 @@ export const SITE: Site = {
   NAME: site.name,
   EMAIL: site.email,
   NUMBER_OF_POSTS_ON_HOMEPAGE: 3,
-  HOMEPAGE_PROJECT_SLUGS: ["skovlund-dev", "nix-config", "eliza"],
+  HOMEPAGE_PROJECT_SLUGS: ["skovlund-dev", "nix-config", "qed"],
   AVERAGE_WORDS_PER_MINUTE: 200,
 };
 
