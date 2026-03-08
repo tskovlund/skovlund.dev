@@ -119,11 +119,11 @@ Shared conventions for all tskovlund repositories.
 
 ### Per-Archetype Minimum Test Types
 
-| Archetype | Test types |
-|-----------|-----------|
-| Python library/tool (cambr, mcp-score) | Unit (pytest), property-based (hypothesis) for pure functions |
-| Static website (skovlund.dev) | A11y (Playwright + axe-core, blocking), E2E navigation (Playwright), visual regression (`toHaveScreenshot()`, non-blocking initially) |
-| Nix configuration (nix-config) | `nix flake check --all-systems` |
+| Archetype                              | Test types                                                                                                                            |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Python library/tool (cambr, mcp-score) | Unit (pytest), property-based (hypothesis) for pure functions                                                                         |
+| Static website (skovlund.dev)          | A11y (Playwright + axe-core, blocking), E2E navigation (Playwright), visual regression (`toHaveScreenshot()`, non-blocking initially) |
+| Nix configuration (nix-config)         | `nix flake check --all-systems`                                                                                                       |
 
 ### Integration Test Infrastructure
 
@@ -168,6 +168,8 @@ Shared conventions for all tskovlund repositories.
 - **Conventions belong in the repo** — each repo includes the relevant subset
   of these conventions in its own docs. Redundancy across repos is intentional
   so that every contributor picks them up
+
+<!-- Language-specific conventions are appended per-repo by the sync workflow -->
 
 ## TypeScript / JavaScript
 
