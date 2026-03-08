@@ -1,7 +1,7 @@
 ---
 title: "Eliza"
 description: "A fully autonomous AI assistant running 24/7 on a 3MB Rust binary — skills, memory, and Telegram access, deployed declaratively with Nix."
-sortOrder: 3
+sortOrder: 7
 featured: true
 icon: "bot"
 iconColor: "orange"

@@ -1,4 +1,4 @@
-import { Bot, CodeXml, Dna, Music, Server } from "@lucide/astro";
+import { Bot, CodeXml, Dna, Music, Server, ShieldCheck } from "@lucide/astro";
 import type { ThemeColor } from "@types";
 
 export const LUCIDE_ICONS: Record<string, typeof CodeXml> = {
@@ -7,6 +7,7 @@ export const LUCIDE_ICONS: Record<string, typeof CodeXml> = {
   server: Server,
   music: Music,
   dna: Dna,
+  "shield-check": ShieldCheck,
 };
 
 export const THEME_COLOR_CLASSES: Record<ThemeColor, string> = {
