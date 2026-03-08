@@ -6,12 +6,12 @@ staged_files=$(git diff --cached --name-only --diff-filter=ACM)
 
 lint_files=$(echo "$staged_files" | grep -E '\.(ts|tsx|astro)$')
 if [ -n "$lint_files" ]; then
-  npx eslint --fix $lint_files
+  pnpm exec eslint --fix $lint_files
 fi
 
 format_files=$(echo "$staged_files" | grep -E '\.(ts|tsx|astro|css|json|md|mdx)$')
 if [ -n "$format_files" ]; then
-  npx prettier --write $format_files
+  pnpm exec prettier --write $format_files
 fi
 
 echo "$staged_files" | xargs git add
