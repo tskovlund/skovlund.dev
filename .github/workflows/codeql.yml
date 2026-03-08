@@ -8,10 +8,6 @@ on:
   schedule:
     - cron: "0 6 * * 1"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   analyze:
     uses: tskovlund/.github/.github/workflows/codeql.yml@main
