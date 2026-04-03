@@ -43,16 +43,16 @@
     "@axe-core/playwright": "^4.11.1",
     "@eslint/js": "^10.0.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
-    "@iconify-json/simple-icons": "^1.2.75",
-    "@playwright/test": "^1.58.2",
+    "@iconify-json/simple-icons": "^1.2.76",
+    "@playwright/test": "^1.59.1",
     "@types/canvas-confetti": "^1.9.0",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
-    "playwright": "^1.58.2",
+    "playwright": "^1.59.1",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript-eslint": "^8.57.2"
+    "typescript-eslint": "^8.58.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
