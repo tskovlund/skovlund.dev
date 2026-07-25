@@ -33,7 +33,7 @@
     "clsx": "^2.1.1",
     "photoswipe": "^5.4.4",
     "rehype-external-links": "^3.0.0",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.0",
     "smplr": "^0.20.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2",
