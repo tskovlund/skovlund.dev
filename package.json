@@ -64,5 +64,5 @@
       "lodash": ">=4.17.23"
     }
   },
-  "packageManager": "pnpm@10.34.4"
+  "packageManager": "pnpm@10.34.5"
 }
