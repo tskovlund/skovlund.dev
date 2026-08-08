@@ -10,8 +10,10 @@ export function classNames(...inputs: ClassValue[]): string {
 
 const MINIMUM_READING_TIME_MINUTES = 1;
 
-export function readingTime(html: string): string {
-  const textOnly: string = html.replace(/<[^>]+>/g, "");
+// Content layer entries expose an optional body, so callers can pass undefined
+// for entries that carry no rendered content.
+export function readingTime(html: string | undefined): string {
+  const textOnly: string = (html ?? "").replace(/<[^>]+>/g, "");
   const wordCount: number = textOnly.split(/\s+/).length;
   const readingTimeMinutes: string = (
     wordCount / SITE.AVERAGE_WORDS_PER_MINUTE +

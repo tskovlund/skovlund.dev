@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPathsResult } from "astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 
 import BackToPrev from "@components/BackToPrev.astro";
 import Container from "@components/Container.astro";
@@ -16,14 +16,14 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     .filter((project) => !project.data.draft && project.data.featured)
     .sort((first, second) => first.data.sortOrder - second.data.sortOrder);
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: project,
   }));
 }
 type Props = CollectionEntry<"projects">;
 
 const project = Astro.props;
-const { Content } = await project.render();
+const { Content } = await render(project);
 ---
 
 <PageLayout title={project.data.title} description={project.data.description}>
