@@ -12,7 +12,7 @@ interface Props {
 const { entry } = Astro.props;
 
 const hasExternalLinks: boolean = !!(entry.data.repoURL || entry.data.demoURL);
-const projectUrl = entry.data.featured ? `/projects/${entry.slug}` : undefined;
+const projectUrl = entry.data.featured ? `/projects/${entry.id}` : undefined;
 ---
 
 <div

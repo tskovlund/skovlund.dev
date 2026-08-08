@@ -27,7 +27,7 @@ const recentPosts = (await getCollection("blog"))
 const allProjects = await getCollection("projects");
 const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
   const project = allProjects.find(
-    (project) => project.slug === slug && !project.data.draft,
+    (project) => project.id === slug && !project.data.draft,
   );
   if (!project) {
     throw new Error(`Homepage project not found: ${slug}`);

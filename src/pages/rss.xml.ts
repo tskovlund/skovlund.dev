@@ -24,7 +24,7 @@ export async function GET(context: RssContext): Promise<Response> {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/blog/${post.slug}/`,
+      link: `/blog/${post.id}/`,
     })),
   });
 }
