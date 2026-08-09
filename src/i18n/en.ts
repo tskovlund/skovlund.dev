@@ -202,7 +202,13 @@ export const about = {
         href: "/thesis.pdf",
         external: true,
       },
-      ", and a half-year detour into studying trombone at ",
+      " (later merged into ",
+      {
+        label: "MP-SPDZ",
+        href: "https://github.com/data61/MP-SPDZ/pull/1014",
+        external: true,
+      },
+      " as a Path Oblivious Heap implementation), and a half-year detour into studying trombone at ",
       {
         label: "the conservatory",
         href: "https://musikkons.dk",

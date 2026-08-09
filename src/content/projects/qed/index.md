@@ -32,7 +32,7 @@ A single spec can mix all of these. The build must compile _and_ the state machi
 
 ## Formally proven
 
-The core loop is a pure transition function in [Lean 4](https://lean-lang.org) with 8 theorems verified by Lean's kernel:
+The core loop is a pure transition function in [Lean 4](https://lean-lang.org) with its guarantees verified as theorems by Lean's kernel:
 
 - **Termination** — the loop always reaches a terminal state within `maxIterations`
 - **Stuck detection** — fires iff the same failures repeat for `stuckThreshold` consecutive iterations
