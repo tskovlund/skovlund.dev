@@ -19,7 +19,7 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 - **Icons** — Lucide (`@lucide/astro`) for UI icons, Simple Icons via `astro-icon` for brand logos
 - **Config** centralized in `src/consts.ts` (typed re-exports from i18n + numeric config)
 - **Utilities**: `src/lib/icons.ts` (Lucide icon registry + theme color classes), `src/lib/utils.ts` (`classNames` via clsx/tailwind-merge, `readingTime`)
-- **Scripts**: `src/scripts/main.ts` (orchestrator), `theme.ts`, `navigation.ts`, `typewriter.ts`
+- **Scripts**: `src/scripts/main.ts` (orchestrator), `theme.ts`, `navigation.ts`. The typewriter is a component, `src/components/Typewriter.astro`, not a script.
 - **Deployment** via GitHub Actions → Cloudflare Pages (static output, no SSR)
 
 ## Commands
@@ -33,34 +33,13 @@ Personal website and blog built with Astro, Tailwind CSS v4, and TypeScript. Dep
 
 ## Project Rules
 
-### Naming
+Naming, typing, import order, and magic-number rules are enforced by ESLint and Prettier — see CONVENTIONS.md. The repo-specific exceptions and additions:
 
-- Enforced via `@typescript-eslint/naming-convention`. Examples: `greetingElement` not `el`, `themeButton` not `btn`, `postsByYear` not `acc`, `clickEvent` not `e`, `index` not `i`, `social` not `s`.
 - **Sort comparators**: use `first`/`second`, not `a`/`b`.
-- **Types**: PascalCase. Variables/functions: camelCase. Constants: UPPER_SNAKE_CASE.
-
-### Typing
-
-- Use `const` by default, `let` only when reassignment is necessary.
-- In `is:inline` scripts (plain JS, e.g. `Head.astro`), use `const`/`let` and descriptive names. TS annotations aren't available there.
-- Prefer bundled `<script>` over `is:inline` + `define:vars` — bundled scripts run once as modules, avoiding re-execution issues with View Transitions. Pass config via `data-*` attributes.
-- Enforced: `explicit-function-return-type`, `explicit-module-boundary-types`, `no-inferrable-types: off`.
-
-### Magic numbers
-
-- Example: `TYPEWRITER_TYPE_SPEED_MS = 100`, not bare `100`.
-- Exception: 0, 1, and values in Tailwind classes.
-
-### Imports
-
-- Sorted automatically by Prettier (`@ianvs/prettier-plugin-sort-imports`): built-ins → third-party → `@` aliases → relative imports, with blank lines between groups.
-- No `console.*` calls (`no-console: error`).
-
-### Structure
-
+- **Magic numbers**: 0, 1, and values inside Tailwind classes are exempt.
+- **`is:inline` scripts** (plain JS, e.g. `Head.astro`) get no TS annotations — still use `const`/`let` and descriptive names.
+- **Prefer a bundled `<script>` over `is:inline` + `define:vars`.** Bundled scripts run once as modules, which avoids re-execution problems with View Transitions. Pass config via `data-*` attributes.
 - Keep components focused on layout. Copy lives in `src/i18n/en.ts`.
-- Prefer editing existing files over creating new ones.
-- No dead code.
 
 ## Content
 
@@ -101,50 +80,30 @@ Link to services/tools naturally — not mechanically "first occurrence only." T
 
 The site uses Astro's View Transitions API (`<ClientRouter />`) for navigation. The goal is Apple-level subtlety: transitions should feel invisible — no jarring reloads, no flashy animations.
 
-### How it works
-
-- **Header and footer** use `transition:persist` — they stay in the DOM across navigations and never re-render. Their event listeners (theme buttons, scroll handler, back-to-top) are bound once on first load. Social links live in the footer, visible on every page.
-- **Main content** uses a subtle 300ms fade (`fade({ duration: "0.3s" })`) between pages. Fast enough to feel instant, slow enough to avoid a hard cut.
-- **Stagger animation** (`.animate` elements fading in one by one) runs with 150ms delays on first page load for a dramatic entrance. On subsequent navigations, elements reveal instantly (delay=0) since the View Transition fade already provides the visual transition.
-- **Script architecture** (`src/scripts/main.ts`): Chrome listeners are registered at module scope on first load (event delegation on `document`), `onPageLoad()` runs on every `astro:page-load` event (theme, nav state, typewriter, animated elements), and `revealAnimatedElements()` adapts its timing based on whether it's first load or navigation.
-- **Event delegation**: All persistent chrome listeners use event delegation on `document` (via `closest()`) so they survive DOM replacement during View Transitions.
+**Event delegation is load-bearing.** Header and footer use `transition:persist`, and all persistent chrome listeners are registered once at module scope in `src/scripts/main.ts`, delegating on `document` via `closest()` — that's what makes them survive the DOM replacement a View Transition performs. Per-page work goes in `onPageLoad()` instead.
 
 ### Design principles
 
 - Never animate chrome (header, footer) on navigation — it should feel like it was always there
 - Content transitions should be barely perceptible — a gentle fade, not a slide or zoom
-- First visit gets the full stagger reveal; return visits skip the wait
+- First visit gets the full stagger reveal; return visits skip the wait (the View Transition fade already covers it)
 - Theme switches are instant (CSS transitions temporarily disabled during toggle)
 
 ## Accessibility
 
-WCAG 2.1 AA compliance. Every change must maintain these standards.
-
-### Implemented
-
-- **Skip link**: "Skip to main content" link at top of every page, visible on keyboard focus
-- **Keyboard focus indicators**: `focus-visible` outline on all interactive elements (accent color, 2px offset)
-- **ARIA attributes**: `aria-expanded` on mobile menu toggle and settings panel trigger, `aria-pressed` on theme and color scheme buttons, `aria-hidden` on decorative SVGs, `aria-controls` linking menu button to menu
-- **Reduced motion**: `prefers-reduced-motion` disables all animations, transitions, and the typewriter effect — shows static greeting instead
-- **Semantic HTML**: proper landmark regions (`<header>`, `<main>`, `<footer>`, `<nav>`), list markup for navigation and content
-- **External links**: `rel="noopener noreferrer"` on all `target="_blank"` links
-- **Color scheme**: `color-scheme: light`/`dark` set on `<html>` for proper system integration
+WCAG 2.1 AA compliance. Every change must maintain these standards; Playwright + axe-core cover them in CI. The site already has a skip link, `focus-visible` indicators, ARIA state on all toggles, `prefers-reduced-motion` handling, landmark regions, and `rel="noopener noreferrer"` on external links — read the components for the current state rather than trusting a list here.
 
 ### Rules for new code
 
 - All decorative icons/SVGs must have `aria-hidden="true"`
-- All interactive elements must have visible focus indicators (handled globally via `focus-visible`)
 - Dynamic content changes must consider screen reader announcements
 - Animations must respect `prefers-reduced-motion`
 - New buttons must have `aria-label` if text content is not descriptive
 
-## Git Hooks
+## Git Hooks & workflow
 
 - **Pre-commit**: lints + format-checks staged files only (fast feedback)
 - **Commit-msg**: enforces conventional commit format (`type(scope): description`)
 - **Pre-push**: full `pnpm build` (includes `astro check` for type checking)
 - **Devbox gotcha**: `devbox run -- git commit -m "$(cat <<'EOF'...)"` produces literal `\n` instead of newlines. For multi-line commit messages, write to a temp file and use `git commit -F /tmp/msg.txt`.
-
-## Git workflow
-
 - GitHub Actions: lint + format-check + build on push to main and PRs; deploy to Cloudflare Pages on push to main (preview deployments on PRs). CodeQL scanning via separate workflow.
