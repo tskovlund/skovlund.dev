@@ -126,7 +126,7 @@ export const home = {
     nameFirst: "Thomas",
     nameLast: "Skovlund Hansen",
     role: "Software Engineer",
-    location: "the Netherlands",
+    location: "NL",
     university: {
       name: "Aarhus University",
       abbreviation: "AU",
