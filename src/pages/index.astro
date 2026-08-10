@@ -73,21 +73,7 @@ const homepageProjects = SITE.HOMEPAGE_PROJECT_SLUGS.map((slug) => {
             </h1>
             <div class="space-y-1 mt-2">
               <p class="text-sm whitespace-nowrap">
-                I'm a {home.intro.role} at <Link
-                  href={home.intro.employer.href}
-                  external
-                  ><span class="group/dc"
-                    >{home.intro.employer.abbreviation.charAt(0)}<span
-                      class="unfold-text"
-                      >{
-                        home.intro.employer.name.split(" ")[0].slice(1)
-                      }&nbsp;</span
-                    >{home.intro.employer.abbreviation.charAt(1)}<span
-                      class="unfold-text"
-                      >{home.intro.employer.name.split(" ")[1].slice(1)}</span
-                    ></span
-                  ></Link
-                >
+                I'm a {home.intro.role} based in {home.intro.location}
               </p>
               <p class="text-sm whitespace-nowrap">
                 <!-- prettier-ignore -->
