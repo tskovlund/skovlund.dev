@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import eslint from "@eslint/js";
 
 export default defineConfig([
-  globalIgnores(["dist/", ".astro/", ".wrangler/", "scripts/"]),
+  globalIgnores(["dist/", ".astro/", ".wrangler/", ".devbox/", "scripts/"]),
 
   eslint.configs.recommended,
   tseslint.configs.strict,

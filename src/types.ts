@@ -20,10 +20,4 @@ export type Socials = {
 }[];
 
 export type ThemeColor =
-  | "accent"
-  | "warm"
-  | "green"
-  | "orange"
-  | "red"
-  | "cyan"
-  | "yellow";
+  "accent" | "warm" | "green" | "orange" | "red" | "cyan" | "yellow";
