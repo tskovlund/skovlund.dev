@@ -68,8 +68,8 @@ importers:
         specifier: ^0.35.4
         version: 0.35.4(@types/node@26.1.1)
       smplr:
-        specifier: ^0.20.0
-        version: 0.20.0
+        specifier: ^0.26.0
+        version: 0.26.0
       tailwind-merge:
         specifier: ^3.6.0
         version: 3.6.0
@@ -2633,8 +2633,8 @@ packages:
     resolution: {integrity: sha512-kCZr2V3ch9i00x8zXRhjUNVcjG9ijES5dDudkXvUVCT5QlJNQWElSJdZqyPemffHoLNUYwOcou0Fy+ojN0uHSQ==}
     engines: {node: '>= 18'}
 
-  smplr@0.20.0:
-    resolution: {integrity: sha512-XGxPL4ANBP0qzs30y673HYqvAEl/fJq/SKLv1oJpRuoo0VDqUcRGBz5A99PzN7srKT2WYtFU+yl6uqGHz/21zQ==}
+  smplr@0.26.0:
+    resolution: {integrity: sha512-01OLo4+RzHvE52aGx1Gh1uEbarIiLWYOQU+t+nYm3iUT4sADTv+M3SbClo4sjE2Q8Im/eKpxWKZRBD8RR8tAEw==}
     engines: {node: '>=14.0.0'}
 
   source-map-js@1.2.1:
@@ -6092,7 +6092,7 @@ snapshots:
 
   smol-toml@1.8.0: {}
 
-  smplr@0.20.0: {}
+  smplr@0.26.0: {}
 
   source-map-js@1.2.1: {}
 
