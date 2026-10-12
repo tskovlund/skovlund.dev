@@ -10,7 +10,7 @@ on:
 
 jobs:
   analyze:
-    uses: tskovlund/.github/.github/workflows/codeql.yml@36516a5fbe5027224c15b032456f2094d40d46c2 # main
+    uses: tskovlund/.github/.github/workflows/codeql.yml@30056226a3c801c8bcafd2721fdc07726ba8543d # main
     with:
       language: javascript-typescript
     permissions:
