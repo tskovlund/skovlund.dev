@@ -155,7 +155,7 @@
     },
     "nodejs@22": {
       "last_modified": "2026-02-04T01:49:30Z",
-      "plugin_version": "0.0.4",
+      "plugin_version": "0.0.5",
       "resolved": "github:NixOS/nixpkgs/aa290c9891fa4ebe88f8889e59633d20cc06a5f2#nodejs_22",
       "source": "devbox-search",
       "version": "22.22.0",
@@ -234,41 +234,41 @@
         }
       }
     },
-    "pnpm_10@10.34.5": {
-      "last_modified": "2026-08-27T07:16:00Z",
-      "resolved": "github:NixOS/nixpkgs/c27cdad491a991b11ed731760aa2ef8db0cb0410#pnpm_10",
+    "pnpm_10@10.34.7": {
+      "last_modified": "2026-10-24T03:22:33Z",
+      "resolved": "github:NixOS/nixpkgs/674a2028661e550a97400c1cc992b9cca9a668a1#pnpm_10",
       "source": "devbox-search",
-      "version": "10.34.5",
+      "version": "10.34.7",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/iy45zc65pq25dbbsiis860zns73pqxjh-pnpm-10.34.5",
+              "path": "/nix/store/i3ac8c684l7ayxxvjirsbjziiia9qk68-pnpm-10.34.7",
               "default": true
             }
           ],
-          "store_path": "/nix/store/iy45zc65pq25dbbsiis860zns73pqxjh-pnpm-10.34.5"
+          "store_path": "/nix/store/i3ac8c684l7ayxxvjirsbjziiia9qk68-pnpm-10.34.7"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/44b7wwcx6bzj78cfjq8xy5kr3icv3jh9-pnpm-10.34.5",
+              "path": "/nix/store/adkfih0w7rq4k2a4k7mg669g847ris6d-pnpm-10.34.7",
               "default": true
             }
           ],
-          "store_path": "/nix/store/44b7wwcx6bzj78cfjq8xy5kr3icv3jh9-pnpm-10.34.5"
+          "store_path": "/nix/store/adkfih0w7rq4k2a4k7mg669g847ris6d-pnpm-10.34.7"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/g9c9dhcznig6igmm16n0vyn316h8hrz7-pnpm-10.34.5",
+              "path": "/nix/store/fa6fy5490sbb8igbpvdp6vq8449fmc0r-pnpm-10.34.7",
               "default": true
             }
           ],
-          "store_path": "/nix/store/g9c9dhcznig6igmm16n0vyn316h8hrz7-pnpm-10.34.5"
+          "store_path": "/nix/store/fa6fy5490sbb8igbpvdp6vq8449fmc0r-pnpm-10.34.7"
         }
       }
     }
