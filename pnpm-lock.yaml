@@ -91,7 +91,7 @@ importers:
         version: 4.7.1(prettier@3.9.10)
       '@iconify-json/simple-icons':
         specifier: ^1.2.99
-        version: 1.2.100
+        version: 1.2.101
       '@playwright/test':
         specifier: ^1.64.0
         version: 1.64.1
@@ -659,8 +659,8 @@ packages:
       prettier-plugin-ember-template-tag:
         optional: true
 
-  '@iconify-json/simple-icons@1.2.100':
-    resolution: {integrity: sha512-536pN2RCEQyy5bYwzayrs4e9egr8cmtVcbdSHLaQl/ULUsihzn1eZ0+Hhn50zgz9cbEotiynKsKQSEjFJ7qKmw==}
+  '@iconify-json/simple-icons@1.2.101':
+    resolution: {integrity: sha512-MXJkMZDancJ/9I+Bgdthi9kXvn3AwWStxoTHwEPwAFQ9kMLBASO1BSstg52fNtjXeizm1Wi91R+QnWxNGkWHPQ==}
 
   '@iconify/tools@5.0.14':
     resolution: {integrity: sha512-wJ4ZE3/HZh2iBqLwG+8FOMHe7CMJAJqwSXZSpPwMdj1gZM3Z4t2hbQMVw4Vm45oQ985qn0g89PUIcDEdKTheBA==}
@@ -3694,7 +3694,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@iconify-json/simple-icons@1.2.100':
+  '@iconify-json/simple-icons@1.2.101':
     dependencies:
       '@iconify/types': 2.0.0
 
